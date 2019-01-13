@@ -13,7 +13,9 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/backend/project/settings.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-2751" />
+            <state relative-caret-position="193">
+              <caret line="129" column="18" lean-forward="true" selection-start-line="129" selection-start-column="18" selection-end-line="129" selection-end-column="18" />
+            </state>
           </provider>
         </entry>
       </file>
@@ -91,7 +93,9 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/backend/project/settings.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2751" />
+        <state relative-caret-position="193">
+          <caret line="129" column="18" lean-forward="true" selection-start-line="129" selection-start-column="18" selection-end-line="129" selection-end-column="18" />
+        </state>
       </provider>
     </entry>
   </component>
