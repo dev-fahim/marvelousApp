@@ -1,5 +1,7 @@
 # PyCharm
 *idea/*
+.idea/*
+.idea/
 
 # Django
 migrations/
