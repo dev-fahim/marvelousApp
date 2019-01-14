@@ -2,7 +2,7 @@
 *idea/*
 .idea/*
 .idea/
-
+.vscode/
 # Django
 migrations/
 

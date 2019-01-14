@@ -1,34 +1,333 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <title></title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
-    <link rel="stylesheet" href="base_window.css" type="text/css">
-  </head>
-  <body>
-    <!-- Side navigation -->
-    <div id="navbar">
-      <a href="#home">Home</a>
-      <a href="#news">News</a>
-      <a href="#contact">Contact</a>
-    </div>
+<html class="menu">
+<html>
 
-    <div id="sidenav">
-      <a href="#">About</a>
-      <a href="#">Services</a>
-      <a href="#">Clients</a>
-      <a href="#">Contact</a>
-    </div>
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="google" value="notranslate" />
+  <title>Side Menu</title>
+  <link rel="stylesheet" type="text/css" href="base_window.css">
+  <link rel="stylesheet" type="text/css" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
+    crossorigin="anonymous">
+</head>
 
-    <!-- Page content -->
-    <div id="main" style="min-height:2000px">
-      <div class="container-fluid">
-        <p style="background: black; color:white">Hello</p>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <a class="navbar-brand" href="#">Navbar</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Link</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+            Dropdown
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="#">Action</a>
+            <a class="dropdown-item" href="#">Another action</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">Something else here</a>
+          </div>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+        </li>
+      </ul>
+      <form class="form-inline my-2 my-lg-0">
+        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+      </form>
+    </div>
+  </nav>
+  <nav class="main-menu">
+    <div>
+      <a class="logo" href="#">
+      </a>
+    </div>
+    <div class="settings"></div>
+    <div class="scrollbar" id="style-1">
+      <ul>
+        <li>
+          <a href="#">
+            <i class="fa fa-home fa-lg"></i>
+            <span class="nav-text">Home</span>
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            <i class="fa fa-user fa-lg"></i>
+            <span class="nav-text">Login</span>
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            <i class="fa fa-envelope-o fa-lg"></i>
+            <span class="nav-text">Contact</span>
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            <i class="fa fa-heart-o fa-lg"></i>
+            <span class="share">
+              <div class="addthis_default_style addthis_32x32_style">
+                <div style="position:absolute;margin-left: 56px;top:3px;">
+                  <a href="https://www.facebook.com/sharer/sharer.php?u=" target="_blank" class="share-popup"><img src="http://icons.iconarchive.com/icons/danleech/simple/512/facebook-icon.png"
+                      width="30px" height="30px"></a>
+                  <a href="https://twitter.com/share" target="_blank" class="share-popup"><img src="https://cdn1.iconfinder.com/data/icons/metro-ui-dock-icon-set--icons-by-dakirby/512/Twitter_alt.png"
+                      width="30px" height="30px"></a>
+                  <a href="https://plusone.google.com/_/+1/confirm?hl=en&url=_URL_&title=_TITLE_" target="_blank" class="share-popup"><img
+                      src="http://icons.iconarchive.com/icons/danleech/simple/512/google-plus-icon.png" width="30px"
+                      height="30px"></a>
+                </div>
+                <script type="text/javascript">var addthis_config = { "data_track_addressbar": true };</script>
+                <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-4ff17589278d8b3a"></script>
+            </span>
+            <span class="twitter"></span>
+            <span class="google"></span>
+            <span class="fb-like">
+              <iframe src="//www.facebook.com/plugins/like.php?href=http%3A%2F%2Ffacebook.com%2Fstartific&amp;width&amp;layout=button&amp;action=like&amp;show_faces=false&amp;share=false&amp;height=35"
+                scrolling="no" frameborder="0" style="border:none; overflow:hidden; height:35px;" allowTransparency="true"></iframe>
+            </span>
+            <span class="nav-text">
+            </span>
+          </a>
+        </li>
+        <li class="darkerlishadow">
+          <a href="#">
+            <i class="fa fa-clock-o fa-lg"></i>
+            <span class="nav-text">News</span>
+          </a>
+        </li>
+        <li class="darkerli">
+          <a href="#">
+            <i class="fa fa-desktop fa-lg"></i>
+            <span class="nav-text">Technology</span>
+          </a>
+        </li>
+        <li class="darkerli">
+          <a href="#">
+            <i class="fa fa-plane fa-lg"></i>
+            <span class="nav-text">Travel</span>
+          </a>
+        </li>
+        <li class="darkerli">
+          <a href="#">
+            <i class="fa fa-shopping-cart"></i>
+            <span class="nav-text">Shopping</span>
+          </a>
+        </li>
+        <li class="darkerli">
+          <a href="#">
+            <i class="fa fa-microphone fa-lg"></i>
+            <span class="nav-text">Film & Music</span>
+          </a>
+        </li>
+        <li class="darkerli">
+          <a href="#">
+            <i class="fa fa-flask fa-lg"></i>
+            <span class="nav-text">Web Tools</span>
+          </a>
+        </li>
+        <li class="darkerli">
+          <a href="#">
+            <i class="fa fa-picture-o fa-lg"></i>
+            <span class="nav-text">Art & Design</span>
+          </a>
+        </li>
+        <li class="darkerli">
+          <a href="#">
+            <i class="fa fa-align-left fa-lg"></i>
+            <span class="nav-text">Magazines
+            </span>
+          </a>
+        </li>
+        <li class="darkerli">
+          <a href="#">
+            <i class="fa fa-gamepad fa-lg"></i>
+            <span class="nav-text">Games</span>
+          </a>
+        </li>
+        <li class="darkerli">
+          <a href="#">
+            <i class="fa fa-glass fa-lg"></i>
+            <span class="nav-text">Life & Style
+            </span>
+          </a>
+        </li>
+        <li class="darkerlishadowdown">
+          <a href="#">
+            <i class="fa fa-rocket fa-lg"></i>
+            <span class="nav-text">Fun</span>
+          </a>
+        </li>
+      </ul>
+      <li>
+        <a href="#">
+          <i class="fa fa-question-circle fa-lg"></i>
+          <span class="nav-text">Help</span>
+        </a>
+      </li>
+      <ul class="logout">
+        <li>
+          <a href="#">
+            <i class="fa fa-lightbulb-o fa-lg"></i>
+            <span class="nav-text">
+              BLOG
+            </span>
+          </a>
+        </li>
+      </ul>
+  </nav>
+  <div class="main-content">
+    <div class="container-fluid">
+      <div class="row" id="dashboard-top-content">
+        <div class="col-4">
+          <div class="information-content shadow-sm" style="height: 100%;">
+            <p class="lead text-center">Total amount added credit fund</p>
+            <div class="credit-group" style="max-height: 300px; overflow: scroll">
+              <ul class="list-group">
+                <li class="list-group-item">Bank Loan: 30000 Tk.</li>
+                <li class="list-group-item">Bank Loan: 30000 Tk.</li>
+                <li class="list-group-item">Bank Loan: 30000 Tk.</li>
+                <li class="list-group-item">Bank Loan: 30000 Tk.</li>
+                <li class="list-group-item">Bank Loan: 30000 Tk.</li>
+                <li class="list-group-item">Bank Loan: 30000 Tk.</li>
+                <li class="list-group-item">Bank Loan: 30000 Tk.</li>
+                <li class="list-group-item">Bank Loan: 30000 Tk.</li>
+                <li class="list-group-item">Bank Loan: 30000 Tk.</li>
+                <li class="list-group-item">Bank Loan: 30000 Tk.</li>
+                <li class="list-group-item">Bank Loan: 30000 Tk.</li>
+                <li class="list-group-item">Bank Loan: 30000 Tk.</li>
+                <li class="list-group-item">Bank Loan: 30000 Tk.</li>
+                <li class="list-group-item">Bank Loan: 30000 Tk.</li>
+                <li class="list-group-item">Bank Loan: 30000 Tk.</li>
+                <li class="list-group-item">Bank Loan: 30000 Tk.</li>
+                <li class="list-group-item">Bank Loan: 30000 Tk.</li>
+                <li class="list-group-item">Bank Loan: 30000 Tk.</li>
+                <li class="list-group-item">Bank Loan: 30000 Tk.</li>
+                <li class="list-group-item">Bank Loan: 30000 Tk.</li>
+              </ul>
+            </div>
+            <p class="text-center lead">10000 Tk.</p>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="information-content shadow-sm">
+            <p class="lead text-center">Today starting remaining credit fund</p>
+            <div class="cylinder">
+              <div class="water" style="height: calc(300px * 0.8);"></div>
+            </div>
+            <p class="text-center lead">10000 Tk.</p>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="information-content shadow-sm">
+            <p class="lead text-center">Now remaining credit fund</p>
+            <div class="cylinder">
+              <div class="water" style="height: calc(300px * 0.36);"></div>
+            </div>
+            <p class="text-center lead">10000 Tk.</p>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-3">
+        <div class="col-8">
+          <canvas id="myChart" height="120"></canvas>
+        </div>
+        <div class="col-4">
+          <div class="information-content shadow-sm" style="height: 100%;">
+            <p class="lead text-center">Total amount added credit fund</p>
+            <div class="credit-group" style="max-height: 300px; overflow: scroll">
+              <ul class="list-group">
+                <li class="list-group-item">Bank Loan: 30000 Tk.</li>
+                <li class="list-group-item">Bank Loan: 30000 Tk.</li>
+                <li class="list-group-item">Bank Loan: 30000 Tk.</li>
+                <li class="list-group-item">Bank Loan: 30000 Tk.</li>
+                <li class="list-group-item">Bank Loan: 30000 Tk.</li>
+                <li class="list-group-item">Bank Loan: 30000 Tk.</li>
+                <li class="list-group-item">Bank Loan: 30000 Tk.</li>
+                <li class="list-group-item">Bank Loan: 30000 Tk.</li>
+                <li class="list-group-item">Bank Loan: 30000 Tk.</li>
+                <li class="list-group-item">Bank Loan: 30000 Tk.</li>
+                <li class="list-group-item">Bank Loan: 30000 Tk.</li>
+                <li class="list-group-item">Bank Loan: 30000 Tk.</li>
+                <li class="list-group-item">Bank Loan: 30000 Tk.</li>
+                <li class="list-group-item">Bank Loan: 30000 Tk.</li>
+                <li class="list-group-item">Bank Loan: 30000 Tk.</li>
+                <li class="list-group-item">Bank Loan: 30000 Tk.</li>
+                <li class="list-group-item">Bank Loan: 30000 Tk.</li>
+                <li class="list-group-item">Bank Loan: 30000 Tk.</li>
+                <li class="list-group-item">Bank Loan: 30000 Tk.</li>
+                <li class="list-group-item">Bank Loan: 30000 Tk.</li>
+              </ul>
+            </div>
+            <p class="text-center lead">10000 Tk.</p>
+          </div>
+        </div>
       </div>
     </div>
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
-  </body>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js">
+  </script>
+  <script>
+
+    var ctx = document.getElementById("myChart").getContext('2d');
+    var myChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+        datasets: [{
+          label: '# of Votes',
+          data: [12, 19, 3, 5, 2, 3],
+          backgroundColor: [
+            'rgba(255, 99, 132, 0.2)',
+            'rgba(54, 162, 235, 0.2)',
+            'rgba(255, 206, 86, 0.2)',
+            'rgba(75, 192, 192, 0.2)',
+            'rgba(153, 102, 255, 0.2)',
+            'rgba(255, 159, 64, 0.2)'
+          ],
+          borderColor: [
+            'rgba(255,99,132,1)',
+            'rgba(54, 162, 235, 1)',
+            'rgba(255, 206, 86, 1)',
+            'rgba(75, 192, 192, 1)',
+            'rgba(153, 102, 255, 1)',
+            'rgba(255, 159, 64, 1)'
+          ],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero: true
+            }
+          }]
+        }
+      }
+    });
+  </script>
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+    crossorigin="anonymous"></script>
+</body>
+
 </html>
