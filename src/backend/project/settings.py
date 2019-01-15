@@ -193,7 +193,9 @@ SITE_ID = 1
 
 # CREATED APP
 INSTALLED_APPS += [
-    'accounts'
+    'base_user',
+    'sub_user',
+    'company'
 ]
 # END
 
