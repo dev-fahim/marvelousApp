@@ -21,12 +21,14 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 ]
 
-# ALL APS REALATED URLs
+# ALL APS RELATED URLs
 urlpatterns += [
     path('api/', include([
         path('user/', include('base_user.api.urls', namespace='base_user_app')),
         path('sub_user/', include('sub_user.api.urls', namespace='sub_user_app')),
         path('company/', include('company.api.urls', namespace='company_app')),
+        path('credit/', include('credit.api.urls', namespace='credit_app')),
+        path('expenditure/', include('expenditure.api.urls', namespace='expenditure_app')),
     ])),
 ]
 # END HERE

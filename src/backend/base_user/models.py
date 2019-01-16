@@ -1,6 +1,6 @@
 from django.db import models
-from django.contrib.auth.models import User
-
+from django.contrib.auth import get_user_model
+User = get_user_model()
 # Create your models here.
 
 
@@ -11,7 +11,7 @@ class BaseUserModel(models.Model):
     is_active = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=True)
 
-    uuid = models.UUIDField(blank=True)
+    uuid = models.UUIDField(unique=True)
     joined = models.DateTimeField(auto_now_add=True)
     last_updated = models.DateTimeField(auto_now=True)
 

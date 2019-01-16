@@ -8,4 +8,4 @@ class SubUserCreateAPIView(generics.CreateAPIView):
     serializer_class = RootUserModelSerializer
 
     def get_queryset(self):
-        return self.user
+        return self.request.user

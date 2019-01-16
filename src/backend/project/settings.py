@@ -31,7 +31,8 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
-INSTALLED_APPS = [
+INSTALLED_APPS = [    
+    'channels',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -107,7 +108,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Dhaka'
 
 USE_I18N = True
 
@@ -124,6 +125,8 @@ STATIC_URL = '/static/'
 """
 ALL EXTRA KAHINI
 """
+
+ASGI_APPLICATION = 'project.routing.application'
 
 # REST FRAMEWORK KAHINI
 INSTALLED_APPS += [
@@ -195,8 +198,11 @@ SITE_ID = 1
 INSTALLED_APPS += [
     'base_user',
     'sub_user',
-    'company'
+    'company',
+    'credit',
+    'expenditure',
 ]
+
 # END
 
 """

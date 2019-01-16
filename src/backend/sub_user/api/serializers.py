@@ -1,7 +1,8 @@
 from rest_framework import serializers
 from sub_user.models import SubUserModel
-from django.contrib.auth.models import User
 import uuid
+from django.contrib.auth import get_user_model
+User = get_user_model()
 
 
 class SubUserModelSerializers(serializers.ModelSerializer):
@@ -47,7 +48,7 @@ class RootUserModelSerializer(serializers.ModelSerializer):
         obj = User.objects.create_user(username=username, password=password, email=email)
         SubUserModel.objects.create(
             root_user=obj,
-            base_users=self.logged_in_user().base_user,
+            base_user=self.logged_in_user().base_user,
             uuid=uuid.uuid4(),
             **root_sub_user_validated_data
             )
