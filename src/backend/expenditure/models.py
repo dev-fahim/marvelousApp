@@ -8,7 +8,7 @@ User = get_user_model()
 class ExpenditureHeadingModel(models.Model):
     base_user = models.ForeignKey(BaseUserModel, on_delete=models.DO_NOTHING, related_name='expenditure_headings')
     heading_name = models.CharField(max_length=100)
-    description = models.TextField()
+    description = models.TextField(blank=True, null=True)
     uuid = models.UUIDField(unique=True)
     added = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
@@ -23,7 +23,7 @@ class ExpenditureRecordModel(models.Model):
     expend_heading = models.ForeignKey(ExpenditureHeadingModel, on_delete=models.DO_NOTHING, related_name='all_records')
 
     expend_by = models.CharField(max_length=100)
-    description = models.TextField()
+    description = models.TextField(blank=True, null=True)
 
     amount = models.IntegerField()
     is_verified = models.BooleanField(default=False)

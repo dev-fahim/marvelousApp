@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [
@@ -141,6 +143,8 @@ INSTALLED_APPS += [
     'rest_auth.registration',
 
     'allauth.socialaccount',
+
+    'django_filters'
 ]
 
 REST_FRAMEWORK = {
@@ -152,6 +156,7 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.BasicAuthentication',
     ),
+    'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',)
 }
 
 JWT_AUTH = {

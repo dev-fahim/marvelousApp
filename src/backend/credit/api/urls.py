@@ -14,6 +14,6 @@ urlpatterns = [
         path('view-update-delete/<uuid:uuid>/',
              views.CreditFundRetrieveUpdateDestroyAPIView.as_view(), name='fund_view_update_delete')
     ])),
-    path('fund-source-all/', views.CreditFundsAccordingToSourcesListAPIView.as_view(), name='fund_source_all'),
-    path('fund-all/', views.CreditFundListAPIView.as_view(), name='fund_all')
+    path('fund-source-list-all/', views.CreditFundsAccordingToSourcesListAPIView.as_view(), name='fund_source_list_all'),
+    path('fund-list-all/', views.CreditFundListAPIView.as_view(), name='fund_list_all')
 ]

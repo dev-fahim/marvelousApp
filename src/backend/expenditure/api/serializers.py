@@ -6,6 +6,10 @@ import uuid
 
 
 class ExpenditureHeadingModelSerializer(serializers.ModelSerializer):
+    url = serializers.HyperlinkedIdentityField(
+        view_name='expenditure_app:heading_view_update_delete',
+        lookup_field='uuid'
+    )
 
     class Meta:
         model = ExpenditureHeadingModel
@@ -29,6 +33,10 @@ class ExpenditureHeadingModelSerializer(serializers.ModelSerializer):
 
 
 class ExpenditureRecordModelSerializer(serializers.ModelSerializer):
+    url = serializers.HyperlinkedIdentityField(
+        view_name='expenditure_app:record_view_update_delete',
+        lookup_field='uuid'
+    )
 
     class Meta:
         model = ExpenditureRecordModel
