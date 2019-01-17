@@ -128,6 +128,9 @@ STATIC_URL = '/static/'
 ALL EXTRA KAHINI
 """
 
+EMAIL_BACKEND = "sendgrid_backend.SendgridBackend"
+SENDGRID_API_KEY = os.environ.get("SENDGRID_API_KEY", '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')
+
 ASGI_APPLICATION = 'project.routing.application'
 
 # REST FRAMEWORK KAHINI
