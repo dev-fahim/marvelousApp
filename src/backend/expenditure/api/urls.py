@@ -12,7 +12,8 @@ urlpatterns = [
     path('record/', include([
         path('list-add/', views.ExpenditureRecordListCreateAPIView.as_view(), name='record_list_add'),
         path('view-update-delete/<uuid:uuid>',
-             views.ExpenditureRecordRetrieveUpdateDestroyAPIView.as_view(), name='record_view_update_delete')
+             views.ExpenditureRecordRetrieveUpdateDestroyAPIView.as_view(), name='record_view_update_delete'),
+        path('checkout-today/', views.expenditure_checkout_today, name='checkout_today')
     ])),
     path('records-list-all/', views.ExpenditureRecordListAPIView.as_view(), name='records_list_all')
 ]
