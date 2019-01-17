@@ -7,4 +7,5 @@ COPY . /code
 
 WORKDIR /code
 
-RUN pip install -r requirements.txt
+RUN pip install pipenv
+RUN pipenv install -r requirements.txt

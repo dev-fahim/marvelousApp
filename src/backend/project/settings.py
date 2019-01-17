@@ -128,8 +128,16 @@ STATIC_URL = '/static/'
 ALL EXTRA KAHINI
 """
 
-EMAIL_BACKEND = "sendgrid_backend.SendgridBackend"
-SENDGRID_API_KEY = os.environ.get("SENDGRID_API_KEY", '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')
+# EMAIL_BACKEND = 'sendgrid_backend.SendgridBackend'
+# SENDGRID_API_KEY = os.environ.get(
+# 'SENDGRID_API_KEY',
+# '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')
+# SENDGRID_SANDBOX_MODE_IN_DEBUG = True
+
+EMAIL_USE_TLS = True
+EMAIL_HOST = os.environ.get('HOST')
+EMAIL_HOST_USER = os.environ.get('EMAIL')
+EMAIL_HOST_PASSWORD = os.environ.get('PASS')
 
 ASGI_APPLICATION = 'project.routing.application'
 
