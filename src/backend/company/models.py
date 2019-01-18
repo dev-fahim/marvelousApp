@@ -13,7 +13,7 @@ class CompanyInfoModel(models.Model):
         ('co', 'Corporation'),
         ('ps', 'Personal')
     )
-    base_users = models.ForeignKey(BaseUserModel, on_delete=models.CASCADE, related_name='company_users')
+    base_user = models.OneToOneField(BaseUserModel, on_delete=models.CASCADE, related_name='company_user')
 
     name = models.CharField(max_length=200)
     address = models.TextField()

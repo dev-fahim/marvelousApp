@@ -12,7 +12,8 @@ urlpatterns = [
     path('fund/', include([
         path('list-add/', views.CreditFundListCreateAPIView.as_view(), name='fund_list_add'),
         path('view-update-delete/<uuid:uuid>/',
-             views.CreditFundRetrieveUpdateDestroyAPIView.as_view(), name='fund_view_update_delete')
+             views.CreditFundRetrieveUpdateDestroyAPIView.as_view(), name='fund_view_update_delete'),
+        path('mail-csv/', views.CreditFundGenCSVEmail.as_view())
     ])),
     path('fund-source-list-all/', views.CreditFundsAccordingToSourcesListAPIView.as_view(), name='fund_source_list_all'),
     path('fund-list-all/', views.CreditFundListAPIView.as_view(), name='fund_list_all')

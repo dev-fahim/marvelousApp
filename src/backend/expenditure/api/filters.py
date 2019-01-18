@@ -8,8 +8,11 @@ class ExpenditureRecordFilter(filters.FilterSet):
     added = filters.DateFromToRangeFilter()
     expend_time = filters.DateFromToRangeFilter()
     added_date = filters.DateFilter(field_name='added', lookup_expr='date')
+    heading = filters.CharFilter(field_name='expend_heading__heading_name', lookup_expr='icontains')
 
     class Meta:
         model = ExpenditureRecordModel
         fields = ('is_verified', 'amount',
-                  'max_amount', 'min_amount', 'added', 'expend_time', 'added_date')
+                  'max_amount', 'min_amount', 'added', 'expend_time', 'added_date',
+                  'heading'
+                  )
