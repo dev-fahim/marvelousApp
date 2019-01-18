@@ -7,11 +7,10 @@ from sub_user.models import SubUserModel
 from rest_framework import filters
 from django_filters.rest_framework import DjangoFilterBackend
 from expenditure.api.filters import ExpenditureRecordFilter
-import csv
 from django.shortcuts import HttpResponse
 from django.contrib.auth.decorators import login_required
 import datetime
-from django.core.mail import EmailMessage
+from utils import utils
 today = datetime.datetime.today().strftime('%Y-%m-%d')
 
 
@@ -80,47 +79,12 @@ class ExpenditureRecordListAPIView(generics.ListAPIView):
     ordering = ('-id',)
 
     def get_queryset(self):
-        items = None
-        # email = self.request.query_params.get('email')
-        # gen_csv = self.request.query_params.get('gen_csv')
+        queryset = None
         if BaseUserModel.objects.filter(base_user=self.request.user).exists():
-            items = self.request.user.base_user.all_expenditure_records.all()
+            queryset = self.request.user.base_user.all_expenditure_records.all()
         elif SubUserModel.objects.filter(root_user=self.request.user).exists():
-            items = ExpenditureRecordModel.objects.filter(base_user=self.request.user.root_sub_user.base_user)
-        '''
-        
-        if gen_csv is not False:
-            response = HttpResponse(content_type='text/csv')
-            response['Content-Disposition'] = f'attachment; filename="{today}_expenditure_record.csv"'
-            writer = csv.writer(response, delimiter=',')
-            writer.writerow(['Head', 'Added by', 'Expended by', 'Amount', 'Expend time', 'Record added'])
-
-            for obj in items:
-                writer.writerow([
-                    obj.expend_heading,
-                    obj.added_by,
-                    obj.expend_by,
-                    obj.amount,
-                    obj.expend_time,
-                    obj.added
-                ])
-            print('Responses', response)
-            if email is not False:
-                mail = EmailMessage(
-                    subject=f'Checkout: All expenditure records in {today}',
-                    body=f
-                    This is an automated e-mail from your application.
-                    Your daily expenditure records in {datetime.datetime.today().strftime("%d %B, %Y")}
-                    
-                    ,
-                    from_email='fahim6668@gmail.com',
-                    to=['fahim6668@gmail.com']
-                )
-
-                mail.attach(f'{today}_expenditure_record.csv', response.getvalue(), 'text/csv')
-                mail.send(fail_silently=False)
-        '''
-        return items
+            queryset = ExpenditureRecordModel.objects.filter(base_user=self.request.user.root_sub_user.base_user)
+        return queryset
 
 
 @login_required
@@ -141,32 +105,72 @@ def expenditure_checkout_today(request):
                 is_verified=True
             )
         response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = f'attachment; filename="expenditure_records_of_{today}.csv"'
+
+        headings = ['Head', 'Added by', 'Expended by', 'Amount', 'Expend time', 'Record added']
+        attributes = ['expend_heading', 'added_by', 'expend_by', 'amount', 'expend_time', 'added']
+
+        utils.django_generate_csv_from_model_object(response, items, headings, attributes)
+
+        subject = f'Accounts Application: All expenditure records in {today}'
+        body = f'''
+        This is an automated e-mail from your application.
+        Your daily expenditure records in {datetime.datetime.today().strftime("%d %B, %Y")}
+        '''
+        from_email = 'fahim6668@gmail.com'
+        to = ['fahim6668@gmail.com', ]
+        file_name = f'expenditure_records_of_{today}.csv'
+        content = response.getvalue()
+        mimetype = 'text/csv'
+
+        utils.django_send_email_with_attachments(subject, body, from_email, to, file_name, content, mimetype)
+
+        return response
+
+
+class ExpenditureRecordEmailCSV(generics.GenericAPIView):
+    serializer_class = ExpenditureRecordModelSerializer
+    permission_classes = [BaseUserOrSubUser, ]
+    filter_backends = (filters.SearchFilter, DjangoFilterBackend, filters.OrderingFilter)
+    filterset_class = ExpenditureRecordFilter
+    search_fields = (
+        'expend_heading__heading_name',
+        'uuid',
+        'added',
+        'updated',
+        'expend_by',
+        'expend_time'
+    )
+    ordering_fields = ('added', 'expend_time', 'amount', 'expend_heading__heading_name')
+    ordering = ('-id',)
+
+    def get_queryset(self):
+        queryset = None
+        if BaseUserModel.objects.filter(base_user=self.request.user).exists():
+            queryset = self.request.user.base_user.all_expenditure_records.all()
+        elif SubUserModel.objects.filter(root_user=self.request.user).exists():
+            queryset = ExpenditureRecordModel.objects.filter(base_user=self.request.user.root_sub_user.base_user)
+        return queryset
+
+    def get(self, request, *args, **kwargs):
+        items = self.filter_queryset(queryset=self.get_queryset())
+
+        response = HttpResponse(content_type='text/csv')
         response['Content-Disposition'] = f'attachment; filename="{today}_expenditure_record.csv"'
-        writer = csv.writer(response, delimiter=',')
-        writer.writerow(['Head', 'Added by', 'Expended by', 'Amount', 'Expend time', 'Record added'])
 
-        for obj in items:
-            writer.writerow([
-                obj.expend_heading,
-                obj.added_by,
-                obj.expend_by,
-                obj.amount,
-                obj.expend_time,
-                obj.added
-            ])
-        print('Responses', response)
+        headings = ['Head', 'Added by', 'Expended by', 'Amount', 'Expend time', 'Record added']
+        attributes = ['expend_heading', 'added_by', 'expend_by', 'amount', 'expend_time', 'added']
 
-        email = EmailMessage(
-            subject=f'Checkout: All expenditure records in {today}',
-            body=f'''
-            This is an automated e-mail from your application.
-            Your daily expenditure records in {datetime.datetime.today().strftime("%d %B, %Y")}
-            '''
-            ,
-            from_email='fahim6668@gmail.com',
-            to=['marveloussweater2007@gmail.com', 'fahim6668@gmail.com']
-        )
+        utils.django_generate_csv_from_model_object(response, items, headings, attributes)
 
-        email.attach(f'{today}_expenditure_record.csv', response.getvalue(), 'text/csv')
-        email.send(fail_silently=False)
+        subject = 'Accounts Application: All expenditure records.'
+        body = 'This is an automated e-mail from your application. Your files are given below.'
+        from_email = 'fahim6668@gmail.com'
+        to = ['fahim6668@gmail.com', ]
+        file_name = f'{today}_expenditure_record.csv'
+        content = response.getvalue()
+        mimetype = 'text/csv'
+
+        utils.django_send_email_with_attachments(subject, body, from_email, to, file_name, content, mimetype)
+
         return response
