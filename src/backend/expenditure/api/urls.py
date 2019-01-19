@@ -13,8 +13,8 @@ urlpatterns = [
         path('list-add/', views.ExpenditureRecordListCreateAPIView.as_view(), name='record_list_add'),
         path('view-update-delete/<uuid:uuid>',
              views.ExpenditureRecordRetrieveUpdateDestroyAPIView.as_view(), name='record_view_update_delete'),
-        path('checkout-today/', views.ExpenditureCheckoutToday.as_view(), name='checkout_today'),
-        path('mail-csv/', views.ExpenditureRecordEmailCSV.as_view()),
-        path('pdf/', views.ExpenditureRenderPDF.as_view())
+        path('checkout-today/', views.ExpenditureCheckoutToday.as_view(), name='checkout_today')
     ])),
+    path('records-mail-csv/', views.ExpenditureRecordEmailCSV.as_view(), name='records_mail_csv'),
+    path('records-report-pdf/', views.ExpenditureRenderPDF.as_view(), name='records_report_pdf')
 ]

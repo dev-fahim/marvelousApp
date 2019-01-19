@@ -16,5 +16,6 @@ urlpatterns = [
         path('mail-csv/', views.CreditFundGenCSVEmail.as_view())
     ])),
     path('fund-source-list-all/', views.CreditFundsAccordingToSourcesListAPIView.as_view(), name='fund_source_list_all'),
-    path('fund-list-all/', views.CreditFundListAPIView.as_view(), name='fund_list_all')
+    path('fund-list-all/', views.CreditFundListAPIView.as_view(), name='fund_list_all'),
+    path('fund-source-report/', views.CreditExportPDFReport.as_view())
 ]

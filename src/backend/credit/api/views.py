@@ -4,12 +4,14 @@ from project.permissions import OnlyBaseUser, BaseUserOrSubUser
 from credit.models import CreditFundModel
 from base_user.models import BaseUserModel
 from sub_user.models import SubUserModel
+from company.models import CompanyInfoModel
 from rest_framework.response import Response
 from credit.api.filters import CreditFundFilter
 from django_filters.rest_framework import DjangoFilterBackend
 from utils import utils
 import os
 import datetime
+import uuid
 
 
 class CreditFundSourceListCreateAPIView(generics.ListCreateAPIView):
@@ -80,28 +82,24 @@ class CreditFundListAPIView(CreditFundListCreateAPIView):
 
 class CreditFundGenCSVEmail(CreditFundListAPIView):
     today = datetime.datetime.today().strftime("%d %B, %Y")
+    headings = ['Source Name', 'Record Added Time', 'Fund Added Time', 'Amount']
+    attributes = ['source', 'added', 'fund_added', 'amount']
 
     def get(self, request, *args, **kwargs):
+        items = self.filter_queryset(queryset=self.get_queryset())
+        print(items)
         file_name = f'credit_fund_list_{self.today}.csv'
-        headings = ['Source Name', 'Record Added Time', 'Fund Added Time', 'Amount']
-        attributes = ['source', 'added', 'fund_added', 'amount']
         response = utils.django_download_generated_csv_from_model_object(
             file_name=file_name,
-            query_set=self.filter_queryset(queryset=self.get_queryset()),
-            headings=headings,
-            attributes=attributes
+            query_set=items,
+            headings=self.headings,
+            attributes=self.attributes
         )
         subject = f'Accounts Application: {self.today} Report of Credit Fund'
         body = f'This is an automated email from your application.'
         from_email = os.environ.get('EMAIL')
-        to = []
-
-        if BaseUserModel.objects.filter(base_user=request.user).exists():
-            to = [self.request.user.email, ]
-        elif SubUserModel.objects.filter(root_user=request.user).exists():
-            sub_user_model = SubUserModel.objects.filter(root_user=request.user)
-            base_user_model = sub_user_model.base_user
-            to = [base_user_model.base_user.email, ]
+        base_user = items.first().base_user
+        to = [base_user.base_user.email, ]
 
         utils.django_send_email_with_attachments(
             subject=subject,
@@ -113,4 +111,24 @@ class CreditFundGenCSVEmail(CreditFundListAPIView):
             mimetype='text/csv'
         )
 
+        return response
+
+
+class CreditExportPDFReport(CreditFundGenCSVEmail):
+
+    def get(self, request, *args, **kwargs):
+        items = self.filter_queryset(queryset=self.get_queryset())
+        row_values = [[obj.__getattribute__(name) for name in self.attributes] for obj in items]
+        amounts = [obj.amount for obj in items]
+        context = {
+            'headings': self.headings,
+            'row_values': row_values,
+            'attributes': self.attributes,
+            'pdf_name': f'Credit_Report_{self.today}',
+            'company': CompanyInfoModel.objects.get(base_user=items.first().base_user),
+            'sum': utils.sum_int_of_array(amounts),
+            'date': datetime.datetime.now(),
+            'page_unique_id': uuid.uuid4()
+        }
+        response = utils.django_render_to_pdf('credit_report_pdf_template.html', context)
         return response

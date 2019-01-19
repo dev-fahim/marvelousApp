@@ -4,6 +4,7 @@ from expenditure.api.serializers import ExpenditureHeadingModelSerializer, Expen
 from project.permissions import OnlyBaseUser, BaseUserOrSubUser
 from base_user.models import BaseUserModel
 from sub_user.models import SubUserModel
+from company.models import CompanyInfoModel
 from rest_framework.response import Response
 from django_filters.rest_framework import DjangoFilterBackend
 from expenditure.api.filters import ExpenditureRecordFilter
@@ -95,20 +96,17 @@ class ExpenditureCheckoutToday(ExpenditureRecordListCreateAPIView):
 class ExpenditureRecordEmailCSV(ExpenditureCheckoutToday):
 
     def get(self, request, *args, **kwargs):
+        items = self.filter_queryset(queryset=self.get_queryset())
         file_name = f'{today}_expenditure_record.csv'
         response = utils.django_download_generated_csv_from_model_object(
-            file_name=file_name, query_set=self.filter_queryset(queryset=self.get_queryset()),
+            file_name=file_name, query_set=items,
             headings=self.headings, attributes=self.attributes
         )
         subject = 'Accounts Application: All expenditure records.'
         body = 'This is an automated e-mail from your application. Your files are given below.'
-        to = []
-        if BaseUserModel.objects.filter(base_user=request.user).exists():
-            to = [self.request.user.email, ]
-        elif SubUserModel.objects.filter(root_user=request.user).exists():
-            sub_user_model = SubUserModel.objects.filter(root_user=request.user)
-            base_user_model = sub_user_model.base_user
-            to = [base_user_model.base_user.email, ]
+        base_user = items.first().base_user
+        to = [base_user.base_user.email, ]
+
         content = response.getvalue()
         utils.django_send_email_with_attachments(subject, body, self.from_email, to, file_name, content, self.mimetype)
 
@@ -119,15 +117,18 @@ class ExpenditureRenderPDF(ExpenditureCheckoutToday):
 
     def get(self, request, *args, **kwargs):
         items = self.filter_queryset(queryset=self.get_queryset())
-        company = request.user.base_user.company_user
+        print(items)
+        base_user = items.first().base_user
+        company = CompanyInfoModel.objects.get(base_user=base_user)
+        row_values = [[obj.__getattribute__(name) for name in self.attributes] for obj in items]
         amounts = [obj.amount for obj in items]
         sum = utils.sum_int_of_array(amounts)
         context = {
-            'queryset': items,
+            'headings': self.headings,
             'company': company,
+            'row_values': row_values,
             'pdf_name': f'Expenditure {today}',
-            'date': today,
-            'date_time': datetime.datetime.now(),
+            'date': datetime.datetime.now(),
             'sum': sum,
             'page_unique_id': uuid.uuid4()
         }
