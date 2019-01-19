@@ -1,7 +1,7 @@
 from rest_framework import generics, status, filters
 from expenditure.models import ExpenditureRecordModel
 from expenditure.api.serializers import ExpenditureHeadingModelSerializer, ExpenditureRecordModelSerializer
-from project.permissions import OnlyBaseUser, BaseUserOrSubUser
+from project import permissions
 from base_user.models import BaseUserModel
 from sub_user.models import SubUserModel
 from company.models import CompanyInfoModel
@@ -18,7 +18,7 @@ today = datetime.datetime.today().strftime('%Y-%m-%d')
 
 class ExpenditureHeadingListCreateAPIView(generics.ListCreateAPIView):
     serializer_class = ExpenditureHeadingModelSerializer
-    permission_classes = [OnlyBaseUser, ]
+    permission_classes = [permissions.OnlyBaseUser, ]
     filter_backends = (filters.SearchFilter,)
     search_fields = ('heading_name', 'uuid', 'added', 'updated')
 
@@ -28,7 +28,7 @@ class ExpenditureHeadingListCreateAPIView(generics.ListCreateAPIView):
 
 class ExpenditureHeadingRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = ExpenditureHeadingModelSerializer
-    permission_classes = [OnlyBaseUser, ]
+    permission_classes = [permissions.OnlyBaseUser, ]
     lookup_field = 'uuid'
 
     def get_queryset(self):
@@ -37,7 +37,7 @@ class ExpenditureHeadingRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDest
 
 class ExpenditureRecordListCreateAPIView(generics.ListCreateAPIView):
     serializer_class = ExpenditureRecordModelSerializer
-    permission_classes = [BaseUserOrSubUser, ]
+    permission_classes = [permissions.BaseUserOrSubUser, permissions.SubUserCanListAndView, permissions.SubUserCanAdd]
     filter_backends = (filters.SearchFilter, DjangoFilterBackend, filters.OrderingFilter)
     filterset_class = ExpenditureRecordFilter
     search_fields = (
@@ -62,7 +62,7 @@ class ExpenditureRecordListCreateAPIView(generics.ListCreateAPIView):
 
 class ExpenditureRecordRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = ExpenditureRecordModelSerializer
-    permission_classes = [OnlyBaseUser, ]
+    permission_classes = [permissions.OnlyBaseUser, ]
     lookup_field = 'uuid'
 
     def get_queryset(self):

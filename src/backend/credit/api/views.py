@@ -1,6 +1,6 @@
 from rest_framework import generics, status, filters
 from credit.api import serializers
-from project.permissions import OnlyBaseUser, BaseUserOrSubUser
+from project import permissions
 from credit.models import CreditFundModel
 from base_user.models import BaseUserModel
 from sub_user.models import SubUserModel
@@ -16,7 +16,7 @@ import uuid
 
 class CreditFundSourceListCreateAPIView(generics.ListCreateAPIView):
     serializer_class = serializers.CreditFundSourceModelSerializer
-    permission_classes = [OnlyBaseUser, ]
+    permission_classes = [permissions.OnlyBaseUser, ]
     filter_backends = (filters.OrderingFilter, filters.SearchFilter)
     search_fields = ('description', 'uuid', 'source_name')
     ordering_fields = ('added', 'source_name', 'amount')
@@ -35,7 +35,7 @@ class CreditFundsAccordingToSourcesListAPIView(CreditFundSourceListCreateAPIView
 
 class CreditFundSourceRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = serializers.CreditFundSourceModelSerializer
-    permission_classes = [OnlyBaseUser, ]
+    permission_classes = [permissions.OnlyBaseUser, ]
     lookup_field = 'uuid'
 
     def get_queryset(self):
@@ -44,7 +44,7 @@ class CreditFundSourceRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestro
 
 class CreditFundListCreateAPIView(generics.ListCreateAPIView):
     serializer_class = serializers.CreditFundModelSerializer
-    permission_classes = [OnlyBaseUser, ]
+    permission_classes = [permissions.OnlyBaseUser, ]
     filter_backends = (filters.OrderingFilter, filters.SearchFilter, DjangoFilterBackend)
     search_fields = ('description', 'uuid')
     ordering_fields = ('added', 'source__source_name', 'amount')
@@ -57,7 +57,7 @@ class CreditFundListCreateAPIView(generics.ListCreateAPIView):
 
 class CreditFundRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = serializers.CreditFundModelSerializer
-    permission_classes = [OnlyBaseUser, ]
+    permission_classes = [permissions.OnlyBaseUser, ]
     lookup_field = 'uuid'
 
     def get_queryset(self):
@@ -65,7 +65,7 @@ class CreditFundRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIVi
 
 
 class CreditFundListAPIView(CreditFundListCreateAPIView):
-    permission_classes = [BaseUserOrSubUser, ]
+    permission_classes = [permissions.BaseUserOrSubUser, permissions.SubUserCanListAndView]
 
     def get_queryset(self):
         if BaseUserModel.objects.filter(base_user=self.request.user).exists():
