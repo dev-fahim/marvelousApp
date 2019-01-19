@@ -1,7 +1,7 @@
 from rest_framework import generics, status, filters
 from credit.api import serializers
 from project import permissions
-from credit.models import CreditFundModel
+from credit.models import CreditFundModel, CreditFundSettingsModel
 from base_user.models import BaseUserModel
 from sub_user.models import SubUserModel
 from company.models import CompanyInfoModel
@@ -65,7 +65,7 @@ class CreditFundRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIVi
 
 
 class CreditFundListAPIView(CreditFundListCreateAPIView):
-    permission_classes = [permissions.BaseUserOrSubUser, permissions.SubUserCanListAndView]
+    permission_classes = [permissions.BaseUserOrSubUser, permissions.SubUserCanList]
 
     def get_queryset(self):
         if BaseUserModel.objects.filter(base_user=self.request.user).exists():
@@ -78,6 +78,23 @@ class CreditFundListAPIView(CreditFundListCreateAPIView):
 
     def post(self, request, *args, **kwargs):
         return Response(data={'detail': 'Not allowed'}, status=status.HTTP_405_METHOD_NOT_ALLOWED, exception=True)
+
+
+class CreditFundSettingsView(generics.ListAPIView):
+    serializer_class = serializers.CreditFundSettingsModelSerializer
+    permission_classes = [permissions.OnlyBaseUser, ]
+
+    def get_queryset(self):
+        return CreditFundSettingsModel.objects.filter(base_user=self.request.user.base_user)
+
+
+class CreditFundSettingsEditView(generics.RetrieveUpdateAPIView):
+    serializer_class = serializers.CreditFundSettingsModelSerializer
+    permission_classes = [permissions.OnlyBaseUser, ]
+    lookup_field = 'pk'
+
+    def get_object(self):
+        return self.request.user.base_user.fund_settings
 
 
 class CreditFundGenCSVEmail(CreditFundListAPIView):

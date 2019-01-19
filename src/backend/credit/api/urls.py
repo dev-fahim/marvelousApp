@@ -13,7 +13,9 @@ urlpatterns = [
         path('list-add/', views.CreditFundListCreateAPIView.as_view(), name='fund_list_add'),
         path('view-update-delete/<uuid:uuid>/',
              views.CreditFundRetrieveUpdateDestroyAPIView.as_view(), name='fund_view_update_delete'),
-        path('mail-csv/', views.CreditFundGenCSVEmail.as_view())
+        path('mail-csv/', views.CreditFundGenCSVEmail.as_view()),
+        path('settings/', views.CreditFundSettingsView.as_view(), name='fund_settings'),
+        path('settings/<int:pk>/', views.CreditFundSettingsEditView.as_view(), name='fund_settings_edit')
     ])),
     path('fund-source-list-all/', views.CreditFundsAccordingToSourcesListAPIView.as_view(), name='fund_source_list_all'),
     path('fund-list-all/', views.CreditFundListAPIView.as_view(), name='fund_list_all'),

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from credit.models import CreditFundModel, CreditFundSourceModel
+from credit.models import CreditFundModel, CreditFundSourceModel, CreditFundSettingsModel
 import uuid
 
 
@@ -92,3 +92,15 @@ class CreditFundsAccordingToSourcesSerializer(serializers.ModelSerializer):
             'funds'
         )
         read_only_fields = ('uuid', 'added', 'updated')
+
+
+class CreditFundSettingsModelSerializer(serializers.ModelSerializer):
+    edit_urls = serializers.HyperlinkedIdentityField(
+        view_name='credit_app:fund_settings_edit',
+        lookup_field='pk',
+        read_only=True
+    )
+
+    class Meta:
+        model = CreditFundSettingsModel
+        fields = ('edit_urls', 'is_not_locked')

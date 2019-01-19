@@ -2,6 +2,7 @@ from rest_framework import serializers
 from base_user.models import BaseUserModel
 import uuid
 from django.contrib.auth import get_user_model
+from credit.models import CreditFundSettingsModel
 User = get_user_model()
 
 
@@ -33,5 +34,6 @@ class UserModelSerializer(serializers.ModelSerializer):
         email = validated_data.get('email')
 
         obj = User.objects.create_user(username=username, email=email, password=password)
-        BaseUserModel.objects.create(base_user=obj, uuid=uuid.uuid4())
+        base_user = BaseUserModel.objects.create(base_user=obj, uuid=uuid.uuid4())
+        CreditFundSettingsModel.objects.create(base_user=base_user)
         return obj

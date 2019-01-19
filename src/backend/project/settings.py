@@ -217,6 +217,7 @@ INSTALLED_APPS += [
     'company',
     'credit',
     'expenditure',
+    'user'
 ]
 
 # END

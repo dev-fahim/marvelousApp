@@ -3,9 +3,16 @@
   <component name="ChangeListManager">
     <list default="true" id="ee5b8223-2822-4c20-b25c-dcc7e4f9e64a" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/backend/base_user/api/serializers.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/backend/base_user/api/serializers.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/backend/base_user/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/backend/base_user/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/backend/credit/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/backend/credit/admin.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/backend/credit/api/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/backend/credit/api/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/backend/credit/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/backend/credit/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/backend/expenditure/api/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/backend/expenditure/api/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/backend/expenditure/api/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/backend/expenditure/api/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/backend/project/permissions.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/backend/project/permissions.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/backend/project/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/backend/project/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/backend/sub_user/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/backend/sub_user/models.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -14,117 +21,126 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/backend/credit/api/views.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-608">
-              <caret line="67" column="90" selection-start-line="67" selection-start-column="90" selection-end-line="67" selection-end-column="90" />
-              <folding>
-                <element signature="e#0#52#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/backend/expenditure/api/urls.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="323">
-              <caret line="18" column="94" selection-start-line="18" selection-start-column="94" selection-end-line="18" selection-end-column="94" />
-              <folding>
-                <element signature="e#0#37#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/backend/credit/templates/credit_report_pdf_template.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="646">
-              <caret line="34" column="20" selection-start-line="34" selection-start-column="20" selection-end-line="35" selection-end-column="21" />
-              <folding>
-                <element signature="n#style#0;n#h1#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#p#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/backend/expenditure/templates/expenditure_pdf_template.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="230">
-              <caret line="28" lean-forward="true" selection-start-line="28" selection-end-line="28" />
-              <folding>
-                <element signature="n#style#0;n#h1#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#p#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/backend/project/permissions.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="515">
-              <caret line="68" column="41" lean-forward="true" selection-start-line="68" selection-start-column="41" selection-end-line="68" selection-end-column="41" />
-              <folding>
-                <element signature="e#0#53#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/backend/expenditure/api/views.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1159">
-              <caret line="61" lean-forward="true" selection-start-line="61" selection-end-line="61" />
-              <folding>
-                <element signature="e#0#52#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/backend/credit/api/urls.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret line="1" column="28" selection-start-line="1" selection-start-column="28" selection-end-line="1" selection-end-column="28" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/backend/credit/models.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="342">
-              <caret line="19" column="101" selection-start-line="19" selection-start-column="101" selection-end-line="19" selection-end-column="101" />
-              <folding>
-                <element signature="e#0#28#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/backend/utils/utils.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="323">
-              <caret line="22" column="25" selection-start-line="22" selection-start-column="25" selection-end-line="22" selection-end-column="75" />
-              <folding>
-                <element signature="e#0#10#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <splitter split-orientation="horizontal" split-proportion="0.7304054">
+      <split-first>
+        <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/backend/expenditure/api/urls.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="38">
+                  <caret line="3" column="28" selection-start-line="3" selection-start-column="28" selection-end-line="3" selection-end-column="28" />
+                  <folding>
+                    <element signature="e#0#37#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/backend/base_user/api/serializers.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="57">
+                  <caret line="3" column="46" lean-forward="true" selection-start-line="3" selection-start-column="46" selection-end-line="3" selection-end-column="46" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/src/backend/project/permissions.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="1064">
+                  <caret line="59" column="47" lean-forward="true" selection-start-line="59" selection-start-column="47" selection-end-line="59" selection-end-column="47" />
+                  <folding>
+                    <element signature="e#0#53#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/backend/credit/admin.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="114">
+                  <caret line="7" column="43" selection-start-line="7" selection-start-column="43" selection-end-line="7" selection-end-column="43" />
+                  <folding>
+                    <element signature="e#0#32#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/backend/credit/models.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="152">
+                  <caret line="9" column="57" lean-forward="true" selection-start-line="9" selection-start-column="57" selection-end-line="9" selection-end-column="57" />
+                  <folding>
+                    <element signature="e#0#28#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/backend/expenditure/api/permissions.py">
+              <provider selected="true" editor-type-id="text-editor" />
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/backend/sub_user/models.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="399">
+                  <caret line="23" column="47" selection-start-line="23" selection-start-column="47" selection-end-line="23" selection-end-column="47" />
+                  <folding>
+                    <element signature="e#0#28#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/backend/expenditure/api/views.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="513">
+                  <caret line="41" column="38" lean-forward="true" selection-start-line="41" selection-start-column="38" selection-end-line="41" selection-end-column="38" />
+                  <folding>
+                    <element signature="e#0#52#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/backend/user/models.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="209">
+                  <caret line="12" column="17" selection-start-line="12" selection-start-column="4" selection-end-line="12" selection-end-column="17" />
+                  <folding>
+                    <element signature="e#0#28#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+        </leaf>
+      </split-first>
+      <split-second>
+        <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+          <file pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/src/backend/sub_user/models.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="209">
+                  <caret line="11" column="32" lean-forward="true" selection-start-line="11" selection-start-column="32" selection-end-line="11" selection-end-column="32" />
+                  <folding>
+                    <element signature="e#0#28#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+        </leaf>
+      </split-second>
+    </splitter>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -133,6 +149,14 @@
         <option value="HTML File" />
       </list>
     </option>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>aprro</find>
+    </findStrings>
+    <replaceStrings>
+      <replace>appro</replace>
+    </replaceStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -143,14 +167,9 @@
         <option value="$PROJECT_DIR$/src/backend/project/serializers.py" />
         <option value="$PROJECT_DIR$/src/backend/company/api/views.py" />
         <option value="$PROJECT_DIR$/src/backend/company/api/serializers.py" />
-        <option value="$PROJECT_DIR$/src/backend/base_user/api/serializers.py" />
         <option value="$PROJECT_DIR$/src/backend/sub_user/api/views.py" />
         <option value="$PROJECT_DIR$/src/backend/credit/api/serializers.py" />
-        <option value="$PROJECT_DIR$/src/backend/base_user/models.py" />
-        <option value="$PROJECT_DIR$/src/backend/credit/admin.py" />
-        <option value="$PROJECT_DIR$/src/backend/credit/models.py" />
         <option value="$PROJECT_DIR$/src/backend/expenditure/api/permissions.py" />
-        <option value="$PROJECT_DIR$/src/backend/sub_user/models.py" />
         <option value="$PROJECT_DIR$/src/backend/project/urls.py" />
         <option value="$PROJECT_DIR$/src/backend/sub_user/api/serializers.py" />
         <option value="$PROJECT_DIR$/src/backend/expenditure/admin.py" />
@@ -160,7 +179,6 @@
         <option value="$PROJECT_DIR$/src/backend/sendgrid.env" />
         <option value="$PROJECT_DIR$/src/backend/Dockerfile" />
         <option value="$PROJECT_DIR$/.gitignore" />
-        <option value="$PROJECT_DIR$/src/backend/project/settings.py" />
         <option value="$PROJECT_DIR$/src/backend/.env" />
         <option value="$PROJECT_DIR$/docker-compose.yml" />
         <option value="$PROJECT_DIR$/src/backend/expenditure/api/utils.py" />
@@ -168,12 +186,20 @@
         <option value="$PROJECT_DIR$/src/backend/expenditure/api/filters.py" />
         <option value="$PROJECT_DIR$/src/backend/utils/utils.py" />
         <option value="$PROJECT_DIR$/src/backend/credit/api/urls.py" />
-        <option value="$PROJECT_DIR$/src/backend/expenditure/api/urls.py" />
         <option value="$PROJECT_DIR$/src/backend/credit/templates/credit_report_pdf_template.html" />
         <option value="$PROJECT_DIR$/src/backend/expenditure/templates/expenditure_pdf_template.html" />
+        <option value="$PROJECT_DIR$/src/backend/base_user/models.py" />
+        <option value="$PROJECT_DIR$/src/backend/sub_user/models.py" />
+        <option value="$PROJECT_DIR$/src/backend/project/settings.py" />
+        <option value="$PROJECT_DIR$/src/backend/user/admin.py" />
+        <option value="$PROJECT_DIR$/src/backend/user/models.py" />
+        <option value="$PROJECT_DIR$/src/backend/credit/api/views.py" />
+        <option value="$PROJECT_DIR$/src/backend/expenditure/api/urls.py" />
+        <option value="$PROJECT_DIR$/src/backend/base_user/api/serializers.py" />
+        <option value="$PROJECT_DIR$/src/backend/credit/admin.py" />
+        <option value="$PROJECT_DIR$/src/backend/credit/models.py" />
         <option value="$PROJECT_DIR$/src/backend/project/permissions.py" />
         <option value="$PROJECT_DIR$/src/backend/expenditure/api/views.py" />
-        <option value="$PROJECT_DIR$/src/backend/credit/api/views.py" />
       </list>
     </option>
   </component>
@@ -202,13 +228,7 @@
             <path>
               <item name="marvelousApp" type="b2602c69:ProjectViewProjectNode" />
               <item name="backend" type="462c0819:PsiDirectoryNode" />
-              <item name="credit" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="marvelousApp" type="b2602c69:ProjectViewProjectNode" />
-              <item name="backend" type="462c0819:PsiDirectoryNode" />
-              <item name="credit" type="462c0819:PsiDirectoryNode" />
-              <item name="api" type="462c0819:PsiDirectoryNode" />
+              <item name="project" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -281,10 +301,9 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="22" width="1936" height="1066" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.6592689" visible="true" weight="0.22023182" />
-      <window_info id="Structure" order="1" sideWeight="0.34073108" side_tool="true" visible="true" weight="0.22023182" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.654047" visible="true" weight="0.22023182" />
+      <window_info id="Structure" order="1" sideWeight="0.34595302" side_tool="true" visible="true" weight="0.22023182" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info id="DB Browser" order="3" />
       <window_info anchor="bottom" id="Docker" order="0" show_stripe_button="false" />
@@ -296,7 +315,7 @@
       <window_info anchor="bottom" id="Inspection" order="6" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="7" />
       <window_info anchor="bottom" id="Version Control" order="8" />
-      <window_info anchor="bottom" id="Terminal" order="9" visible="true" weight="0.17367853" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="9" visible="true" weight="0.17367853" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
       <window_info anchor="bottom" id="Python Console" order="11" />
       <window_info anchor="bottom" id="DB Execution Console" order="12" />
@@ -306,88 +325,7 @@
     </layout>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/backend/project/serializers.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="532">
-          <caret line="28" column="89" selection-start-line="28" selection-start-column="89" selection-end-line="28" selection-end-column="89" />
-          <folding>
-            <element signature="e#0#38#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/backend/company/admin.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <folding>
-            <element signature="e#0#32#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$APPLICATION_CONFIG_DIR$/scratches/threadDump1.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-190">
-          <caret line="26" column="37" selection-start-line="26" selection-start-column="37" selection-end-line="26" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/backend/base_user/api/permissions.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/backend/base_user/api/serializers.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="76">
-          <caret line="4" column="23" selection-start-line="4" selection-start-column="23" selection-end-line="4" selection-end-column="23" />
-          <folding>
-            <element signature="e#0#38#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/backend/base_user/api/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <folding>
-            <element signature="e#0#35#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/backend/company/api/serializers.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="220">
-          <caret line="16" column="21" lean-forward="true" selection-start-line="16" selection-start-column="21" selection-end-line="16" selection-end-column="21" />
-          <folding>
-            <element signature="e#0#38#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/backend/company/api/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="247">
-          <caret line="13" column="82" selection-start-line="13" selection-start-column="82" selection-end-line="13" selection-end-column="82" />
-          <folding>
-            <element signature="e#0#35#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/backend/sub_user/api/permissions.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/backend/sub_user/api/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="38">
-          <caret line="2" column="44" selection-start-line="2" selection-start-column="44" selection-end-line="2" selection-end-column="44" />
-          <folding>
-            <element signature="e#0#35#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/backend/expenditure/api/permissions.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/src/backend/sub_user/api/urls.py">
@@ -447,26 +385,6 @@
           <caret line="163" column="36" selection-start-line="163" selection-start-column="36" selection-end-line="163" selection-end-column="36" />
           <folding>
             <element signature="e#0#90#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/backend/base_user/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="342">
-          <caret line="19" selection-start-line="19" selection-end-line="19" />
-          <folding>
-            <element signature="e#0#28#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/backend/credit/admin.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="95">
-          <caret line="6" column="41" selection-start-line="6" selection-start-column="41" selection-end-line="6" selection-end-column="41" />
-          <folding>
-            <element signature="e#0#32#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -546,13 +464,6 @@
     <entry file="file://$PROJECT_DIR$/src/backend/Pipfile">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/backend/project/settings.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="139" column="44" lean-forward="true" selection-start-line="139" selection-start-column="44" selection-end-line="139" selection-end-column="44" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/backend/expenditure/api/views.py___jb_old___" />
     <entry file="file://$PROJECT_DIR$/src/backend/.env">
       <provider selected="true" editor-type-id="text-editor">
@@ -565,16 +476,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="190">
           <caret line="10" selection-start-line="10" selection-end-line="10" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/backend/sub_user/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="380">
-          <caret line="22" column="11" selection-start-line="22" selection-start-column="11" selection-end-line="22" selection-end-column="11" />
-          <folding>
-            <element signature="e#0#28#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -628,28 +529,8 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/backend/expenditure/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="287">
-          <caret line="22" column="120" lean-forward="true" selection-start-line="22" selection-start-column="120" selection-end-line="22" selection-end-column="120" />
-          <folding>
-            <element signature="e#0#28#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/backend/expenditure/views.py">
       <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/backend/expenditure/api/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="18" column="94" selection-start-line="18" selection-start-column="94" selection-end-line="18" selection-end-column="94" />
-          <folding>
-            <element signature="e#0#37#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/backend/credit/templates/credit_report_pdf_template.html">
       <provider selected="true" editor-type-id="text-editor">
@@ -670,16 +551,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/backend/credit/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="342">
-          <caret line="19" column="101" selection-start-line="19" selection-start-column="101" selection-end-line="19" selection-end-column="101" />
-          <folding>
-            <element signature="e#0#28#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/backend/utils/utils.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="323">
@@ -693,7 +564,7 @@
     <entry file="file://$PROJECT_DIR$/src/backend/expenditure/templates/expenditure_pdf_template.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="230">
-          <caret line="28" lean-forward="true" selection-start-line="28" selection-end-line="28" />
+          <caret line="28" selection-start-line="28" selection-end-line="28" />
           <folding>
             <element signature="n#style#0;n#h1#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#p#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -702,32 +573,168 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/backend/sub_user/api/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="38">
+          <caret line="2" column="44" selection-start-line="2" selection-start-column="44" selection-end-line="2" selection-end-column="44" />
+          <folding>
+            <element signature="e#0#35#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/backend/company/api/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="247">
+          <caret line="13" column="82" selection-start-line="13" selection-start-column="82" selection-end-line="13" selection-end-column="82" />
+          <folding>
+            <element signature="e#0#35#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/backend/base_user/api/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="114">
+          <caret line="6" column="43" selection-start-line="6" selection-start-column="43" selection-end-line="6" selection-end-column="43" />
+          <folding>
+            <element signature="e#0#35#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/backend/base_user/api/permissions.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="133">
+          <caret line="7" selection-start-line="7" selection-end-line="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/backend/base_user/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="152">
+          <caret line="8" column="94" selection-start-line="8" selection-start-column="94" selection-end-line="8" selection-end-column="94" />
+          <folding>
+            <element signature="e#0#28#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/backend/project/settings.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="458">
+          <caret line="219" column="9" selection-start-line="219" selection-start-column="9" selection-end-line="219" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/backend/credit/api/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1957">
+          <caret line="116" column="44" selection-start-line="116" selection-start-column="44" selection-end-line="116" selection-end-column="44" />
+          <folding>
+            <element signature="e#0#52#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/backend/expenditure/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="380">
+          <caret line="22" column="120" selection-start-line="22" selection-start-column="120" selection-end-line="22" selection-end-column="120" />
+          <folding>
+            <element signature="e#0#28#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/backend/user/admin.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="95">
+          <caret line="6" selection-start-line="6" selection-end-line="6" />
+          <folding>
+            <element signature="e#0#32#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/backend/project/permissions.py___jb_old___" />
+    <entry file="file://$PROJECT_DIR$/src/backend/project/permissions.py___jb_tmp___" />
+    <entry file="file://$PROJECT_DIR$/src/backend/expenditure/api/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="38">
+          <caret line="3" column="28" selection-start-line="3" selection-start-column="28" selection-end-line="3" selection-end-column="28" />
+          <folding>
+            <element signature="e#0#37#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/backend/base_user/api/serializers.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="57">
+          <caret line="3" column="46" lean-forward="true" selection-start-line="3" selection-start-column="46" selection-end-line="3" selection-end-column="46" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/backend/credit/admin.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="114">
+          <caret line="7" column="43" selection-start-line="7" selection-start-column="43" selection-end-line="7" selection-end-column="43" />
+          <folding>
+            <element signature="e#0#32#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/backend/credit/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="152">
+          <caret line="9" column="57" lean-forward="true" selection-start-line="9" selection-start-column="57" selection-end-line="9" selection-end-column="57" />
+          <folding>
+            <element signature="e#0#28#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/backend/expenditure/api/permissions.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/backend/expenditure/api/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="513">
+          <caret line="41" column="38" lean-forward="true" selection-start-line="41" selection-start-column="38" selection-end-line="41" selection-end-column="38" />
+          <folding>
+            <element signature="e#0#52#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/backend/user/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="209">
+          <caret line="12" column="17" selection-start-line="12" selection-start-column="4" selection-end-line="12" selection-end-column="17" />
+          <folding>
+            <element signature="e#0#28#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/backend/project/permissions.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="515">
-          <caret line="68" column="41" lean-forward="true" selection-start-line="68" selection-start-column="41" selection-end-line="68" selection-end-column="41" />
+        <state relative-caret-position="1064">
+          <caret line="59" column="47" lean-forward="true" selection-start-line="59" selection-start-column="47" selection-end-line="59" selection-end-column="47" />
           <folding>
             <element signature="e#0#53#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/backend/expenditure/api/views.py">
+    <entry file="file://$PROJECT_DIR$/src/backend/sub_user/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1159">
-          <caret line="61" lean-forward="true" selection-start-line="61" selection-end-line="61" />
+        <state relative-caret-position="209">
+          <caret line="11" column="32" lean-forward="true" selection-start-line="11" selection-start-column="32" selection-end-line="11" selection-end-column="32" />
           <folding>
-            <element signature="e#0#52#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/backend/credit/api/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-608">
-          <caret line="67" column="90" selection-start-line="67" selection-start-column="90" selection-end-line="67" selection-end-column="90" />
-          <folding>
-            <element signature="e#0#52#0" expanded="true" />
+            <element signature="e#0#28#0" expanded="true" />
           </folding>
         </state>
       </provider>

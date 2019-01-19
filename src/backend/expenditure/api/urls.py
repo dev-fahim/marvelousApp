@@ -10,7 +10,10 @@ urlpatterns = [
              views.ExpenditureHeadingRetrieveUpdateDestroyAPIView.as_view(), name='heading_view_update_delete')
     ])),
     path('record/', include([
-        path('list-add/', views.ExpenditureRecordListCreateAPIView.as_view(), name='record_list_add'),
+        path('list/', views.ExpenditureRecordListAPIView.as_view(), name='record_list'),
+        path('add/', views.ExpenditureRecordCreateAPIView.as_view(), name='record_list_add'),
+        path('view/<uuid:uuid>',
+             views.ExpenditureRecordRetrieveAPIView.as_view(), name='record_view'),
         path('view-update-delete/<uuid:uuid>',
              views.ExpenditureRecordRetrieveUpdateDestroyAPIView.as_view(), name='record_view_update_delete'),
         path('checkout-today/', views.ExpenditureCheckoutToday.as_view(), name='checkout_today')

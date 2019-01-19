@@ -6,10 +6,15 @@ User = get_user_model()
 
 
 class SubUserModelSerializers(serializers.ModelSerializer):
+    urls = serializers.HyperlinkedIdentityField(
+        view_name='sub_user:edit_sub_user',
+        lookup_field='uuid',
+        read_only=True
+    )
 
     class Meta:
         model = SubUserModel
-        fields = ('user_type', 'canAdd', 'canRetrieve', 'canEdit', 'canEdit', 'canList')
+        fields = ('user_type', 'joined', 'urls', 'canAdd', 'canRetrieve', 'canEdit', 'canEdit', 'canList')
 
 
 class RootUserModelSerializer(serializers.ModelSerializer):

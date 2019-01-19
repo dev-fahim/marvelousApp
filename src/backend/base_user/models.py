@@ -7,8 +7,6 @@ User = get_user_model()
 class BaseUserModel(models.Model):
 
     base_user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='base_user')
-    is_approved = models.BooleanField(default=False)
-    is_active = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=True)
 
     uuid = models.UUIDField(unique=True)

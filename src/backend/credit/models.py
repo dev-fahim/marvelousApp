@@ -28,3 +28,11 @@ class CreditFundModel(models.Model):
 
     def __str__(self):
         return self.source.source_name
+
+
+class CreditFundSettingsModel(models.Model):
+    base_user = models.OneToOneField(BaseUserModel, on_delete=models.CASCADE, related_name='fund_settings')
+    is_not_locked = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.base_user.base_user.username

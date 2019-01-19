@@ -1,5 +1,6 @@
 from rest_framework import generics
 from company.api.serializers import CompanyInfoModelSerializer
+from company.models import CompanyInfoModel
 from project.permissions import OnlyBaseUser
 
 
@@ -8,7 +9,7 @@ class CompanyInfoListCreateAPIView(generics.ListCreateAPIView):
     permission_classes = [OnlyBaseUser, ]
 
     def get_queryset(self):
-        return self.request.user.base_user.company_users.all()
+        return CompanyInfoModel.objects.filter(base_user=self.request.user.base_user)
 
 
 class CompanyInfoRetrieveUpdateDeleteAPIView(generics.RetrieveUpdateDestroyAPIView):
@@ -16,5 +17,5 @@ class CompanyInfoRetrieveUpdateDeleteAPIView(generics.RetrieveUpdateDestroyAPIVi
     permission_classes = [OnlyBaseUser, ]
     lookup_field = 'uuid'
 
-    def get_queryset(self):
-        return self.request.user.base_user.company_users.all()
+    def get_object(self):
+        return CompanyInfoModel.objects.get(base_user=self.request.user.base_user)

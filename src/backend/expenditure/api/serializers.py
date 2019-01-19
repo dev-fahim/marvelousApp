@@ -33,8 +33,13 @@ class ExpenditureHeadingModelSerializer(serializers.ModelSerializer):
 
 
 class ExpenditureRecordModelSerializer(serializers.ModelSerializer):
-    url = serializers.HyperlinkedIdentityField(
+    edit_url = serializers.HyperlinkedIdentityField(
         view_name='expenditure_app:record_view_update_delete',
+        lookup_field='uuid'
+    )
+
+    details_url = serializers.HyperlinkedIdentityField(
+        view_name='expenditure_app:record_view',
         lookup_field='uuid'
     )
 

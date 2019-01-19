@@ -35,9 +35,13 @@ class ExpenditureHeadingRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDest
         return self.request.user.base_user.expenditure_headings.all()
 
 
-class ExpenditureRecordListCreateAPIView(generics.ListCreateAPIView):
+class ExpenditureRecordCreateAPIView(generics.CreateAPIView):
     serializer_class = ExpenditureRecordModelSerializer
-    permission_classes = [permissions.BaseUserOrSubUser, permissions.SubUserCanListAndView, permissions.SubUserCanAdd]
+    permission_classes = [
+        permissions.FundIsNotLocked,
+        permissions.BaseUserOrSubUser,
+        permissions.SubUserCanAdd
+    ]
     filter_backends = (filters.SearchFilter, DjangoFilterBackend, filters.OrderingFilter)
     filterset_class = ExpenditureRecordFilter
     search_fields = (
@@ -60,16 +64,70 @@ class ExpenditureRecordListCreateAPIView(generics.ListCreateAPIView):
         return queryset
 
 
-class ExpenditureRecordRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
+class ExpenditureRecordListAPIView(generics.ListAPIView):
     serializer_class = ExpenditureRecordModelSerializer
-    permission_classes = [permissions.OnlyBaseUser, ]
+    permission_classes = [
+        permissions.BaseUserOrSubUser,
+        permissions.SubUserCanList
+    ]
+    filter_backends = (filters.SearchFilter, DjangoFilterBackend, filters.OrderingFilter)
+    filterset_class = ExpenditureRecordFilter
+    search_fields = (
+        'expend_heading__heading_name',
+        'uuid',
+        'added',
+        'updated',
+        'expend_by',
+        'expend_time'
+    )
+    ordering_fields = ('added', 'expend_time', 'amount', 'expend_heading__heading_name')
+    ordering = ('-id',)
+
+    def get_queryset(self):
+        queryset = None
+        if BaseUserModel.objects.filter(base_user=self.request.user).exists():
+            queryset = self.request.user.base_user.all_expenditure_records.all()
+        elif SubUserModel.objects.filter(root_user=self.request.user).exists():
+            queryset = ExpenditureRecordModel.objects.filter(base_user=self.request.user.root_sub_user.base_user)
+        return queryset
+
+
+class ExpenditureRecordRetrieveAPIView(generics.RetrieveAPIView):
+    serializer_class = ExpenditureRecordModelSerializer
+    permission_classes = [
+        permissions.BaseUserOrSubUser,
+        permissions.SubUserCanRetrieve
+    ]
     lookup_field = 'uuid'
 
     def get_queryset(self):
-        return self.request.user.expenditure_records.all()
+        queryset = None
+        if BaseUserModel.objects.filter(base_user=self.request.user).exists():
+            queryset = self.request.user.base_user.all_expenditure_records.all()
+        elif SubUserModel.objects.filter(root_user=self.request.user).exists():
+            queryset = ExpenditureRecordModel.objects.filter(base_user=self.request.user.root_sub_user.base_user)
+        return queryset
 
 
-class ExpenditureCheckoutToday(ExpenditureRecordListCreateAPIView):
+class ExpenditureRecordRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = ExpenditureRecordModelSerializer
+    permission_classes = [
+        permissions.FundIsNotLocked,
+        permissions.BaseUserOrSubUser,
+        permissions.SubUserFullAccess
+    ]
+    lookup_field = 'uuid'
+
+    def get_queryset(self):
+        queryset = None
+        if BaseUserModel.objects.filter(base_user=self.request.user).exists():
+            queryset = self.request.user.base_user.all_expenditure_records.all()
+        elif SubUserModel.objects.filter(root_user=self.request.user).exists():
+            queryset = ExpenditureRecordModel.objects.filter(base_user=self.request.user.root_sub_user.base_user)
+        return queryset
+
+
+class ExpenditureCheckoutToday(ExpenditureRecordCreateAPIView):
     headings = ['Head', 'Added by', 'Expended by', 'Amount', 'Expend time', 'Record added']
     attributes = ['expend_heading', 'added_by', 'expend_by', 'amount', 'expend_time', 'added']
     mimetype = 'text/csv'

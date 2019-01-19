@@ -22,6 +22,7 @@ class SubUserModel(models.Model):
     canRetrieve = models.BooleanField(default=False)
     canEdit = models.BooleanField(default=False)
     canList = models.BooleanField(default=True)
+    is_active = models.BooleanField(default=False)
 
     added = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
