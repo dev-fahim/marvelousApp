@@ -3,10 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="ee5b8223-2822-4c20-b25c-dcc7e4f9e64a" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/backend/credit/api/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/backend/credit/api/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/backend/credit/api/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/backend/credit/api/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/backend/expenditure/api/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/backend/expenditure/api/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/backend/expenditure/api/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/backend/expenditure/api/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/backend/credit/templates/credit_report_pdf_template.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/backend/credit/templates/credit_report_pdf_template.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/backend/expenditure/templates/expenditure_pdf_template.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/backend/expenditure/templates/expenditure_pdf_template.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -29,7 +26,7 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/backend/expenditure/api/urls.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="342">
@@ -44,8 +41,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/backend/credit/templates/credit_report_pdf_template.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1197">
-              <caret line="63" column="18" selection-start-line="63" selection-start-column="18" selection-end-line="63" selection-end-column="18" />
+            <state relative-caret-position="475">
+              <caret line="34" column="20" lean-forward="true" selection-start-line="34" selection-start-column="20" selection-end-line="35" selection-end-column="21" />
               <folding>
                 <element signature="n#style#0;n#h1#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#p#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -56,11 +53,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/backend/expenditure/templates/expenditure_pdf_template.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="401">
-              <caret line="61" lean-forward="true" selection-start-line="61" selection-end-line="61" />
+            <state relative-caret-position="439">
+              <caret line="39" column="17" selection-start-line="39" selection-start-column="17" selection-end-line="39" selection-end-column="17" />
               <folding>
                 <element signature="n#style#0;n#h1#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#p#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -161,9 +158,9 @@
         <option value="$PROJECT_DIR$/src/backend/credit/api/urls.py" />
         <option value="$PROJECT_DIR$/src/backend/credit/api/views.py" />
         <option value="$PROJECT_DIR$/src/backend/expenditure/api/views.py" />
-        <option value="$PROJECT_DIR$/src/backend/expenditure/templates/expenditure_pdf_template.html" />
-        <option value="$PROJECT_DIR$/src/backend/credit/templates/credit_report_pdf_template.html" />
         <option value="$PROJECT_DIR$/src/backend/expenditure/api/urls.py" />
+        <option value="$PROJECT_DIR$/src/backend/credit/templates/credit_report_pdf_template.html" />
+        <option value="$PROJECT_DIR$/src/backend/expenditure/templates/expenditure_pdf_template.html" />
       </list>
     </option>
   </component>
@@ -673,31 +670,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/backend/expenditure/templates/expenditure_pdf_template.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="401">
-          <caret line="61" lean-forward="true" selection-start-line="61" selection-end-line="61" />
-          <folding>
-            <element signature="n#style#0;n#h1#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#p#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/backend/credit/templates/credit_report_pdf_template.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1197">
-          <caret line="63" column="18" selection-start-line="63" selection-start-column="18" selection-end-line="63" selection-end-column="18" />
-          <folding>
-            <element signature="n#style#0;n#h1#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#p#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="e#1635#1641#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/backend/credit/api/views.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-1708">
@@ -714,6 +686,31 @@
           <caret line="18" column="94" selection-start-line="18" selection-start-column="94" selection-end-line="18" selection-end-column="94" />
           <folding>
             <element signature="e#0#37#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/backend/credit/templates/credit_report_pdf_template.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="475">
+          <caret line="34" column="20" lean-forward="true" selection-start-line="34" selection-start-column="20" selection-end-line="35" selection-end-column="21" />
+          <folding>
+            <element signature="n#style#0;n#h1#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="e#1635#1641#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/backend/expenditure/templates/expenditure_pdf_template.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="439">
+          <caret line="39" column="17" selection-start-line="39" selection-start-column="17" selection-end-line="39" selection-end-column="17" />
+          <folding>
+            <element signature="n#style#0;n#h1#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>
