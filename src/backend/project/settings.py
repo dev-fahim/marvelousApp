@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
+    'corsheaders',
     'crispy_forms',
 ]
 
@@ -127,7 +127,8 @@ STATIC_URL = '/static/'
 """
 ALL EXTRA KAHINI
 """
-
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = False
 # EMAIL_BACKEND = 'sendgrid_backend.SendgridBackend'
 # SENDGRID_API_KEY = os.environ.get(
 # 'SENDGRID_API_KEY',
@@ -143,7 +144,6 @@ ASGI_APPLICATION = 'project.routing.application'
 
 # REST FRAMEWORK KAHINI
 INSTALLED_APPS += [
-    'corsheaders',
     'rest_framework',
     'rest_framework.authtoken',
     'rest_auth',
@@ -194,7 +194,7 @@ JWT_AUTH = {
     'JWT_VERIFY': True,
     'JWT_VERIFY_EXPIRATION': True,
     'JWT_LEEWAY': 0,
-    'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=300),
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(days=4),
     'JWT_AUDIENCE': None,
     'JWT_ISSUER': None,
 
@@ -208,6 +208,7 @@ JWT_AUTH = {
 
 REST_USE_JWT = True
 SITE_ID = 1
+
 # END
 
 # CREATED APP

@@ -1,6 +1,6 @@
 from rest_framework import generics, status, filters
 from expenditure.models import ExpenditureRecordModel
-from expenditure.api.serializers import ExpenditureHeadingModelSerializer, ExpenditureRecordModelSerializer
+from expenditure.api.serializers import ExpenditureHeadingModelSerializer, ExpenditureRecordModelSerializer, ExpenditureRecordModelSafeSerializer
 from project import permissions
 from base_user.models import BaseUserModel
 from sub_user.models import SubUserModel
@@ -36,7 +36,7 @@ class ExpenditureHeadingRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDest
 
 
 class ExpenditureRecordCreateAPIView(generics.CreateAPIView):
-    serializer_class = ExpenditureRecordModelSerializer
+    serializer_class = ExpenditureRecordModelSafeSerializer
     permission_classes = [
         permissions.FundIsNotLocked,
         permissions.BaseUserOrSubUser,

@@ -1,0 +1,104 @@
+<div class="ui grid">
+    <div class="four wide column">
+        <div class="ui placeholder segment red">
+            <div class="ui icon header">
+                <h2>Credit Fund status</h2>
+                <i class="{{ get_fund_status()? 'unlock green' : 'lock red' }} icon"></i>
+                <p>Your Credit Fund is now {{ get_fund_status()? 'unlocked' : 'locked' }}.</p>
+            </div>
+            <div class="ui {{ get_fund_status()? 'red' : 'green' }} button" (click)="toggle_fund()">{{
+                get_fund_status()? 'Lock it' : 'Unlock it' }}</div>
+        </div>
+    </div>
+    <div class="four wide column">
+        <div class="ui placeholder segment red">
+            <div class="ui icon header">
+                <h2>Total remaining in Credit Fund</h2>
+                <i class="money green bill alternate outline icon"></i>
+                Total 50000 Tk.
+            </div>
+            <div class="ui violet button">See credit fund records</div>
+        </div>
+    </div>
+    <div class="four wide column">
+        <div class="ui placeholder segment red">
+            <div class="ui icon header">
+                <h2>Total expends in this month</h2>
+                <i class="money red bill alternate outline icon"></i>
+                Total 50000 Tk.
+            </div>
+            <div class="ui purple button">See expend records</div>
+        </div>
+    </div>
+    <div class="four wide column">
+        <div class="ui placeholder segment red">
+            <div class="ui icon header">
+                <h2>Total unauthorized expends</h2>
+                <i class="money yellow bill alternate outline icon"></i>
+                Total 50000 Tk.
+            </div>
+            <div class="ui red button">See them all</div>
+        </div>
+    </div>
+</div>
+<div class="ui grid">
+    <div class="four wide column">
+        <div class="ui blue segment">
+            <h3>Credit Fund Group Headings</h3>
+            <div class="ui divider"></div>
+            <div class="ui very relaxed divided list">
+                <div class="item" *ngFor="let data of all_sources">
+                    <div class="content">
+                        <a class="header">{{ data.source_name }}</a>
+                        <div class="description">Last updated: <b>{{ data.updated | date }}</b></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="eight wide column">
+        <table class="ui blue celled attached table">
+            <thead>
+                <tr>
+                    <th colspan="5">
+                        <h3>Today's expend record logs</h3>
+                    </th>
+                </tr>
+                <tr>
+                    <th>Expend group head</th>
+                    <!--Add Shorting TechnoLogy Here-->
+                    <th>Expended by</th>
+                    <th>Added by</th>
+                    <th>Amount in Tk</th>
+                    <th>Added Time</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let data of todays_all_expenditures">
+                    <td><a class="header" href="#">{{ data.expend_heading_name | titlecase }}</a></td>
+                    <td>{{ data.expend_by | titlecase }}</td>
+                    <td>{{ data.added_by | titlecase }}</td>
+                    <!--Data should be from rest api server-->
+                    <td>{{ data.amount }}</td>
+                    <td>{{ data.added | date:'shortTime' }}</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="ui bottom attached error message" *ngIf="get_expend_length() == 0">
+            <b>No records to show.</b>
+        </div>
+    </div>
+    <div class="four wide column">
+        <div class="ui blue segment">
+            <h3>Expenditure Group Headings</h3>
+            <div class="ui divider"></div>
+            <div class="ui very relaxed divided list">
+                <div class="item" *ngFor="let data of all_headings">
+                    <div class="content">
+                        <a class="header">{{ data.heading_name }}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

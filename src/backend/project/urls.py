@@ -24,8 +24,8 @@ urlpatterns = [
 # ALL APS RELATED URLs
 urlpatterns += [
     path('api/', include([
-        path('user/', include('base_user.api.urls', namespace='base_user_app')),
-        path('sub_user/', include('sub_user.api.urls', namespace='sub_user_app')),
+        path('user/', include('base_user.api.urls', namespace='base_user')),
+        path('sub_user/', include('sub_user.api.urls', namespace='sub_user')),
         path('company/', include('company.api.urls', namespace='company_app')),
         path('credit/', include('credit.api.urls', namespace='credit_app')),
         path('expenditure/', include('expenditure.api.urls', namespace='expenditure_app')),
@@ -36,7 +36,6 @@ urlpatterns += [
 # ALl REST_FRAMEWORK URLs
 urlpatterns += [
     re_path(r'^rest-auth/', include('rest_auth.urls')),
-    re_path(r'^rest-auth/registration/', include('rest_auth.registration.urls')),
     re_path(r'^api-token-verify/', verify_jwt_token),
     re_path(r'^api-token-refresh/', refresh_jwt_token),
 ]

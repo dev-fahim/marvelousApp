@@ -34,7 +34,7 @@ class ExpenditureHeadingModelSerializer(serializers.ModelSerializer):
         return obj
 
 
-class ExpenditureRecordModelSerializer(serializers.ModelSerializer):
+class ExpenditureRecordModelSafeSerializer(serializers.ModelSerializer):
     edit_url = serializers.HyperlinkedIdentityField(
         view_name='expenditure_app:record_view_update_delete',
         lookup_field='uuid'
@@ -45,10 +45,13 @@ class ExpenditureRecordModelSerializer(serializers.ModelSerializer):
         lookup_field='uuid'
     )
 
+    expend_heading_name = serializers.SerializerMethodField()
+    added_by = serializers.SerializerMethodField()
+
     class Meta:
         model = ExpenditureRecordModel
         exclude = ('base_user', )
-        read_only_fields = ('uuid', 'added_by', 'added', 'updated')
+        read_only_fields = ('uuid', 'added_by', 'added', 'updated', 'is_verified')
 
     def request_data(self):
         return self.context['request']
@@ -102,4 +105,18 @@ class ExpenditureRecordModelSerializer(serializers.ModelSerializer):
 
             return obj
         return None
+    
+    @staticmethod
+    def get_expend_heading_name(obj):
+        return obj.expend_heading.__str__()
+    
+    @staticmethod
+    def get_added_by(obj):
+        return obj.added_by.__str__()
 
+
+class ExpenditureRecordModelSerializer(ExpenditureRecordModelSafeSerializer):
+    class Meta:
+        model = ExpenditureRecordModel
+        exclude = ('base_user', )
+        read_only_fields = ('uuid', 'added_by', 'added', 'updated')

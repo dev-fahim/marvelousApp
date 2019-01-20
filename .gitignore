@@ -1,7 +1,51 @@
+# See http://help.github.com/ignore-files/ for more about ignoring files.
+
+# compiled output
+/src/frontend/project/dist
+/src/frontend/project/tmp
+/src/frontend/project/out-tsc
+
+# dependencies
+/src/frontend/project/node_modules/
+
+# profiling files
+/src/frontend/project/chrome-profiler-events.json
+/src/frontend/project/speed-measure-plugin.json
+/src/frontend/semantic-ui/
+
+# IDEs and editors
+/src/frontend/project/.idea
+/src/frontend/project/.project
+/src/frontend/project/.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# IDE - VSCode
+/src/frontend/project/.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.history/*
+
+# misc
+/.sass-cache
+/connect.lock
+/coverage
+/libpeerconnection.log
+npm-debug.log
+yarn-error.log
+testem.log
+/typings
+
+# System Files
+.DS_Store
+Thumbs.db
+
 # PyCharm
 sendgrid.env
-*idea/*
-.idea/*
 .idea/
 .vscode/
 # Django

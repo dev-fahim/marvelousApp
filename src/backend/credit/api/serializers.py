@@ -8,6 +8,7 @@ class CreditFundModelSerializer(serializers.ModelSerializer):
         view_name='credit_app:fund_view_update_delete',
         lookup_field='uuid'
     )
+    source = serializers.SerializerMethodField()
 
     class Meta:
         model = CreditFundModel
@@ -37,6 +38,10 @@ class CreditFundModelSerializer(serializers.ModelSerializer):
         )
 
         return obj
+    
+    @staticmethod
+    def get_source(obj):
+        return obj.__str__()
 
 
 class CreditFundSourceModelSerializer(serializers.ModelSerializer):
