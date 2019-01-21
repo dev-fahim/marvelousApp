@@ -16,7 +16,6 @@ export class TokenInterceptor implements HttpInterceptor {
   constructor(public auth: AuthService) {}
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     
-    console.log(this.auth.getToken())
     const authRequest = request.clone({
       headers: new HttpHeaders({
         'Content-Type': 'application/json',

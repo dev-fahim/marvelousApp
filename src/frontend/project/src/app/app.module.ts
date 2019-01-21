@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'; 
 import { JwtModule } from '@auth0/angular-jwt';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -21,6 +21,11 @@ import { RecordComponent } from './expenditure/record/record.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ExpenditureComponent } from './expenditure/expenditure.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { RecordFilterComponent } from './expenditure/record/record-filter/record-filter.component';
+import { NotificationMessageComponent } from './notification-message/notification-message.component';
+import { DataService } from './data.service';
+import { NoAccessComponent } from './no-access/no-access.component';
+import { UserCanEditService } from './auth/user-can-edit.service';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -36,7 +41,10 @@ export function tokenGetter() {
     RecordEditComponent,
     RecordComponent,
     DashboardComponent,
-    ExpenditureComponent
+    ExpenditureComponent,
+    RecordFilterComponent,
+    NotificationMessageComponent,
+    NoAccessComponent
   ],
   imports: [
     FormsModule,
@@ -48,13 +56,14 @@ export function tokenGetter() {
     }),
     BrowserModule,
     AppRoutingModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    ReactiveFormsModule
   ],
   providers: [AuthService, FundService, SourceService, {
     provide: HTTP_INTERCEPTORS,
     useClass: TokenInterceptor,
     multi: true
-  }, HeadingService],
+  }, HeadingService, DataService, UserCanEditService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

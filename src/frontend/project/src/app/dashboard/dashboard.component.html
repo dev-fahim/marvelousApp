@@ -1,4 +1,20 @@
-<div class="ui grid">
+<div class="ui four column stackable grid" *ngIf="is_loading()">
+    <div class="column" *ngFor="let n of arr">
+        <div class="ui raised segment">
+            <div class="ui placeholder">
+                <div class="image header">
+                    <div class="line"></div>
+                    <div class="line"></div>
+                </div>
+                <div class="paragraph">
+                    <div class="medium line"></div>
+                    <div class="short line"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="ui grid" *ngIf="!is_loading()">
     <div class="four wide column">
         <div class="ui placeholder segment red">
             <div class="ui icon header">
@@ -43,7 +59,23 @@
 </div>
 <div class="ui grid">
     <div class="four wide column">
-        <div class="ui blue segment">
+        <div class="ui segment" *ngIf="is_loading()">
+            <div class="ui placeholder">
+                <div class="paragraph">
+                    <div class="line"></div>
+                    <div class="line"></div>
+                    <div class="line"></div>
+                    <div class="line"></div>
+                    <div class="line"></div>
+                </div>
+                <div class="paragraph">
+                    <div class="line"></div>
+                    <div class="line"></div>
+                    <div class="line"></div>
+                </div>
+            </div>
+        </div>
+        <div class="ui blue segment" *ngIf="!is_loading()">
             <h3>Credit Fund Group Headings</h3>
             <div class="ui divider"></div>
             <div class="ui very relaxed divided list">
@@ -57,11 +89,29 @@
         </div>
     </div>
     <div class="eight wide column">
-        <table class="ui blue celled attached table">
+        <div class="ui segment" *ngIf="is_loading()">
+            <div class="ui placeholder">
+                <div class="paragraph">
+                    <div class="line"></div>
+                    <div class="line"></div>
+                    <div class="line"></div>
+                    <div class="line"></div>
+                    <div class="line"></div>
+                </div>
+                <div class="paragraph">
+                    <div class="line"></div>
+                    <div class="line"></div>
+                    <div class="line"></div>
+                </div>
+            </div>
+        </div>
+        <table class="ui blue celled attached table" *ngIf="!is_loading()">
             <thead>
                 <tr>
                     <th colspan="5">
-                        <h3>Today's expend record logs</h3>
+                        <h3><a routerLink="/expenditure/record/list-add" [queryParams]="{ 
+                            added_date: today
+                        }">Today's expend record logs</a></h3>
                     </th>
                 </tr>
                 <tr>
@@ -75,7 +125,11 @@
             </thead>
             <tbody>
                 <tr *ngFor="let data of todays_all_expenditures">
-                    <td><a class="header" href="#">{{ data.expend_heading_name | titlecase }}</a></td>
+                    <td><a class="header" routerLink="/expenditure/record/list-add" [queryParams]="{ 
+                            added_date: today,
+                            heading: data.expend_heading_name
+                        }">{{
+                            data.expend_heading_name | titlecase }}</a></td>
                     <td>{{ data.expend_by | titlecase }}</td>
                     <td>{{ data.added_by | titlecase }}</td>
                     <!--Data should be from rest api server-->
@@ -89,13 +143,33 @@
         </div>
     </div>
     <div class="four wide column">
-        <div class="ui blue segment">
+        <div class="ui segment" *ngIf="is_loading()">
+            <div class="ui placeholder">
+                <div class="paragraph">
+                    <div class="line"></div>
+                    <div class="line"></div>
+                    <div class="line"></div>
+                    <div class="line"></div>
+                    <div class="line"></div>
+                </div>
+                <div class="paragraph">
+                    <div class="line"></div>
+                    <div class="line"></div>
+                    <div class="line"></div>
+                </div>
+            </div>
+        </div>
+        <div class="ui blue segment" *ngIf="!is_loading()">
             <h3>Expenditure Group Headings</h3>
             <div class="ui divider"></div>
             <div class="ui very relaxed divided list">
                 <div class="item" *ngFor="let data of all_headings">
                     <div class="content">
-                        <a class="header">{{ data.heading_name }}</a>
+                        <a class="header" routerLink="/expenditure/record/list-add" [queryParams]="{ 
+                            heading: data.heading_name
+                        }">{{
+                            data.heading_name }}</a>
+                        <div class="description">Last updated: <b>{{ data.updated | date }}</b></div>
                     </div>
                 </div>
             </div>

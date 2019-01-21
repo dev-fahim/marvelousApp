@@ -29,6 +29,8 @@ urlpatterns += [
         path('company/', include('company.api.urls', namespace='company_app')),
         path('credit/', include('credit.api.urls', namespace='credit_app')),
         path('expenditure/', include('expenditure.api.urls', namespace='expenditure_app')),
+        path('view/', include('service.api.urls')),
+        path('user/extra/', include('user.api.urls'))
     ])),
 ]
 # END HERE

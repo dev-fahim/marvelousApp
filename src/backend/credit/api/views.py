@@ -72,7 +72,7 @@ class CreditFundListAPIView(CreditFundListCreateAPIView):
             return self.request.user.base_user.credit_funds.all()
         elif SubUserModel.objects.filter(root_user=self.request.user).exists():
             sub_user = self.request.user.root_sub_user
-            base_user = sub_user.base_users
+            base_user = sub_user.base_user
             return CreditFundModel.objects.filter(base_user=base_user)
         return None
 
@@ -82,10 +82,16 @@ class CreditFundListAPIView(CreditFundListCreateAPIView):
 
 class CreditFundSettingsView(generics.ListAPIView):
     serializer_class = serializers.CreditFundSettingsModelSerializer
-    permission_classes = [permissions.OnlyBaseUser, ]
+    permission_classes = [permissions.BaseUserOrSubUser, ]
 
     def get_queryset(self):
-        return CreditFundSettingsModel.objects.filter(base_user=self.request.user.base_user)
+        base_user = None
+        if BaseUserModel.objects.filter(base_user=self.request.user).exists():
+            base_user = self.request.user.base_user
+        elif SubUserModel.objects.filter(root_user=self.request.user).exists():
+            sub_user = self.request.user.root_sub_user
+            base_user = sub_user.base_user
+        return CreditFundSettingsModel.objects.filter(base_user=base_user)
 
 
 class CreditFundSettingsEditView(generics.RetrieveUpdateAPIView):

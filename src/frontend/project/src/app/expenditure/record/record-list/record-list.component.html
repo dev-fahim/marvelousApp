@@ -1,6 +1,6 @@
 <div class="ui grid">
   <div class="four wide column">
-    <app-record-add></app-record-add>
+    <app-record-add (expenditure_added)="onAddExpenditure($event)"></app-record-add>
   </div>
   <div class="twelve wide column">
     <div class="ui segment" *ngIf="is_loading()">
@@ -19,7 +19,8 @@
         </div>
       </div>
     </div>
-    <table class="ui placeholder blue celled attached table" *ngIf="!is_loading()">
+    <app-record-filter (filter_data)="onFilter($event)"></app-record-filter>
+    <table class="ui placeholder violet celled table fluid" *ngIf="!is_loading()">
       <thead>
         <tr>
           <th colspan="6">
@@ -37,8 +38,9 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let data of todays_all_expenditures">
-          <td><a class="header" href="#">{{ data.expend_heading_name | titlecase }}</a></td>
+        <tr *ngFor="let data of all_expenditures">
+          <td><a class="header" [routerLink]="[ '/expenditure/record/edit', data.uuid ]">{{ data.expend_heading_name |
+              titlecase }}</a></td>
           <td>{{ data.expend_by | titlecase }}</td>
           <td>{{ data.added_by | titlecase }}</td>
           <!--Data should be from rest api server-->

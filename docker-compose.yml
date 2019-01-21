@@ -8,13 +8,3 @@ services:
       - ./src/backend:/code
     ports:
       - "8000:8000"
-  
-  marvelous_app_angular:
-    build: ./src/frontend
-    command: ng serve --host 0.0.0.0 --port 4200
-    volumes:
-      - ./src/frontend:/code
-    ports:
-      - "4200:4200"
-    depends_on: 
-      - marvelous_app_django

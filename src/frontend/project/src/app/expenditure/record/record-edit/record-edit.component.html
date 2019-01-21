@@ -1,3 +1,94 @@
-<p>
-  record-edit works!
-</p>
+<div class="ui error message" *ngIf="HTTP_404_ERROR">
+  <div class="header">
+    404, Not found
+  </div>
+  <p>
+    Expenditure record not found.
+  </p>
+</div>
+<div class="ui error message" *ngIf="get_error.has_error">
+  <div class="header">
+    Error!
+  </div>
+  <p>
+    {{ get_error.messege }}
+  </p>
+</div>
+<div class="ui error message" *ngIf="FUND_LOCKED_ERROR">
+  <div class="header">
+    Fund is now locked
+  </div>
+  <p>
+    Fund is locked. So you can't edit record.
+  </p>
+</div>
+<div class="ui positive message" *ngIf="get_success">
+  <div class="header">
+    Success
+  </div>
+  <p>
+    Record has been updated successfuly.
+  </p>
+  <a class="ui green button" [routerLink]="[ '/expenditure/record/list-add/' ]"><i class="arrow left icon"></i>Go back</a>
+</div>
+<div class="ui positive message" *ngIf="get_deleted">
+  <div class="header">
+    Success
+  </div>
+  <p>
+    Record has been deleted successfuly.
+  </p>
+  <a class="ui green button" [routerLink]="[ '/expenditure/record/list-add/' ]"><i class="arrow left icon"></i>Go back</a>
+</div>
+<div class="ui grid" *ngIf="!(HTTP_404_ERROR || get_deleted)">
+  <div class="six wide column">
+    <div class="ui segment">
+      <h3>Edit expenditure record</h3>
+      <div class="ui divider"></div>
+      <form class="ui form" [formGroup]='form' (ngSubmit)="onSubmit()">
+        <div class="field" [ngClass]="{'error': expend_heading.touched && expend_by.invalid}">
+          <label>Expend Heading</label>
+          <select formControlName="expend_heading">
+            <option value="">None</option>
+            <option value="{{ data.id }}" *ngFor="let data of all_headings">{{ data.heading_name }}</option>
+          </select>
+        </div>
+        <div class="field" [ngClass]="{'error': expend_by.touched && expend_by.invalid}">
+          <label>Expend by</label>
+          <input type="text" formControlName="expend_by" placeholder="Expend by">
+        </div>
+        <div class="field" [ngClass]="{'error': description.touched && expend_by.invalid}">
+          <label>Description</label>
+          <textarea formControlName="description" placeholder="Description"></textarea>
+        </div>
+        <div class="field" [ngClass]="{'error': amount.touched && expend_by.invalid}">
+          <label>Amount</label>
+          <input type="number" formControlName="amount" placeholder="Amount">
+        </div>
+        <div class="field">
+          <label>Authorized</label>
+          <select formControlName="is_verified">
+            <option value="">Default</option>
+            <option value="true">Yes</option>
+            <option value="false">No</option>
+          </select>
+        </div>
+        <div class="field" [ngClass]="{'error': expend_time.touched && expend_by.invalid}">
+          <label>Expend Date & Time. Previous value was {{ expenditure_data.expend_time | date:'medium' }}</label>
+          <input type="datetime-local" formControlName="expend_time" placeholder="Expend Date & Time">
+        </div>
+        <button class="ui labeled icon button purple" type="submit"><i class="arrow up icon"></i>Update record</button>
+        <button class="ui right labeled icon button yellow" type="reset"><i class="redo icon"></i>Reset</button>
+        <a class="ui blue button" [routerLink]="[ '/expenditure/record/list-add/' ]"><i class="arrow left icon"></i>Go
+          back</a>
+      </form>
+      <div class="ui warning message">
+        <div class="header">
+          Important
+        </div>
+        In the form all fields are must be filled and valid.
+      </div>
+      <button class="ui labeled icon button red" (click)="onDelete()"><i class="close icon"></i>Delete</button>
+    </div>
+  </div>
+</div>

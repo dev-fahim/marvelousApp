@@ -12,6 +12,11 @@ export interface FundListFilter {
   search: string
 }
 
+export interface FundStatus {
+  url: string;
+  is_not_locked: boolean;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -44,5 +49,9 @@ export class FundService {
 
   add_funds(data: any) {
     return this._http.post(LOCAL_REST_API_SERVER + 'credit/fund/list-add/', JSON.stringify(data))
+  }
+
+  get_fund_status() {
+    return this._http.get<FundStatus[]>(LOCAL_REST_API_SERVER + 'credit/fund/settings/')
   }
 }

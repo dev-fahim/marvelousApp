@@ -1,6 +1,6 @@
 from rest_framework import generics
 from sub_user.api.serializers import RootUserModelSerializer, SubUserModelSerializers
-from project.permissions import OnlyBaseUser
+from project.permissions import OnlyBaseUser, OnlySubUser
 
 
 class SubUserCreateAPIView(generics.CreateAPIView):
@@ -25,4 +25,12 @@ class SubUserEditAPIView(generics.RetrieveUpdateDestroyAPIView):
     lookup_field = 'uuid'
 
     def get_queryset(self):
+        return self.request.user.base_user.sub_users
+
+
+class GetSubUserData(generics.RetrieveAPIView):
+    permission_classes = [OnlySubUser, ]
+    serializer_class = SubUserModelSerializers
+
+    def get_object(self):
         return self.request.user.base_user.sub_users

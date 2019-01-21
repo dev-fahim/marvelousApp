@@ -16,6 +16,9 @@ export class DashboardComponent {
   all_headings: any;
   todays_all_expenditures: any[] = [];
   myDate: any;
+  loading = true;
+  arr = [1,2,3,4]
+  today = today_date();
 
   constructor(
     public sourceService: SourceService,
@@ -29,10 +32,10 @@ export class DashboardComponent {
   }
 
   ngOnInit() {
-    const today = today_date()
     this.sourceService.get_all_sources()
       .subscribe(
         (result) => {
+          this.loading = false;
           return this.all_sources = result;
         },
         (errors) => {
@@ -42,6 +45,7 @@ export class DashboardComponent {
     this.headingService.get_all_headings()
       .subscribe(
         (result) => {
+          this.loading = false;
           return this.all_headings = result;
         },
         (errors) => {
@@ -57,13 +61,14 @@ export class DashboardComponent {
       added_before: '',
       expend_time_after: '',
       expend_time_before: '',
-      added_date: today,
+      added_date: this.today,
       heading: '',
-      ordering: '',
-      serach: '',
+      search: '',
+      ordering: ''
     })
       .subscribe(
         (result: any) => {
+          this.loading = false;
           return this.todays_all_expenditures = result;
         },
         (errors) => {
@@ -78,5 +83,9 @@ export class DashboardComponent {
 
   get_expend_length() {
     return this.todays_all_expenditures.length
+  }
+
+  is_loading() {
+    return this.loading;
   }
 }

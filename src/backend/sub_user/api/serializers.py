@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from sub_user.models import SubUserModel
 import uuid
+from user.models import UserExtraInfoModel
 from django.contrib.auth import get_user_model
 User = get_user_model()
 
@@ -14,7 +15,8 @@ class SubUserModelSerializers(serializers.ModelSerializer):
 
     class Meta:
         model = SubUserModel
-        fields = ('user_type', 'joined', 'urls', 'canAdd', 'canRetrieve', 'canEdit', 'canEdit', 'canList')
+        fields = ('user_type', 'joined', 'urls', 'canAdd', 'canRetrieve', 'canEdit', 'canEdit', 'canList', 'uuid')
+        read_only_fields = ('uuid', )
 
 
 class RootUserModelSerializer(serializers.ModelSerializer):
@@ -57,7 +59,7 @@ class RootUserModelSerializer(serializers.ModelSerializer):
             uuid=uuid.uuid4(),
             **root_sub_user_validated_data
             )
-
+        UserExtraInfoModel.objects.create(user=obj, sub_user=True)
         return obj
     
     # def update(self, instance, validated_data): 

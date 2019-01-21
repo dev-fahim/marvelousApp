@@ -1,11 +1,11 @@
-FROM node:latest
+FROM node:latest as node
 
-RUN mkdir /code
-COPY . /code
+WORKDIR /usr/src/app
 
-WORKDIR /code/project
+COPY package*.json ./
 
-RUN npm install --global @angular/cli
-RUN npm install --save
-RUN npm install --save-dev @angular-devkit/build-angular
-RUN npm update
+RUN npm install
+
+COPY . .
+
+RUN npm run build

@@ -13,5 +13,8 @@ class UserExtraInfoModel(models.Model):
     is_not_locked = models.BooleanField(default=False)
     is_active = models.BooleanField(default=False)
 
+    base_user = models.BooleanField(default=False)
+    sub_user = models.BooleanField(default=False)
+
     def __str__(self):
         return self.user.username
