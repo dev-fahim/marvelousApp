@@ -8,3 +8,4 @@ WORKDIR /code/project
 RUN npm install --global @angular/cli
 RUN npm install --save
 RUN npm install --save-dev @angular-devkit/build-angular
+RUN npm update
