@@ -28,11 +28,11 @@
             ],
             "styles": [
               "src/styles.scss",
-              "semantic/dist/semantic.min.css"
+              "semantic/dist-semantic/semantic.min.css"
             ],
             "scripts": [
               "./node_modules/jquery/dist/jquery.min.js",
-              "semantic/dist/semantic.min.js"
+              "semantic/dist-semantic/semantic.min.js"
             ]
           },
           "configurations": {
