@@ -27,7 +27,6 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss",
               "semantic/dist-semantic/semantic.min.css"
             ],
             "scripts": [
