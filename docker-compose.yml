@@ -8,3 +8,10 @@ services:
       - ./src/backend:/code
     ports:
       - "8000:8000"
+
+  marvelous_app_angular:
+    build: ./src/frontend/project
+    ports:
+      - 80:80
+    depends_on:
+      - marvelous_app_django
