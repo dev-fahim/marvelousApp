@@ -8,6 +8,8 @@ RUN npm install
 
 COPY . .
 
+RUN npm install node-sass --save-dev
+
 RUN npm run build
 
 # Stage 2
