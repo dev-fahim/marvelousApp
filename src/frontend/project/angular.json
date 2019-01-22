@@ -29,11 +29,11 @@
             "styles": [
               
               "src/styles.scss",
-              "./node_modules/semantic-ui-css/semantic.min.css"
+              "./semantic/dist/semantic.min.css"
             ],
             "scripts": [
               "./node_modules/jquery/dist/jquery.min.js",
-              "./node_modules/semantic-ui-css/semantic.min.js"
+              "./semantic/dist/semantic.min.js"
             ]
           },
           "configurations": {
