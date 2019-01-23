@@ -15,8 +15,34 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { ToolbarComponent } from './toolbar/toolbar.component';
 import { NotificationMessageComponent } from './notification-message/notification-message.component';
 import { MainAppComponent } from './main-app.component';
+import { CompanyComponent } from './company/company.component';
+import { CompanyViewComponent } from './company/company-view/company-view.component';
+import { CompanyEditComponent } from './company/company-edit/company-edit.component';
+import { CreditComponent } from './credit/credit.component';
+import { FundSourceComponent } from './credit/fund-source/fund-source.component';
+import { FundSourceAddComponent } from './credit/fund-source/fund-source-add/fund-source-add.component';
+import { FundSourceEditComponent } from './credit/fund-source/fund-source-edit/fund-source-edit.component';
+import { FundSourceListComponent } from './credit/fund-source/fund-source-list/fund-source-list.component';
+import { FundRecordComponent } from './credit/fund-record/fund-record.component';
+import { FundRecordListComponent } from './credit/fund-record/fund-record-list/fund-record-list.component';
+import { FundRecordAddComponent } from './credit/fund-record/fund-record-add/fund-record-add.component';
+import { FundRecordEditComponent } from './credit/fund-record/fund-record-edit/fund-record-edit.component';
 import { HeadingComponent } from './expenditure/heading/heading.component';
-
+import { HeadingListComponent } from './expenditure/heading/heading-list/heading-list.component';
+import { HeadingAddComponent } from './expenditure/heading/heading-add/heading-add.component';
+import { HeadingEditComponent } from './expenditure/heading/heading-edit/heading-edit.component';
+import { BaseUserComponent } from './base-user/base-user.component';
+import { BaseUserViewComponent } from './base-user/base-user-view/base-user-view.component';
+import { BaseUserEditComponent } from './base-user/base-user-edit/base-user-edit.component';
+import { SubUserComponent } from './sub-user/sub-user.component';
+import { SubUserListComponent } from './sub-user/sub-user-list/sub-user-list.component';
+import { SubUserAddComponent } from './sub-user/sub-user-add/sub-user-add.component';
+import { SubUserEditComponent } from './sub-user/sub-user-edit/sub-user-edit.component';
+import { ReportComponent } from './report/report.component';
+import { CreditFundPdfComponent } from './report/credit-fund-pdf/credit-fund-pdf.component';
+import { CreditFundCsvComponent } from './report/credit-fund-csv/credit-fund-csv.component';
+import { ExpenditureRecordPdfComponent } from './report/expenditure-record-pdf/expenditure-record-pdf.component';
+import { ExpenditureRecordCsvComponent } from './report/expenditure-record-csv/expenditure-record-csv.component';
 @NgModule({
   declarations: [
     MainAppComponent,
@@ -31,7 +57,34 @@ import { HeadingComponent } from './expenditure/heading/heading.component';
     SidebarComponent,
     ToolbarComponent,
     NotificationMessageComponent,
-    HeadingComponent
+    CompanyComponent,
+    CompanyViewComponent,
+    CompanyEditComponent,
+    CreditComponent,
+    FundSourceComponent,
+    FundSourceAddComponent,
+    FundSourceEditComponent,
+    FundSourceListComponent,
+    FundRecordComponent,
+    FundRecordListComponent,
+    FundRecordAddComponent,
+    FundRecordEditComponent,
+    HeadingComponent,
+    HeadingListComponent,
+    HeadingAddComponent,
+    HeadingEditComponent,
+    BaseUserComponent,
+    BaseUserViewComponent,
+    BaseUserEditComponent,
+    SubUserComponent,
+    SubUserListComponent,
+    SubUserAddComponent,
+    SubUserEditComponent,
+    ReportComponent,
+    CreditFundPdfComponent,
+    CreditFundCsvComponent,
+    ExpenditureRecordPdfComponent,
+    ExpenditureRecordCsvComponent
   ],
   imports: [
     CommonModule,
