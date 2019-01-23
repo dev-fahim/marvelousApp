@@ -27,7 +27,7 @@ class ExpenditureRecordModel(models.Model):
 
     amount = models.IntegerField()
     is_verified = models.BooleanField(default=False)
-    expend_time = models.DateTimeField()
+    expend_date = models.DateField()
 
     uuid = models.UUIDField(unique=True)
 

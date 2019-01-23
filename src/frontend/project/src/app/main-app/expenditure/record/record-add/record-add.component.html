@@ -1,0 +1,48 @@
+<div class="ui red segment">
+  <h3>Add expenditure record</h3>
+  <div class="ui divider"></div>
+  <div class="ui error message" *ngIf="!fund_not_locked">
+    <div class="header">
+      Fund is Locked
+    </div>
+    Currently the Fund is locked.
+  </div>
+  <div class="ui error message" *ngIf="get_form_error">
+    <div class="header">
+      Error occured
+    </div>
+    {{ message }}
+  </div>
+  <form class="ui form" [formGroup]='form' (ngSubmit)="onSubmit()">
+    <div class="field" [ngClass]="{'error': form.get('expend_heading').touched && !form.get('expend_heading').valid}">
+      <label>Expend Heading</label>
+      <select formControlName="expend_heading">
+        <option value="{{ data.id }}" *ngFor="let data of all_headings">{{ data.heading_name }}</option>
+      </select>
+    </div>
+    <div class="field" [ngClass]="{'error': form.get('expend_by').touched && !form.get('expend_by').valid}">
+      <label>Expend by</label>
+      <input type="text" formControlName="expend_by" placeholder="Expend by">
+    </div>
+    <div class="field" [ngClass]="{'error': form.get('description').touched && !form.get('description').valid}">
+      <label>Description</label>
+      <textarea formControlName="description" placeholder="Description"></textarea>
+    </div>
+    <div class="field" [ngClass]="{'error': form.get('amount').touched && !form.get('amount').valid}">
+      <label>Amount</label>
+      <input type="number" formControlName="amount" placeholder="Amount">
+    </div>
+    <div class="field" [ngClass]="{'error': form.get('expend_date').touched && !form.get('expend_date').valid}">
+      <label>Expend Date</label>
+      <input type="date" formControlName="expend_date" placeholder="Expend Date">
+    </div>
+    <button class="ui icon button purple" type="submit"><i class="add icon"></i>Add record</button>
+    <button class="ui icon button red" type="reset"><i class="redo icon"></i>Reset all</button>
+  </form>
+  <div class="ui warning message">
+    <div class="header">
+      Important
+    </div>
+    In the form all fields are must be filled and valid.
+  </div>
+</div>

@@ -25,6 +25,20 @@ class ExpenditureHeadingListCreateAPIView(generics.ListCreateAPIView):
     def get_queryset(self):
         return self.request.user.base_user.expenditure_headings.all()
 
+class ExpenditureHeadingListAPIView(generics.ListAPIView):
+    serializer_class = ExpenditureHeadingModelSerializer
+    permission_classes = [permissions.BaseUserOrSubUser, ]
+    filter_backends = (filters.SearchFilter,)
+    search_fields = ('heading_name', 'uuid', 'added', 'updated')
+
+    def get_queryset(self):
+        queryset = None
+        if BaseUserModel.objects.filter(base_user=self.request.user).exists():
+            queryset = self.request.user.base_user.expenditure_headings.all()
+        elif SubUserModel.objects.filter(root_user=self.request.user).exists():
+            queryset = self.request.user.root_sub_user.base_user.expenditure_headings.all()
+        return queryset
+
 
 class ExpenditureHeadingRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = ExpenditureHeadingModelSerializer
@@ -50,9 +64,9 @@ class ExpenditureRecordCreateAPIView(generics.CreateAPIView):
         'added',
         'updated',
         'expend_by',
-        'expend_time'
+        'expend_date'
     )
-    ordering_fields = ('added', 'expend_time', 'amount', 'expend_heading__heading_name')
+    ordering_fields = ('added', 'expend_date', 'amount', 'expend_heading__heading_name')
     ordering = ('-id',)
 
     def get_queryset(self):
@@ -60,7 +74,7 @@ class ExpenditureRecordCreateAPIView(generics.CreateAPIView):
         if BaseUserModel.objects.filter(base_user=self.request.user).exists():
             queryset = self.request.user.base_user.all_expenditure_records.all()
         elif SubUserModel.objects.filter(root_user=self.request.user).exists():
-            queryset = ExpenditureRecordModel.objects.filter(base_user=self.request.user.root_sub_user.base_user)
+            queryset = self.request.user.root_sub_user.base_user.all_expenditure_records.all()
         return queryset
 
 
@@ -78,9 +92,9 @@ class ExpenditureRecordListAPIView(generics.ListAPIView):
         'added',
         'updated',
         'expend_by',
-        'expend_time'
+        'expend_date'
     )
-    ordering_fields = ('added', 'expend_time', 'amount', 'expend_heading__heading_name')
+    ordering_fields = ('added', 'expend_date', 'amount', 'expend_heading__heading_name')
     ordering = ('-id',)
 
     def get_queryset(self):
@@ -88,7 +102,7 @@ class ExpenditureRecordListAPIView(generics.ListAPIView):
         if BaseUserModel.objects.filter(base_user=self.request.user).exists():
             queryset = self.request.user.base_user.all_expenditure_records.all()
         elif SubUserModel.objects.filter(root_user=self.request.user).exists():
-            queryset = ExpenditureRecordModel.objects.filter(base_user=self.request.user.root_sub_user.base_user)
+            queryset = self.request.user.root_sub_user.base_user.all_expenditure_records.all()
         return queryset
 
 
@@ -105,7 +119,7 @@ class ExpenditureRecordRetrieveAPIView(generics.RetrieveAPIView):
         if BaseUserModel.objects.filter(base_user=self.request.user).exists():
             queryset = self.request.user.base_user.all_expenditure_records.all()
         elif SubUserModel.objects.filter(root_user=self.request.user).exists():
-            queryset = ExpenditureRecordModel.objects.filter(base_user=self.request.user.root_sub_user.base_user)
+            queryset = self.request.user.root_sub_user.base_user.all_expenditure_records.all()
         return queryset
 
 
@@ -123,13 +137,13 @@ class ExpenditureRecordRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestr
         if BaseUserModel.objects.filter(base_user=self.request.user).exists():
             queryset = self.request.user.base_user.all_expenditure_records.all()
         elif SubUserModel.objects.filter(root_user=self.request.user).exists():
-            queryset = ExpenditureRecordModel.objects.filter(base_user=self.request.user.root_sub_user.base_user)
+            queryset = self.request.user.root_sub_user.base_user.all_expenditure_records.all()
         return queryset
 
 
 class ExpenditureCheckoutToday(ExpenditureRecordCreateAPIView):
     headings = ['Head', 'Added by', 'Expended by', 'Amount', 'Expend time', 'Record added']
-    attributes = ['expend_heading', 'added_by', 'expend_by', 'amount', 'expend_time', 'added']
+    attributes = ['expend_heading', 'added_by', 'expend_by', 'amount', 'expend_date', 'added']
     mimetype = 'text/csv'
     from_email = os.environ.get('EMAIL')
 

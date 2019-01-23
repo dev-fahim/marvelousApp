@@ -13,7 +13,6 @@ export interface FundListFilter {
 }
 
 export interface FundStatus {
-  url: string;
   is_not_locked: boolean;
 }
 
@@ -33,7 +32,7 @@ export class FundService {
     ordering: '',
     search: ''
   }) {
-    return this._http.get(LOCAL_REST_API_SERVER + 'credit/fund/list-add/', {
+    return this._http.get(LOCAL_REST_API_SERVER + 'credit/fund/list/', {
       params:
       {
         added: filters.added,
@@ -52,6 +51,6 @@ export class FundService {
   }
 
   get_fund_status() {
-    return this._http.get<FundStatus[]>(LOCAL_REST_API_SERVER + 'credit/fund/settings/')
+    return this._http.get<FundStatus>(LOCAL_REST_API_SERVER + 'credit/fund/settings/')
   }
 }

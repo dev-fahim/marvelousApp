@@ -5,6 +5,7 @@ app_name = 'expenditure_app'
 
 urlpatterns = [
     path('heading/', include([
+        path('list/', views.ExpenditureHeadingListAPIView.as_view(), name="heading_list"),
         path('list-add/', views.ExpenditureHeadingListCreateAPIView.as_view(), name='heading_list_add'),
         path('view-update-delete/<uuid:uuid>/',
              views.ExpenditureHeadingRetrieveUpdateDestroyAPIView.as_view(), name='heading_view_update_delete')

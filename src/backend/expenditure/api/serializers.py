@@ -58,20 +58,20 @@ class ExpenditureRecordModelSafeSerializer(serializers.ModelSerializer):
 
     def logged_in_user(self):
         return self.request_data().user
-    
+    '''
     def validate_amount(self, value):
         base_user = BaseUserModel.objects.filter(base_user=self.logged_in_user()) 
         sub_user = SubUserModel.objects.filter(root_user=self.logged_in_user())
         expend_obj = []
+        credit_fund_obj = []
 
         if base_user.exists() is True:
-            expend_obj = ExpenditureRecordModel.objects.filter(base_user=self.logged_in_user().base_user)
-            credit_fund_obj = CreditFundModel.objects.filter(base_user=self.logged_in_user().base_user)
+            expend_obj = self.logged_in_user().base_user.all_expenditure_records.all()
+            credit_fund_obj = self.logged_in_user().base_user.credit_funds.all()
         elif sub_user.exists() is True:
-            base_user = sub_user.base_user
-            expend_obj = ExpenditureRecordModel.objects.filter(base_user=base_user)
-            credit_fund_obj = CreditFundModel.objects.filter(base_user=base_user)
-        
+            expend_obj = self.logged_in_user().root_sub_user.base_user.all_expenditure_records.all()
+            credit_fund_obj = self.logged_in_user().root_sub_user.base_user.credit_funds.all()
+
         all_credit_fund_amounts = [obj.amount for obj in credit_fund_obj]
         all_record_amounts = [obj.amount for obj in expend_obj]
 
@@ -84,27 +84,91 @@ class ExpenditureRecordModelSafeSerializer(serializers.ModelSerializer):
         if credit_fund_value_after_entry >= 0:
             return value
         raise serializers.ValidationError(detail='Credit Fund will be exceede! So you cannot add any more records. After authority add more Credit Fund in Database you can entry more records.')
-
+    '''
     def create(self, validated_data):
-        if BaseUserModel.objects.filter(base_user=self.logged_in_user()).exists():
-            obj = ExpenditureRecordModel.objects.create(
-                added_by=self.logged_in_user(),
-                base_user=self.logged_in_user().base_user,
-                uuid=uuid.uuid4(),
-                **validated_data
-            )
+        value = validated_data.get('amount')
+        base_user = BaseUserModel.objects.filter(base_user=self.logged_in_user()) 
+        sub_user = SubUserModel.objects.filter(root_user=self.logged_in_user())
+        expend_obj = []
+        credit_fund_obj = []
 
-            return obj
-        elif SubUserModel.objects.filter(root_user=self.logged_in_user()).exists():
-            obj = ExpenditureRecordModel.objects.create(
-                added_by=self.logged_in_user(),
-                base_user=self.logged_in_user().root_sub_user.base_user,
-                uuid=uuid.uuid4(),
-                **validated_data
-            )
+        if base_user.exists() is True:
+            expend_obj = self.logged_in_user().base_user.all_expenditure_records.all()
+            credit_fund_obj = self.logged_in_user().base_user.credit_funds.all()
+        elif sub_user.exists() is True:
+            expend_obj = self.logged_in_user().root_sub_user.base_user.all_expenditure_records.all()
+            credit_fund_obj = self.logged_in_user().root_sub_user.base_user.credit_funds.all()
 
-            return obj
-        return None
+        all_credit_fund_amounts = [obj.amount for obj in credit_fund_obj]
+        all_record_amounts = [obj.amount for obj in expend_obj]
+
+        total_pre_credit_fund_amount = utils.sum_int_of_array(all_credit_fund_amounts)
+        total_pre_record_amount = utils.sum_int_of_array(all_record_amounts)
+
+        record_value_after_entry = total_pre_record_amount + value
+        credit_fund_value_after_entry = total_pre_credit_fund_amount - record_value_after_entry
+        print(credit_fund_value_after_entry)
+
+        if credit_fund_value_after_entry >= 0:
+            if base_user.exists():
+                obj = ExpenditureRecordModel.objects.create(
+                    added_by=self.logged_in_user(),
+                    base_user=self.logged_in_user().base_user,
+                    uuid=uuid.uuid4(),
+                    **validated_data
+                )
+
+                return obj
+            elif sub_user.exists():
+                obj = ExpenditureRecordModel.objects.create(
+                    added_by=self.logged_in_user(),
+                    base_user=self.logged_in_user().root_sub_user.base_user,
+                    uuid=uuid.uuid4(),
+                    **validated_data
+                )
+
+                return obj
+            return None
+        raise serializers.ValidationError(detail='Credit Fund will be exceede! So you cannot add any more records. After authority add more Credit Fund in Database you can entry more records.')
+
+    
+    def update(self, instance, validated_data):
+        raw_amount = instance.amount
+        new_amount = validated_data.get('amount', instance.amount)
+        base_user = BaseUserModel.objects.filter(base_user=self.logged_in_user()) 
+        sub_user = SubUserModel.objects.filter(root_user=self.logged_in_user())
+        expend_obj = []
+        credit_fund_obj = []
+
+        if base_user.exists() is True:
+            expend_obj = self.logged_in_user().base_user.all_expenditure_records.all()
+            credit_fund_obj = self.logged_in_user().base_user.credit_funds.all()
+        elif sub_user.exists() is True:
+            expend_obj = self.logged_in_user().root_sub_user.base_user.all_expenditure_records.all()
+            credit_fund_obj = self.logged_in_user().root_sub_user.base_user.credit_funds.all()
+
+        all_credit_fund_amounts = [obj.amount for obj in credit_fund_obj]
+        all_record_amounts = [obj.amount for obj in expend_obj]
+
+        total_pre_credit_fund_amount = utils.sum_int_of_array(all_credit_fund_amounts)
+        total_pre_record_amount = utils.sum_int_of_array(all_record_amounts)
+
+        record_value_after_entry = total_pre_record_amount + new_amount - raw_amount
+        credit_fund_value_after_entry = total_pre_credit_fund_amount - record_value_after_entry
+        print(credit_fund_value_after_entry)
+
+        if credit_fund_value_after_entry >= 0:
+            instance.expend_heading = validated_data.get('expend_heading', instance.expend_heading)
+            instance.expend_by = validated_data.get('expend_by', instance.expend_by)
+            instance.description = validated_data.get('description', instance.description)
+            instance.amount = validated_data.get('amount', instance.amount)
+            instance.expend_date = validated_data.get('expend_date', instance.expend_date)
+
+            instance.save()
+
+            return instance
+        raise serializers.ValidationError(detail='Credit Fund will be exceede! So you cannot add any more records. After authority add more Credit Fund in Database you can entry more records.')
+
     
     @staticmethod
     def get_expend_heading_name(obj):

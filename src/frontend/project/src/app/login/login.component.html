@@ -1,0 +1,26 @@
+<div class="ui three column centered stackable grid">
+  <div class="column">
+    <div class="login-form"></div>
+    <div class="ui segment">
+      <h3>Signin here</h3>
+      <div class="ui error message" *ngIf="get_error">
+        <h3 class="header">Login Error</h3>
+        <p class="content">
+          {{ message }}
+        </p>
+      </div>
+      <div class="ui divider"></div>
+      <form class="ui form" (ngSubmit)="onSubmit()" [formGroup]="form">
+        <div class="field">
+          <label>Username</label>
+          <input type="text" placeholder="Username" formControlName="username">
+        </div>
+        <div class="field">
+          <label>Password</label>
+          <input type="password" placeholder="Password" formControlName="password">
+        </div>
+        <button class="ui primary button fluid">Signin</button>
+      </form>
+    </div>
+  </div>
+</div>

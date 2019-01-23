@@ -11,7 +11,7 @@ export class SourceService {
   constructor(private _http: HttpClient) { }
 
   get_all_sources(search: string = '') {
-    return this._http.get(LOCAL_REST_API_SERVER + 'credit/source/list-add/', { params: { search: search } })
+    return this._http.get(LOCAL_REST_API_SERVER + 'credit/source/list/', { params: { search: search } })
   }
 
   add_sources(data: any) {

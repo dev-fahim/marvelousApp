@@ -13,10 +13,16 @@ class SubUserModelSerializers(serializers.ModelSerializer):
         read_only=True
     )
 
+    username = serializers.SerializerMethodField()
+
     class Meta:
         model = SubUserModel
-        fields = ('user_type', 'joined', 'urls', 'canAdd', 'canRetrieve', 'canEdit', 'canEdit', 'canList', 'uuid')
-        read_only_fields = ('uuid', )
+        fields = ('username', 'user_type', 'joined', 'urls', 'canAdd', 'canRetrieve', 'canEdit', 'canEdit', 'canList', 'uuid')
+        read_only_fields = ('uuid', 'username')
+    
+    @staticmethod
+    def get_username(obj):
+        return obj.__str__()
 
 
 class RootUserModelSerializer(serializers.ModelSerializer):

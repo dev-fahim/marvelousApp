@@ -100,12 +100,7 @@ class CreditFundsAccordingToSourcesSerializer(serializers.ModelSerializer):
 
 
 class CreditFundSettingsModelSerializer(serializers.ModelSerializer):
-    edit_urls = serializers.HyperlinkedIdentityField(
-        view_name='credit_app:fund_settings_edit',
-        lookup_field='pk',
-        read_only=True
-    )
 
     class Meta:
         model = CreditFundSettingsModel
-        fields = ('edit_urls', 'is_not_locked')
+        fields = ('is_not_locked', )

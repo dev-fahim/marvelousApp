@@ -1,36 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ee5b8223-2822-4c20-b25c-dcc7e4f9e64a" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/backend/base_user/api/serializers.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/backend/base_user/api/serializers.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/backend/base_user/api/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/backend/base_user/api/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/backend/base_user/api/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/backend/base_user/api/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/backend/credit/api/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/backend/credit/api/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/backend/expenditure/api/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/backend/expenditure/api/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/backend/project/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/backend/project/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/backend/project/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/backend/project/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/backend/sub_user/api/serializers.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/backend/sub_user/api/serializers.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/backend/sub_user/api/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/backend/sub_user/api/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/backend/sub_user/api/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/backend/sub_user/api/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/backend/user/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/backend/user/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/project/src/app/app.component.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/project/src/app/app.component.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/project/src/app/app.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/project/src/app/app.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/project/src/app/app.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/project/src/app/app.module.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/project/src/app/dashboard/dashboard.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/project/src/app/dashboard/dashboard.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/project/src/app/dashboard/dashboard.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/project/src/app/dashboard/dashboard.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/project/src/app/expenditure/record/record-add/record-add.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/project/src/app/expenditure/record/record-add/record-add.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/project/src/app/expenditure/record/record-add/record-add.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/project/src/app/expenditure/record/record-add/record-add.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/project/src/app/expenditure/record/record-edit/record-edit.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/project/src/app/expenditure/record/record-edit/record-edit.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/project/src/app/expenditure/record/record-edit/record-edit.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/project/src/app/expenditure/record/record-edit/record-edit.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/project/src/app/expenditure/record/record-list/record-list.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/project/src/app/expenditure/record/record-list/record-list.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/project/src/app/expenditure/record/record-list/record-list.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/project/src/app/expenditure/record/record-list/record-list.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/project/src/app/service/credit/fund.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/project/src/app/service/credit/fund.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/project/src/app/service/expenditure/record.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/project/src/app/service/expenditure/record.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontend/project/src/styles.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontend/project/src/styles.scss" afterDir="false" />
-    </list>
+    <list default="true" id="ee5b8223-2822-4c20-b25c-dcc7e4f9e64a" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -366,7 +337,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="22" width="1936" height="1066" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.6527415" visible="true" weight="0.22023182" />
       <window_info id="Structure" order="1" sideWeight="0.34725848" side_tool="true" visible="true" weight="0.22023182" />

@@ -7,7 +7,7 @@ export interface ExpenditureRecordModel {
     expend_by: string;
     description: string;
     amount: number;
-    expend_time: string;
+    expend_date: string;
     expend_heading: string;
 }
 
@@ -15,7 +15,7 @@ export interface SpecificExpenditureRecordModel {
   expend_by: string;
   description: string;
   amount: number;
-  expend_time: string;
+  expend_date: string;
   expend_heading: string;
   is_verified: boolean;
 }
@@ -27,8 +27,8 @@ export interface ExpenditureRecordFilter {
   min_amount?: string;
   added_after?: string;
   added_before?: string;
-  expend_time_after?: string;
-  expend_time_before?: string;
+  expend_date_after?: string;
+  expend_date_before?: string;
   added_date?: string;
   heading?: string;
   search?: string;
@@ -51,8 +51,8 @@ export class RecordService {
         min_amount: filters.min_amount,
         added_after: filters.added_after,
         added_before: filters.added_before,
-        expend_time_after: filters.expend_time_after,
-        expend_time_before: filters.expend_time_before,
+        expend_date_after: filters.expend_date_after,
+        expend_date_before: filters.expend_date_before,
         added_date: filters.added_date,
         heading: filters.heading,
         search: filters.search,

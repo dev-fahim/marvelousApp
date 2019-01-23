@@ -25,6 +25,20 @@ class CreditFundSourceListCreateAPIView(generics.ListCreateAPIView):
     def get_queryset(self):
         return self.request.user.base_user.credit_fund_sources.all()
 
+class CreditFundSourceListAPIView(generics.ListAPIView):
+    serializer_class = serializers.CreditFundSourceModelSerializer
+    permission_classes = [permissions.BaseUserOrSubUser, ]
+    filter_backends = (filters.OrderingFilter, filters.SearchFilter)
+    search_fields = ('description', 'uuid', 'source_name')
+    ordering_fields = ('added', 'source_name', 'amount')
+    ordering = ('-id',)
+
+    def get_queryset(self):
+        if BaseUserModel.objects.filter(base_user=self.request.user).exists():
+            return self.request.user.base_user.credit_fund_sources.all()
+        elif SubUserModel.objects.filter(root_user=self.request.user).exists():
+            return self.request.user.root_sub_user.base_user.credit_fund_sources.all()
+
 
 class CreditFundsAccordingToSourcesListAPIView(CreditFundSourceListCreateAPIView):
     serializer_class = serializers.CreditFundsAccordingToSourcesSerializer
@@ -64,40 +78,36 @@ class CreditFundRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIVi
         return self.request.user.base_user.credit_funds.all()
 
 
-class CreditFundListAPIView(CreditFundListCreateAPIView):
-    permission_classes = [permissions.BaseUserOrSubUser, permissions.SubUserCanList]
+class CreditFundListAPIView(generics.ListAPIView):
+    serializer_class = serializers.CreditFundModelSerializer
+    permission_classes = [permissions.BaseUserOrSubUser, ]
+    filter_backends = (filters.OrderingFilter, filters.SearchFilter, DjangoFilterBackend)
+    search_fields = ('description', 'uuid')
+    ordering_fields = ('added', 'source__source_name', 'amount')
+    ordering = ('-id', )
+    filterset_class = CreditFundFilter
 
     def get_queryset(self):
         if BaseUserModel.objects.filter(base_user=self.request.user).exists():
             return self.request.user.base_user.credit_funds.all()
         elif SubUserModel.objects.filter(root_user=self.request.user).exists():
-            sub_user = self.request.user.root_sub_user
-            base_user = sub_user.base_user
-            return CreditFundModel.objects.filter(base_user=base_user)
-        return None
-
-    def post(self, request, *args, **kwargs):
-        return Response(data={'detail': 'Not allowed'}, status=status.HTTP_405_METHOD_NOT_ALLOWED, exception=True)
+            return self.request.user.root_sub_user.base_user.credit_funds.all()
 
 
-class CreditFundSettingsView(generics.ListAPIView):
+class CreditFundSettingsView(generics.RetrieveAPIView):
     serializer_class = serializers.CreditFundSettingsModelSerializer
     permission_classes = [permissions.BaseUserOrSubUser, ]
 
-    def get_queryset(self):
-        base_user = None
+    def get_object(self):
         if BaseUserModel.objects.filter(base_user=self.request.user).exists():
-            base_user = self.request.user.base_user
+            return self.request.user.base_user.fund_settings
         elif SubUserModel.objects.filter(root_user=self.request.user).exists():
-            sub_user = self.request.user.root_sub_user
-            base_user = sub_user.base_user
-        return CreditFundSettingsModel.objects.filter(base_user=base_user)
+            return self.request.user.root_sub_user.base_user.fund_settings
 
 
 class CreditFundSettingsEditView(generics.RetrieveUpdateAPIView):
     serializer_class = serializers.CreditFundSettingsModelSerializer
     permission_classes = [permissions.OnlyBaseUser, ]
-    lookup_field = 'pk'
 
     def get_object(self):
         return self.request.user.base_user.fund_settings
