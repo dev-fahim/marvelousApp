@@ -123,6 +123,7 @@ export class RecordEditComponent implements OnInit {
   }
 
   onSubmit() {
+    console.log(this.form.value)
     return this.recordService.update_record(this.form.value, this.uuid)
       .subscribe(
         (result) => {

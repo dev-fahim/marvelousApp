@@ -13,6 +13,7 @@ import { LoginModule } from './login/login.module';
 import { HttpClientModule } from '@angular/common/http';
 import { AuthService } from './login/auth/auth.service';
 import { HomeComponent } from './home/home.component';
+import { RecordService } from './service/expenditure/record.service';
 
 AuthService.login_url = 'http://localhost:8000/rest-auth/login/'
 AuthService.login_success_url = '/main-app/dashboard';
@@ -33,7 +34,8 @@ AuthService.login_success_url = '/main-app/dashboard';
   providers: [
     FundService, 
     SourceService, 
-    HeadingService
+    HeadingService,
+    RecordService
   ],
   bootstrap: [AppComponent]
 })

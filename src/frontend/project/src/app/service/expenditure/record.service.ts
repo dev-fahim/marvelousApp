@@ -1,14 +1,17 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { LOCAL_REST_API_SERVER } from './../server.url';
+import { catchError } from 'rxjs/operators';
+import { Router } from '@angular/router';
+import { errorResponse } from 'src/app/common/error-response';
 
 const EXPENDITURE_RECORD_REST_API_URL = LOCAL_REST_API_SERVER + 'expenditure/record/'
 export interface ExpenditureRecordModel {
-    expend_by: string;
-    description: string;
-    amount: number;
-    expend_date: string;
-    expend_heading: string;
+  expend_by: string;
+  description: string;
+  amount: number;
+  expend_date: string;
+  expend_heading: string;
 }
 
 export interface SpecificExpenditureRecordModel {
@@ -40,7 +43,7 @@ export interface ExpenditureRecordFilter {
 })
 export class RecordService {
 
-  constructor(private _http: HttpClient) { }
+  constructor(private _http: HttpClient, private _router: Router) { }
 
   get_all_expenditures(filters: ExpenditureRecordFilter) {
     return this._http.get<ExpenditureRecordModel>(EXPENDITURE_RECORD_REST_API_URL + 'list/', {
@@ -58,24 +61,34 @@ export class RecordService {
         search: filters.search,
         ordering: filters.ordering
       }
-    })
+    }).pipe(
+      catchError(errorResponse)
+    )
   }
 
   add_record(data: ExpenditureRecordModel) {
-    return this._http.post(EXPENDITURE_RECORD_REST_API_URL + 'add/', JSON.stringify(data))
+    return this._http.post(EXPENDITURE_RECORD_REST_API_URL + 'add/', JSON.stringify(data)).pipe(
+      catchError(errorResponse)
+    );
   }
 
-  get_specific_record(uuid=''){
-    return this._http.get<SpecificExpenditureRecordModel>(EXPENDITURE_RECORD_REST_API_URL + 'view/' + uuid + '/')
+  get_specific_record(uuid: string) {
+    return this._http.get<SpecificExpenditureRecordModel>(EXPENDITURE_RECORD_REST_API_URL + 'view/' + uuid + '/').pipe(
+      catchError(errorResponse)
+      )
   }
 
   update_record(data: SpecificExpenditureRecordModel, uuid: string) {
     return this._http.put<SpecificExpenditureRecordModel>(
       EXPENDITURE_RECORD_REST_API_URL + 'view-update-delete/' + uuid + '/', data
-      )
+    ).pipe(
+      catchError(errorResponse)
+    );
   }
 
   delete_record(uuid: string) {
-    return this._http.delete(EXPENDITURE_RECORD_REST_API_URL + 'view-update-delete/' + uuid + '/')
+    return this._http.delete(EXPENDITURE_RECORD_REST_API_URL + 'view-update-delete/' + uuid + '/').pipe(
+      catchError(errorResponse)
+    );
   }
 }

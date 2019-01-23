@@ -8,12 +8,13 @@ class CreditFundModelSerializer(serializers.ModelSerializer):
         view_name='credit_app:fund_view_update_delete',
         lookup_field='uuid'
     )
-    source = serializers.SerializerMethodField()
+    source_name = serializers.SerializerMethodField()
 
     class Meta:
         model = CreditFundModel
         fields = (
             'source',
+            'source_name',
             'url',
             'description',
             'added',
@@ -22,7 +23,7 @@ class CreditFundModelSerializer(serializers.ModelSerializer):
             'fund_added',
             'uuid'
         )
-        read_only_fields = ('uuid', 'added', 'updated')
+        read_only_fields = ('uuid', 'added', 'updated', 'source_name')
 
     def request_data(self):
         return self.context['request']
@@ -40,7 +41,7 @@ class CreditFundModelSerializer(serializers.ModelSerializer):
         return obj
     
     @staticmethod
-    def get_source(obj):
+    def get_source_name(obj):
         return obj.__str__()
 
 

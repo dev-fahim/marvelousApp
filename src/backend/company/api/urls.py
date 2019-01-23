@@ -1,12 +1,14 @@
 from django.urls import path, include
 from company.api.views import (
-    CompanyInfoListCreateAPIView,
-    CompanyInfoRetrieveUpdateDeleteAPIView
+    CompanyInfoCreateAPIView,
+    CompanyInfoAPIView,
+    CompanyInfoEditAPIView
     )
 
 app_name = 'company_app'
 
 urlpatterns = [
-    path('add/', CompanyInfoListCreateAPIView.as_view(), name='company_add'),
-    path('change/<uuid:uuid>/', CompanyInfoRetrieveUpdateDeleteAPIView.as_view(), name='company_change')
+    path('', CompanyInfoAPIView.as_view(), name='company'),
+    path('add/', CompanyInfoCreateAPIView.as_view(), name='company_add'),
+    path('edit/', CompanyInfoEditAPIView.as_view(), name='company_edit')
 ]

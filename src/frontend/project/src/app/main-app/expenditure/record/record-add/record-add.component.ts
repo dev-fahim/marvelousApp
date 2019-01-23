@@ -3,6 +3,12 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { HeadingService } from './../../../../service/expenditure/heading.service';
 import { RecordService } from 'src/app/service/expenditure/record.service';
 import { FundService } from 'src/app/service/credit/fund.service';
+import { BadInput } from 'src/app/common/bad-input';
+import { UnAuthorized } from 'src/app/common/unauthorized-error';
+import { Router } from '@angular/router';
+import { AppError } from 'src/app/common/app-error';
+import { HttpErrorResponse } from '@angular/common/http';
+import { NotFound } from 'src/app/common/not-found';
 
 @Component({
   selector: 'app-record-add',
@@ -38,7 +44,8 @@ export class RecordAddComponent implements OnInit {
   constructor(
     public headingService: HeadingService, 
     public recordService: RecordService,
-    public fundService: FundService
+    public fundService: FundService,
+    private _router: Router
     ) { }
 
   ngOnInit() {
@@ -73,17 +80,24 @@ export class RecordAddComponent implements OnInit {
   }
 
   onSubmit() {
-    return this.recordService.add_record(this.form.value)
+    this.recordService.add_record(this.form.value)
       .subscribe(
-        (result) => {
+        (next) => {
           this.has_form_error = false;
           this.expenditure_added.emit(this.form.value)
           return this.form.reset();
         },
-        (error: Response) => {
-          if (error.status === 400) {
-            this.message = 'Values are invalid.'
-            return this.has_form_error = true;
+        (errors: AppError) => {
+          if (errors instanceof BadInput) {
+            this.has_form_error = true;
+            this.message = "Input was invalid."
+          }
+          if (errors instanceof NotFound) {
+            this.has_form_error = true;
+            this.message = "Not found."
+          }
+          if (errors instanceof UnAuthorized) {
+            this._router.navigate(['/login'])
           }
         }
       )

@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { LOCAL_REST_API_SERVER } from './../server.url';
+import { catchError } from 'rxjs/operators';
+import { errorResponse } from 'src/app/common/error-response';
 
 export interface FundListFilter {
   added: string
@@ -47,10 +49,32 @@ export class FundService {
   }
 
   add_funds(data: any) {
-    return this._http.post(LOCAL_REST_API_SERVER + 'credit/fund/list-add/', JSON.stringify(data))
+    return this._http.post(LOCAL_REST_API_SERVER + 'credit/fund/list-add/', JSON.stringify(data)).pipe(
+      catchError(errorResponse)
+    )
   }
 
   get_fund_status() {
-    return this._http.get<FundStatus>(LOCAL_REST_API_SERVER + 'credit/fund/settings/')
+    return this._http.get<FundStatus>(LOCAL_REST_API_SERVER + 'credit/fund/settings/').pipe(
+      catchError(errorResponse)
+    )
+  }
+
+  update_fund_settings(data: boolean) {
+    return this._http.put<FundStatus>(LOCAL_REST_API_SERVER + 'credit/fund/settings/edit/', JSON.stringify(data)).pipe(
+      catchError(errorResponse)
+    )
+  }
+
+  update_funds(data: any, uuid: string) {
+    return this._http.put(LOCAL_REST_API_SERVER + 'credit/fund/view-update-delete/' + uuid + '/', JSON.stringify(data)).pipe(
+      catchError(errorResponse)
+    )
+  }
+
+  delete_funds(uuid: string) {
+    return this._http.delete(LOCAL_REST_API_SERVER + 'credit/fund/view-update-delete/' + uuid + '/').pipe(
+      catchError(errorResponse)
+    )
   }
 }

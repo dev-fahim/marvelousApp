@@ -105,11 +105,11 @@ class ExpenditureRecordModelSafeSerializer(serializers.ModelSerializer):
         total_pre_credit_fund_amount = utils.sum_int_of_array(all_credit_fund_amounts)
         total_pre_record_amount = utils.sum_int_of_array(all_record_amounts)
 
-        record_value_after_entry = total_pre_record_amount + value
-        credit_fund_value_after_entry = total_pre_credit_fund_amount - record_value_after_entry
-        print(credit_fund_value_after_entry)
+        highest_amount = total_pre_credit_fund_amount - total_pre_record_amount
+        print(f'Highest: {highest_amount}')
+        print(f'Entering: {value}')
 
-        if credit_fund_value_after_entry >= 0:
+        if highest_amount >= value:
             if base_user.exists():
                 obj = ExpenditureRecordModel.objects.create(
                     added_by=self.logged_in_user(),
@@ -135,6 +135,7 @@ class ExpenditureRecordModelSafeSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         raw_amount = instance.amount
         new_amount = validated_data.get('amount', instance.amount)
+        test_amount = new_amount - raw_amount
         base_user = BaseUserModel.objects.filter(base_user=self.logged_in_user()) 
         sub_user = SubUserModel.objects.filter(root_user=self.logged_in_user())
         expend_obj = []
@@ -153,16 +154,17 @@ class ExpenditureRecordModelSafeSerializer(serializers.ModelSerializer):
         total_pre_credit_fund_amount = utils.sum_int_of_array(all_credit_fund_amounts)
         total_pre_record_amount = utils.sum_int_of_array(all_record_amounts)
 
-        record_value_after_entry = total_pre_record_amount + new_amount - raw_amount
-        credit_fund_value_after_entry = total_pre_credit_fund_amount - record_value_after_entry
-        print(credit_fund_value_after_entry)
+        highest_amount = total_pre_credit_fund_amount - total_pre_record_amount
+        print(f'Highest: {highest_amount}')
+        print(f'Entering: {test_amount}')
 
-        if credit_fund_value_after_entry >= 0:
+        if highest_amount >= test_amount:
             instance.expend_heading = validated_data.get('expend_heading', instance.expend_heading)
             instance.expend_by = validated_data.get('expend_by', instance.expend_by)
             instance.description = validated_data.get('description', instance.description)
             instance.amount = validated_data.get('amount', instance.amount)
             instance.expend_date = validated_data.get('expend_date', instance.expend_date)
+            instance.is_verified = validated_data.get('is_verified', instance.is_verified)
 
             instance.save()
 

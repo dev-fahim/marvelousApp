@@ -24,12 +24,12 @@ urlpatterns = [
 # ALL APS RELATED URLs
 urlpatterns += [
     path('api/', include([
-        path('user/', include('base_user.api.urls', namespace='base_user')),
-        path('sub_user/', include('sub_user.api.urls', namespace='sub_user')),
+        path('base-user/', include('base_user.api.urls', namespace='base_user')),
+        path('sub-user/', include('sub_user.api.urls', namespace='sub_user')),
         path('company/', include('company.api.urls', namespace='company_app')),
         path('credit/', include('credit.api.urls', namespace='credit_app')),
         path('expenditure/', include('expenditure.api.urls', namespace='expenditure_app')),
-        path('services/', include('service.api.urls')),
+        path('service/', include('service.api.urls')),
         path('user/extra/', include('user.api.urls'))
     ])),
 ]

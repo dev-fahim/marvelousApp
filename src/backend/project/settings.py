@@ -144,6 +144,7 @@ ASGI_APPLICATION = 'project.routing.application'
 
 # REST FRAMEWORK KAHINI
 INSTALLED_APPS += [
+    'django_extensions',
     'rest_framework',
     'rest_framework.authtoken',
     'rest_auth',
@@ -194,7 +195,7 @@ JWT_AUTH = {
     'JWT_VERIFY': True,
     'JWT_VERIFY_EXPIRATION': True,
     'JWT_LEEWAY': 0,
-    'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=300),
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=3600),
     'JWT_AUDIENCE': None,
     'JWT_ISSUER': None,
 

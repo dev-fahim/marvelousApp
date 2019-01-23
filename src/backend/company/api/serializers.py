@@ -5,13 +5,10 @@ import uuid
 
 class CompanyInfoModelSerializer(serializers.ModelSerializer):
 
-    url = serializers.HyperlinkedIdentityField(view_name='company_app:company_change', lookup_field='uuid', read_only=True)
-
     class Meta:
         model = CompanyInfoModel
         fields = (
             'name',
-            'url',
             'address',
             'company_type',
             'created'
