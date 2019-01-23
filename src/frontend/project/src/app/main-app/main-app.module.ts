@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { MainAppRoutingModule } from './main-app-routing.module';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ExpenditureComponent } from './expenditure/expenditure.component';
 import { RecordAddComponent } from './expenditure/record/record-add/record-add.component';
@@ -43,6 +44,10 @@ import { CreditFundPdfComponent } from './report/credit-fund-pdf/credit-fund-pdf
 import { CreditFundCsvComponent } from './report/credit-fund-csv/credit-fund-csv.component';
 import { ExpenditureRecordPdfComponent } from './report/expenditure-record-pdf/expenditure-record-pdf.component';
 import { ExpenditureRecordCsvComponent } from './report/expenditure-record-csv/expenditure-record-csv.component';
+import { FundSourceFilterComponent } from './credit/fund-source/fund-source-filter/fund-source-filter.component';
+import { FundRecordFilterComponent } from './credit/fund-record/fund-record-filter/fund-record-filter.component';
+import { HeadingFilterComponent } from './expenditure/heading/heading-filter/heading-filter.component';
+
 @NgModule({
   declarations: [
     MainAppComponent,
@@ -84,7 +89,10 @@ import { ExpenditureRecordCsvComponent } from './report/expenditure-record-csv/e
     CreditFundPdfComponent,
     CreditFundCsvComponent,
     ExpenditureRecordPdfComponent,
-    ExpenditureRecordCsvComponent
+    ExpenditureRecordCsvComponent,
+    FundSourceFilterComponent,
+    FundRecordFilterComponent,
+    HeadingFilterComponent
   ],
   imports: [
     CommonModule,
