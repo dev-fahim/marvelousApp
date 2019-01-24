@@ -10,6 +10,7 @@ import { HeadingService } from '../../../service/expenditure/heading.service';
 export class RecordFilterComponent implements OnInit {
   @Output() filter_data = new EventEmitter();
   all_headings = [];
+  loading = false;
 
   filter_form = new FormGroup({
     is_verified: new FormControl(""),
@@ -29,12 +30,14 @@ export class RecordFilterComponent implements OnInit {
   constructor(private _headingService: HeadingService) { }
 
   ngOnInit() {
+    this.loading = true;
     this._headingService.get_all_headings()
       .subscribe(
         (result) => {
           for (let heading of result) {
             this.all_headings.push(heading.heading_name);
           }
+          this.loading = false;
         }
       )
   }

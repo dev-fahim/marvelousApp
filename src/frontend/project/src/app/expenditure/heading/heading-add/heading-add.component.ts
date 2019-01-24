@@ -68,4 +68,9 @@ export class HeadingAddComponent implements OnInit {
     }
   }
 
+  onReset() {
+    this.messages = [];
+    this.form.reset();
+  }
+
 }

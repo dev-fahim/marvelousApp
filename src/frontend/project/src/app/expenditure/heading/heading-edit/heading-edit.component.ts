@@ -129,4 +129,7 @@ export class HeadingEditComponent {
     this._data.unsubscribe();
   }
 
+  onReset() {
+    this.messages = [];
+  }
 }

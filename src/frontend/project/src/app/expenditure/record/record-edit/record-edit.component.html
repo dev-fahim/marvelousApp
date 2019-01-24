@@ -16,7 +16,8 @@
     <div class="ui segment">
       <h3>Edit expenditure record</h3>
       <div class="ui divider"></div>
-      <form class="ui form fluid tiny" [formGroup]='form' (ngSubmit)="onSubmit()">
+      <form class="ui form fluid tiny" [formGroup]='form' (ngSubmit)="onSubmit()"
+      [ngClass]="{'loading': loading || loading_del}">
         <div class="field" [ngClass]="{'error': expend_heading.touched && expend_by.invalid}">
           <label>Expend Heading</label>
           <select formControlName="expend_heading">
@@ -50,7 +51,6 @@
         </div>
         <button class="ui labeled icon button purple tiny" type="submit"
         [ngClass]="{'loading': loading}"><i class="arrow up icon"></i>Update record</button>
-        <button class="ui right labeled icon button yellow tiny" type="reset"><i class="redo icon"></i>Reset</button>
         <a class="ui blue button labeled icon mini" [routerLink]="[ '/main-app/expenditure/record' ]"><i class="arrow left icon"></i>Go
           back</a>
       </form>
@@ -60,6 +60,7 @@
         </div>
         In the form all fields are must be filled and valid.
       </div>
+      <button class="ui right labeled icon button yellow tiny" (click)="onReset()"><i class="redo icon"></i>Reset</button>
       <button class="ui labeled icon button red tiny" (click)="onDelete()"
       [ngClass]="{'loading': loading_del}"><i class="close icon"></i>Delete</button>
     </div>

@@ -112,4 +112,8 @@ export class RecordAddComponent implements OnInit {
     return this.fund_status.is_not_locked
   }
 
+  onReset() {
+    this.messages = [];
+    this.form.reset();
+  }
 }

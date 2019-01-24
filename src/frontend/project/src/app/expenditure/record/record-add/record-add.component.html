@@ -14,7 +14,8 @@
       <b>{{ message.message }}</b>
     </div>
   </div>
-  <form class="ui form tiny fluid" [formGroup]='form' (ngSubmit)="onSubmit()">
+  <form class="ui form tiny fluid" [formGroup]='form' (ngSubmit)="onSubmit()"
+  [ngClass]="{'loading': loading}">
     <div class="field" [ngClass]="{'error': form.get('expend_heading').touched && !form.get('expend_heading').valid}">
       <label>Expend Heading</label>
       <select formControlName="expend_heading">
@@ -39,7 +40,7 @@
     </div>
     <button class="ui labeled icon blue mini button" type="submit"
     [ngClass]="{'loading': loading}"><i class="add icon"></i>Add</button>
-    <button class="ui labeled icon yellow mini button" type="reset"><i class="redo icon"></i>Reset</button>
+    <button class="ui labeled icon yellow mini button" (click)="onReset()"><i class="redo icon"></i>Reset</button>
   </form>
   <div class="ui warning message">
     <div class="header">

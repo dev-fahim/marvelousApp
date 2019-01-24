@@ -168,7 +168,7 @@ export class RecordEditComponent implements OnInit {
     this.recordService.delete_record(this.uuid)
       .subscribe(
         (result) => {
-          this.loading = false;
+          this.loading_del = false;
           this.messages.splice(0, 0, { message: 'Expenditure record has been DELETED successfuly.', type: 'positive' });
         },
         (error: AppError) => {
@@ -195,6 +195,10 @@ export class RecordEditComponent implements OnInit {
 
   get fund_not_locked() {
     return !this.FUND_LOCKED
+  }
+
+  onReset() {
+    this.messages = [];
   }
 
 }

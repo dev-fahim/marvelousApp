@@ -20,7 +20,7 @@
       </div>
     </div>
     <app-record-filter (filter_data)="onFilter($event)"></app-record-filter>
-    <table class="ui placeholder violet celled table fluid" *ngIf="!is_loading()">
+    <table class="ui placeholder violet celled table selectable fluid" *ngIf="!is_loading()">
       <thead>
         <tr>
           <th colspan="5">
@@ -41,11 +41,12 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let data of all_expenditures">
+        <tr *ngFor="let data of all_expenditures" 
+        [ngClass]="{'error': !data.is_verified}">
           <td><a class="header" [routerLink]="[ '/main-app/expenditure/record/edit', data.uuid ]">{{
               data.expend_heading_name |
               titlecase }}</a></td>
-          <td>{{ data.expend_by | titlecase }}</td>
+          <td><i *ngIf="!data.is_verified" class="attention icon"></i>{{ data.expend_by | titlecase }}</td>
           <td>{{ data.added_by | titlecase }}</td>
           <!--Data should be from rest api server-->
           <td>{{ data.amount }}</td>
