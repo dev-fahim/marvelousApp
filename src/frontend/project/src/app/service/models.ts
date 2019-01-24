@@ -1,11 +1,11 @@
 export interface ExpenditureHeadingGETModel {
-    id: number;
-    url: string;
+    id?: number;
+    url?: string;
     heading_name: string;
     description: string;
-    uuid: string;
-    added: Date;
-    updated: Date;
+    uuid?: string;
+    added?: string;
+    updated?: string;
 }
 
 export interface ExpenditureRecordGETModel {
@@ -18,10 +18,10 @@ export interface ExpenditureRecordGETModel {
     description: string;
     amount: number;
     is_verified: boolean;
-    expend_date: string;
+    expend_string: string;
     uuid: string;
-    added: Date;
-    updated: Date;
+    added: string;
+    updated: string;
     expend_heading: number;
 }
 
@@ -29,8 +29,8 @@ export interface CreditFundSourceGETModel {
     source_name: string;
     url: string;
     description: string;
-    added: Date;
-    updated: Date;
+    added: string;
+    updated: string;
     uuid: string;
 }
 
@@ -38,8 +38,8 @@ export interface CreditFundAccordinSourceGETModel {
     source_name: string;
     url: string;
     description: string;
-    added: Date;
-    updated: Date;
+    added: string;
+    updated: string;
     uuid: string;
     funds: CreditFundSourceGETModel[];
 }
@@ -49,8 +49,8 @@ export interface CreditFundRecordGETModel {
     source_name: string;
     url: string;
     description: string;
-    added: Date;
-    updated: Date;
+    added: string;
+    updated: string;
     amount: number;
     fund_added: string;
     uuid: string;
@@ -67,8 +67,8 @@ export interface BaseUserInfoGETModel {
     id: number;
     is_admin: boolean;
     uuid: string;
-    joined: Date;
-    last_updated: Date;
+    joined: string;
+    last_updated: string;
     base_user: number;
 }
 

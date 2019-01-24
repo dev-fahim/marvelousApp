@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormControl } from '@angular/forms';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-heading-filter',
@@ -6,10 +7,18 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./heading-filter.component.scss']
 })
 export class HeadingFilterComponent implements OnInit {
+  @Output() search_data = new EventEmitter()
 
+  
+  search: string;
   constructor() { }
 
   ngOnInit() {
+  }
+
+  onSubmit() {
+    this.search_data.emit(this.search);
+    this.search = ''
   }
 
 }

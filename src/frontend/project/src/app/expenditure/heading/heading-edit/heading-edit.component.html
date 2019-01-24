@@ -1,3 +1,23 @@
-<p>
-  heading-edit works!
-</p>
+<div class="ui segment">
+  <div class="ui icon message {{ message.type }}" *ngFor="let message of messages">
+    <i class="x icon" *ngIf="message.type === 'error'"></i>
+    <i class="check icon" *ngIf="message.type === 'positive'"></i>
+    <div class="content">
+      <b>{{ message.message }}</b>
+    </div>
+  </div>
+  <form class="ui fluid form" [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="field" [ngClass]="{'error': form.get('heading_name').invalid && form.get('heading_name').touched}">
+      <label>Heading Name</label>
+      <input type="text" formControlName="heading_name">
+    </div>
+    <div class="field" [ngClass]="{'error': form.get('description').invalid && form.get('description').touched}">
+      <label>Desciption</label>
+      <input type="text" formControlName="description">
+    </div>
+    <button class="ui blue labeled icon button" type="submit" [ngClass]="{'loading': loading}"><i class="angle double up icon"></i>Upgrade</button>
+    <button class="ui yellow labeled icon button" type="reset"><i class="redo icon"></i>Reset</button>
+  </form>
+  <div class="ui divider"></div>
+  <button class="ui red labeled icon button" [ngClass]="{'loading': loading_del}" (click)="onDelete()"><i class="eraser icon"></i>Delete</button>
+</div>

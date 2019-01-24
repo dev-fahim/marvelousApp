@@ -125,7 +125,7 @@
             </thead>
             <tbody>
                 <tr *ngFor="let data of todays_all_expenditures">
-                    <td><a class="header" routerLink="/main-app/expenditure/record/list-add" [queryParams]="{ 
+                    <td><a class="header" routerLink="/main-app/expenditure/record" [queryParams]="{ 
                             added_date: today,
                             heading: data.expend_heading_name
                         }">{{
@@ -165,7 +165,7 @@
             <div class="ui very relaxed divided list">
                 <div class="item" *ngFor="let data of all_headings">
                     <div class="content">
-                        <a class="header" routerLink="/main-app/expenditure/record/list-add" [queryParams]="{ 
+                        <a class="header" routerLink="/main-app/expenditure/record" [queryParams]="{ 
                             heading: data.heading_name
                         }">{{
                             data.heading_name }}</a>

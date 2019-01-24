@@ -5,6 +5,7 @@ import { BadInput } from './bad-input';
 import { Forbidden } from './forbidden';
 import { AppError } from './app-error';
 import { throwError } from 'rxjs';
+import { ServerError } from './serve-error';
 
 
 export function errorResponse(error: HttpErrorResponse) {
@@ -19,6 +20,9 @@ export function errorResponse(error: HttpErrorResponse) {
     }
     if (error.status === 403) {
         return throwError(new Forbidden(error));
+    }
+    if (error.status === 500) {
+        return throwError(new ServerError(error));
     }
     return throwError(new AppError(error));
 }

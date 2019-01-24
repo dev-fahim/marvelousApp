@@ -1,3 +1,10 @@
-<p>
-  heading-filter works!
-</p>
+<div class="ui segment">
+  <h3 class="header">Search headings</h3>
+  <div class="ui divider"></div>
+  <div class="ui fluid form">
+    <div class="field">
+      <input type="text" placeholder="Search headings..." [(ngModel)]="search">
+    </div>
+    <button class="ui icon blue button rounded" (click)="onSubmit()"><i class="search icon"></i></button>
+  </div>
+</div>

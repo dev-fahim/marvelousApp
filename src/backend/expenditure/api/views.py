@@ -19,8 +19,9 @@ today = datetime.datetime.today().strftime('%Y-%m-%d')
 class ExpenditureHeadingListCreateAPIView(generics.ListCreateAPIView):
     serializer_class = ExpenditureHeadingModelSerializer
     permission_classes = [permissions.OnlyBaseUser, ]
-    filter_backends = (filters.SearchFilter,)
+    filter_backends = (filters.SearchFilter, filters.OrderingFilter)
     search_fields = ('heading_name', 'uuid', 'added', 'updated')
+    ordering = ('-added')
 
     def get_queryset(self):
         return self.request.user.base_user.expenditure_headings.all()
@@ -28,8 +29,9 @@ class ExpenditureHeadingListCreateAPIView(generics.ListCreateAPIView):
 class ExpenditureHeadingListAPIView(generics.ListAPIView):
     serializer_class = ExpenditureHeadingModelSerializer
     permission_classes = [permissions.BaseUserOrSubUser, ]
-    filter_backends = (filters.SearchFilter,)
+    filter_backends = (filters.SearchFilter, filters.OrderingFilter)
     search_fields = ('heading_name', 'uuid', 'added', 'updated')
+    ordering = ('-added', )
 
     def get_queryset(self):
         queryset = None
