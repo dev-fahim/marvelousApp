@@ -1,44 +1,48 @@
 <div class="ui left fixed vertical violet inverted large menu" id="menu">
-    <div class="space-before"></div>
-    <div class="item">
-      <div class="header"><a id="sidebar-menu-name-link">Credit Fund</a></div>
-      <div class="menu">
-        <a class="item" routerLinkActive="active">Sources</a>
-        <a class="item" routerLinkActive="active">Records</a>
-      </div>
+  <div class="space-before"></div>
+  <div class="item">
+    <div class="header"><a id="sidebar-menu-name-link" [routerLink]="[ '/main-app/credit' ]">Credit Fund</a></div>
+    <div class="menu">
+      <a class="item" routerLinkActive="active" [routerLink]="[ '/main-app/credit/fund/source' ]">Sources</a>
+      <a class="item" routerLinkActive="active" [routerLink]="[ '/main-app/credit/fund/record' ]">Records</a>
     </div>
-    <div class="item">
-      <div class="header"><a id="sidebar-menu-name-link" [routerLink]="[ '/main-app/expenditure' ]">Expenditure</a></div>
-      <div class="menu">
-        <a class="item" routerLinkActive="active">Expend Group Headings</a>
-        <a class="item" [routerLink]="[ '/main-app/expenditure/record/list-add/' ]" routerLinkActive="active">Expend Records</a>
-      </div>
+  </div>
+  <div class="item">
+    <div class="header"><a id="sidebar-menu-name-link" [routerLink]="[ '/main-app/expenditure' ]">Expenditure</a></div>
+    <div class="menu">
+      <a class="item" routerLinkActive="active" [routerLink]="[ '/main-app/expenditure/heading' ]">Expend Group
+        Headings</a>
+      <a class="item" [routerLink]="[ '/main-app/expenditure/record/list-add/' ]" routerLinkActive="active">Expend
+        Records</a>
     </div>
-    <div class="item">
-      <div class="header"><a id="sidebar-menu-name-link">Company</a></div>
-      <div class="menu">
-        <a class="item" routerLinkActive="active">Configure</a>
-      </div>
+  </div>
+  <div class="item">
+    <div class="header"><a id="sidebar-menu-name-link" [routerLink]="[ '/main-app/company' ]">Company</a></div>
+    <div class="menu">
+      <a class="item" routerLinkActive="active" [routerLink]="[ '/main-app/company/edit' ]">Configure</a>
     </div>
-    <div class="item">
-      <div class="header"><a id="sidebar-menu-name-link">Sub User</a></div>
-      <div class="menu">
-        <a class="item" routerLinkActive="active">Configure</a>
-        <a class="item" routerLinkActive="active">Add</a>
-      </div>
+  </div>
+  <div class="item">
+    <div class="header"><a id="sidebar-menu-name-link" [routerLink]="[ '/main-app/sub-user' ]">Sub User</a></div>
+    <div class="menu">
+      <a class="item" routerLinkActive="active" [routerLink]="[ '/main-app/sub-user/list-add' ]">All Sub Users</a>
     </div>
-    <div class="item">
-      <div class="header"><a id="sidebar-menu-name-link">Reports</a></div>
+  </div>
+  <div class="item">
+    <div class="header"><a id="sidebar-menu-name-link" [routerLink]="[ '/main-app/report' ]">Reports</a></div>
+    <div class="menu">
       <div class="menu">
-        <a class="item" routerLinkActive="active">Expenditure Records Report</a>
-        <a class="item" routerLinkActive="active">Credit Fund Records Report</a>
+        <a class="item" routerLinkActive="active" [routerLink]="[ '/main-app/report/expenditure-record-pdf' ]">Expenditure
+          Records Report</a>
+        <a class="item" routerLinkActive="active" [routerLink]="[ '/main-app/report/credit-fund-pdf' ]">Credit Fund
+          Records Report</a>
       </div>
-    </div>
-    <div class="item">
-      <div class="header"><a id="sidebar-menu-name-link">Generate CSV & Send Email</a></div>
       <div class="menu">
-        <a class="item" routerLinkActive="active">Expenditure Records CSV</a>
-        <a class="item" routerLinkActive="active">Credit Fund Records CSV</a>
+        <a class="item" routerLinkActive="active" [routerLink]="[ '/main-app/report/expenditure-record-csv' ]">Expenditure
+          Records CSV</a>
+        <a class="item" routerLinkActive="active" [routerLink]="[ '/main-app/report/credit-fund-csv' ]">Credit Fund
+          Records CSV</a>
       </div>
     </div>
   </div>
+</div>

@@ -1,4 +1,4 @@
-import { RecordComponent } from './../expenditure/record/record.component';
+import { ReportComponent } from './report.component';
 import { ExpenditureRecordPdfComponent } from './expenditure-record-pdf/expenditure-record-pdf.component';
 import { CreditFundPdfComponent } from './credit-fund-pdf/credit-fund-pdf.component';
 import { CreditFundCsvComponent } from './credit-fund-csv/credit-fund-csv.component';
@@ -11,7 +11,7 @@ import { ReportRoutingModule } from './report-routing.module';
 
 @NgModule({
   declarations: [
-    RecordComponent,
+    ReportComponent,
     CreditFundCsvComponent,
     CreditFundPdfComponent,
     ExpenditureRecordPdfComponent,

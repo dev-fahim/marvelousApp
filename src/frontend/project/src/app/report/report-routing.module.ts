@@ -11,7 +11,7 @@ const routes: Routes = [
   { path: 'credit-fund-csv', component: CreditFundCsvComponent },
   { path: 'credit-fund-pdf', component: CreditFundPdfComponent },
   { path: 'expenditure-record-csv', component: ExpenditureRecordCsvComponent },
-  { path: 'expenditure-rexord-pdf', component: ExpenditureRecordPdfComponent }
+  { path: 'expenditure-record-pdf', component: ExpenditureRecordPdfComponent }
 ];
 
 @NgModule({
