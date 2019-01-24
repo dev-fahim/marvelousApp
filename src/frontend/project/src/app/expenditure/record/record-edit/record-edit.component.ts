@@ -1,9 +1,15 @@
+import { ServerError } from 'src/app/common/serve-error';
+import { UnAuthorized } from './../../../common/unauthorized-error';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { RecordService, SpecificExpenditureRecordModel } from '../../../service/expenditure/record.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { FundService } from '../../../service/credit/fund.service';
 import { HeadingService } from '../../../service/expenditure/heading.service';
+import { AppError } from 'src/app/common/app-error';
+import { BadInput } from 'src/app/common/bad-input';
+import { Forbidden } from 'src/app/common/forbidden';
+import { NotFound } from 'src/app/common/not-found';
 
 @Component({
   selector: 'app-record-edit',
@@ -19,13 +25,8 @@ export class RecordEditComponent implements OnInit {
     expend_heading: '',
     is_verified: false
   };
-  HTTP_404_ERROR = false;
-  FUND_LOCKED_ERROR = false;
+  FUND_LOCKED = false;
   uuid = '';
-  added = false;
-  deleted = false;
-  has_error = false;
-  messege = '';
 
   form = new FormGroup({
     expend_by: new FormControl('', [
@@ -49,17 +50,16 @@ export class RecordEditComponent implements OnInit {
   })
 
   all_headings = [];
-  has_form_error = false;
-  fund_status = [{
-    url: 'Nothing',
-    is_not_locked: true
-  }];
+  messages: { message: string, type: string }[] = [];
+  loading_del = false;
+  loading = false;
 
   constructor(
     private _acRoute: ActivatedRoute,
     public recordService: RecordService,
     public fundService: FundService,
-    public headingService: HeadingService
+    public headingService: HeadingService,
+    private _router: Router
   ) { }
 
   ngOnInit() {
@@ -81,23 +81,33 @@ export class RecordEditComponent implements OnInit {
             is_verified: this.expenditure_data.is_verified
           })
         },
-        (errors: Response) => {
-          if (errors.status === 404) {
-            this.HTTP_404_ERROR = true;
+        (error: AppError) => {
+          if (error instanceof BadInput) {
+            this.messages.splice(0, 0, { message: 'You have entered invalid data or fund is limited. All fields and required and must be valid.', type: 'error' });
+          }
+          if (error instanceof Forbidden) {
+            this.messages.splice(0, 0, { message: 'You don\'t have permission for this action.', type: 'error' });
+          }
+          if (error instanceof UnAuthorized) {
+            this._router.navigate(['/login'])
+            this.messages.splice(0, 0, { message: 'You are not logged in.', type: 'error' });
+          }
+          if (error instanceof ServerError) {
+            this.messages.splice(0, 0, { message: 'Internal Server Error.', type: 'error' });
           }
         }
       );
     this.fundService.get_fund_status()
       .subscribe(
         (result) => {
-          return this.FUND_LOCKED_ERROR = !result.is_not_locked
+          return this.FUND_LOCKED = !result.is_not_locked
         }
       )
     this.headingService.get_all_headings()
       .subscribe(
         (result) => {
           for (let heading of result) {
-            this.all_headings.push({heading: heading.heading_name, id: heading.id})
+            this.all_headings.push({ heading: heading.heading_name, id: heading.id })
           }
         }
       )
@@ -123,51 +133,68 @@ export class RecordEditComponent implements OnInit {
   }
 
   onSubmit() {
+    this.loading = true;
     console.log(this.form.value)
     return this.recordService.update_record(this.form.value, this.uuid)
       .subscribe(
         (result) => {
-          this.added = true;
-          console.log(result)
+          this.loading = false;
+          this.messages.splice(0, 0, { message: 'Expenditure record has been UPDATED successfuly.', type: 'positive' });
         },
-        (error: Response) => {
-          if (error.status === 400) {
-            this.has_error = true;
-            this.messege = 'Some error occured or credit fund is limited.'
+        (error: AppError) => {
+          this.loading = false;
+          if (error instanceof BadInput) {
+            this.messages.splice(0, 0, { message: 'Invalid UUID or fund is limited.', type: 'error' });
           }
-          if (error.status === 403) {
-            this.has_error = true;
-            this.messege = 'Permission denied. Either you have no permission or credit fund is now locked.'
+          if (error instanceof Forbidden) {
+            this.messages.splice(0, 0, { message: 'You don\'t have permission for this action.', type: 'error' });
+          }
+          if (error instanceof NotFound) {
+            this.messages.splice(0, 0, { message: '404 Not Found', type: 'error' });
+          }
+          if (error instanceof UnAuthorized) {
+            this._router.navigate(['/login'])
+            this.messages.splice(0, 0, { message: 'You are not logged in.', type: 'error' });
+          }
+          if (error instanceof ServerError) {
+            this.messages.splice(0, 0, { message: 'Internal Server Error.', type: 'error' });
           }
         }
       )
   }
 
   onDelete() {
-    return this.recordService.delete_record(this.uuid)
+    this.loading_del = true;
+    this.recordService.delete_record(this.uuid)
       .subscribe(
         (result) => {
-          return this.deleted = true;
+          this.loading = false;
+          this.messages.splice(0, 0, { message: 'Expenditure record has been DELETED successfuly.', type: 'positive' });
         },
-        (error) => {
-          if (error.status === 403) {
-            this.has_error = true;
-            this.messege = 'Permission denied. Either you have no permission or credit fund is now locked.'
+        (error: AppError) => {
+          this.loading_del = false;
+          if (error instanceof BadInput) {
+            this.messages.splice(0, 0, { message: 'Invalid UUID or fund is limited.', type: 'error' });
+          }
+          if (error instanceof Forbidden) {
+            this.messages.splice(0, 0, { message: 'You don\'t have permission for this action.', type: 'error' });
+          }
+          if (error instanceof NotFound) {
+            this.messages.splice(0, 0, { message: '404 Not Found', type: 'error' });
+          }
+          if (error instanceof UnAuthorized) {
+            this._router.navigate(['/login'])
+            this.messages.splice(0, 0, { message: 'You are not logged in.', type: 'error' });
+          }
+          if (error instanceof ServerError) {
+            this.messages.splice(0, 0, { message: 'Internal Server Error.', type: 'error' });
           }
         }
       )
   }
 
-  get get_success() {
-    return this.added;
-  }
-
-  get get_deleted() {
-    return this.deleted;
-  }
-
-  get get_error() {
-    return { messege: this.messege, has_error: this.has_error }
+  get fund_not_locked() {
+    return !this.FUND_LOCKED
   }
 
 }

@@ -44,7 +44,7 @@ export class RecordListComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this._actRoute.queryParamMap.subscribe(
       (params) => {
-        for(let data of this.filter_array) {
+        for (let data of this.filter_array) {
           if (params.get(data) == null) {
             this[data] = '';
           } else {
@@ -107,6 +107,10 @@ export class RecordListComponent implements OnInit, OnDestroy {
 
   onAddExpenditure(expendData = {}) {
     this.all_expenditures.splice(0, 0, expendData)
+  }
+
+  onReload() {
+    this.ngOnInit();
   }
 
 }

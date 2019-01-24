@@ -6,7 +6,7 @@
       <b>{{ message.message }}</b>
     </div>
   </div>
-  <form class="ui fluid form" [formGroup]="form" (ngSubmit)="onSubmit()">
+  <form class="ui fluid form tiny" [formGroup]="form" (ngSubmit)="onSubmit()">
     <div class="field" [ngClass]="{'error': form.get('heading_name').invalid && form.get('heading_name').touched}">
       <label>Heading Name</label>
       <input type="text" formControlName="heading_name">
@@ -15,8 +15,8 @@
       <label>Desciption</label>
       <input type="text" formControlName="description">
     </div>
-    <button class="ui blue labeled icon button" type="submit" [ngClass]="{'loading': loading}"><i class="add icon"></i>Add
+    <button class="ui blue labeled icon button tiny" type="submit" [ngClass]="{'loading': loading}"><i class="add icon"></i>Add
       Heading</button>
-    <button class="ui yellow labeled icon button" type="reset"><i class="redo icon"></i>Reset</button>
+    <button class="ui yellow labeled icon button tiny" type="reset"><i class="redo icon"></i>Reset</button>
   </form>
 </div>

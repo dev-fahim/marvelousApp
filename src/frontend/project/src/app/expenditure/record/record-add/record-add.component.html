@@ -1,19 +1,20 @@
 <div class="ui red segment">
   <h3>Add expenditure record</h3>
   <div class="ui divider"></div>
-  <div class="ui error message" *ngIf="!fund_not_locked">
-    <div class="header">
-      Fund is Locked
+  <div class="ui icon message error" *ngIf="!fund_not_locked">
+    <i class="ban icon"></i>
+    <div class="content">
+      <b>Fund is now LOCKED.</b>
     </div>
-    Currently the Fund is locked.
   </div>
-  <div class="ui error message" *ngIf="get_form_error">
-    <div class="header">
-      Error occured
+  <div class="ui icon message {{ message.type }}" *ngFor="let message of messages">
+    <i class="x icon" *ngIf="message.type === 'error'"></i>
+    <i class="check icon" *ngIf="message.type === 'positive'"></i>
+    <div class="content">
+      <b>{{ message.message }}</b>
     </div>
-    {{ message }}
   </div>
-  <form class="ui form" [formGroup]='form' (ngSubmit)="onSubmit()">
+  <form class="ui form tiny fluid" [formGroup]='form' (ngSubmit)="onSubmit()">
     <div class="field" [ngClass]="{'error': form.get('expend_heading').touched && !form.get('expend_heading').valid}">
       <label>Expend Heading</label>
       <select formControlName="expend_heading">
@@ -36,8 +37,9 @@
       <label>Expend Date</label>
       <input type="date" formControlName="expend_date" placeholder="Expend Date">
     </div>
-    <button class="ui icon button purple" type="submit"><i class="add icon"></i>Add record</button>
-    <button class="ui icon button red" type="reset"><i class="redo icon"></i>Reset all</button>
+    <button class="ui labeled icon blue mini button" type="submit"
+    [ngClass]="{'loading': loading}"><i class="add icon"></i>Add</button>
+    <button class="ui labeled icon yellow mini button" type="reset"><i class="redo icon"></i>Reset</button>
   </form>
   <div class="ui warning message">
     <div class="header">

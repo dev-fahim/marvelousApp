@@ -7,7 +7,8 @@ import { BadInput } from 'src/app/common/bad-input';
 import { UnAuthorized } from 'src/app/common/unauthorized-error';
 import { Router } from '@angular/router';
 import { AppError } from 'src/app/common/app-error';
-import { NotFound } from 'src/app/common/not-found';
+import { Forbidden } from 'src/app/common/forbidden';
+import { ServerError } from 'src/app/common/serve-error';
 
 @Component({
   selector: 'app-record-add',
@@ -34,18 +35,18 @@ export class RecordAddComponent implements OnInit {
     ])
   })
   all_headings;
-  has_form_error = false;
   fund_status = {
     is_not_locked: true
   };
-  message = '';
+  messages: {message: string, type: string}[] = [];
+  loading = false;
 
   constructor(
-    public headingService: HeadingService, 
+    public headingService: HeadingService,
     public recordService: RecordService,
     public fundService: FundService,
     private _router: Router
-    ) { }
+  ) { }
 
   ngOnInit() {
     this.headingService.get_all_headings()
@@ -64,7 +65,7 @@ export class RecordAddComponent implements OnInit {
 
   get expend_by() {
     return this.form.get('expend_by')
-  } 
+  }
   get description() {
     return this.form.get('description')
   }
@@ -79,39 +80,36 @@ export class RecordAddComponent implements OnInit {
   }
 
   onSubmit() {
+    this.loading = true;
     this.recordService.add_record(this.form.value)
       .subscribe(
         (next) => {
-          this.has_form_error = false;
           this.expenditure_added.emit(this.form.value)
-          return this.form.reset();
+          this.form.reset();
+          this.loading = false;
+          this.messages.splice(0, 0, { message: 'Expenditure record ADDED successfuly.', type: 'positive' });
         },
-        (errors: AppError) => {
-          if (errors instanceof BadInput) {
-            this.has_form_error = true;
-            this.message = "Input was invalid."
+        (error: AppError) => {
+          this.loading = false;
+          if (error instanceof BadInput) {
+            this.messages.splice(0, 0, { message: 'You have entered invalid data or fund is limited. All fields and required and must be valid.', type: 'error' });
           }
-          if (errors instanceof NotFound) {
-            this.has_form_error = true;
-            this.message = "Not found."
+          if (error instanceof Forbidden) {
+            this.messages.splice(0, 0, { message: 'You don\'t have permission for this action.', type: 'error' });
           }
-          if (errors instanceof UnAuthorized) {
+          if (error instanceof UnAuthorized) {
             this._router.navigate(['/login'])
+            this.messages.splice(0, 0, { message: 'You are not logged in.', type: 'error' });
+          }
+          if (error instanceof ServerError) {
+            this.messages.splice(0, 0, { message: 'Internal Server Error.', type: 'error' });
           }
         }
       )
   }
 
-  public onResets() {
-    this.has_form_error = false;
-    return this.form.reset;
-  }
-
-  get get_form_error() {
-    return this.has_form_error;
-  }
-
   get fund_not_locked() {
     return this.fund_status.is_not_locked
   }
+
 }

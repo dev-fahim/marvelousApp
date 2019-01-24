@@ -23,8 +23,11 @@
     <table class="ui placeholder violet celled table fluid" *ngIf="!is_loading()">
       <thead>
         <tr>
-          <th colspan="6">
+          <th colspan="5">
             <h3>All expend records</h3>
+          </th>
+          <th>
+            <button class="ui blue icon mini button" (click)="onReload()"><i class="redo icon"></i></button>
           </th>
         </tr>
         <tr>
@@ -39,7 +42,8 @@
       </thead>
       <tbody>
         <tr *ngFor="let data of all_expenditures">
-          <td><a class="header" [routerLink]="[ '/main-app/expenditure/record/edit', data.uuid ]">{{ data.expend_heading_name |
+          <td><a class="header" [routerLink]="[ '/main-app/expenditure/record/edit', data.uuid ]">{{
+              data.expend_heading_name |
               titlecase }}</a></td>
           <td>{{ data.expend_by | titlecase }}</td>
           <td>{{ data.added_by | titlecase }}</td>

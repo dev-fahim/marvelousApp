@@ -57,6 +57,10 @@
         </div>
     </div>
 </div>
+<div class="ui cleared segment">
+    <h3 class="header">Quick information</h3>
+    <button class="ui mini blue button" (click)="onReload()"><i class="redo icon"></i></button>
+</div>
 <div class="ui grid">
     <div class="four wide column">
         <div class="ui segment" *ngIf="is_loading()">
@@ -111,7 +115,8 @@
                     <th colspan="5">
                         <h3><a routerLink="/main-app/expenditure/record/list-add" [queryParams]="{ 
                             added_date: today
-                        }">Today's expend record logs</a></h3>
+                        }">Today's
+                                expend record logs</a></h3>
                     </th>
                 </tr>
                 <tr>

@@ -88,4 +88,8 @@ export class DashboardComponent {
   is_loading() {
     return this.loading;
   }
+
+  onReload() {
+    this.ngOnInit();
+  }
 }

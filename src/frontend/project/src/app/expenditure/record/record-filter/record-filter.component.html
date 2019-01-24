@@ -1,7 +1,7 @@
 <div class="ui blue segment">
   <h3>Filter form</h3>
   <div class="ui divider"></div>
-  <form (ngSubmit)="onSubmit()" [formGroup]="filter_form" class="ui form">
+  <form (ngSubmit)="onSubmit()" [formGroup]="filter_form" class="ui form tiny">
     <div class="fields">
       <div class="four wide field">
         <label>Authorized</label>
@@ -73,6 +73,6 @@
         </select>
       </div>
     </div>
-    <button class="ui labeled icon blue button" type="submit"><i class="filter icon"></i>Filter</button>
+    <button class="ui labeled icon blue button tiny" type="submit"><i class="filter icon"></i>Filter</button>
   </form>
 </div>
