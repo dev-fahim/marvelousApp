@@ -35,18 +35,20 @@ export class AuthService {
 
   static login_url = '';
   static login_success_url = '/home';
+  static login_api_url = '';
 
   constructor(private _http: HttpClient) { }
 
-  private loggedin = new BehaviorSubject(!isExpired);
+  private loggedin = new BehaviorSubject(false);
   get_loggedin = this.loggedin
 
   login(data: LoginModel) {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' })
-    return this._http.post<LoginResponseModel>(AuthService.login_url, JSON.stringify(data), { headers: headers }).pipe(
+    return this._http.post<LoginResponseModel>(AuthService.login_api_url, JSON.stringify(data), { headers: headers }).pipe(
       map(
         (response) => {
           if (response && response.token) {
+            this.set_loggedin(true);
             localStorage.setItem('access_token', response.token);
             return {
               logged_in: true,
@@ -63,6 +65,10 @@ export class AuthService {
 
   isLoggedin() {
     return !isExpired;
+  }
+
+  get is_loggedin() {
+    return this.get_loggedin;
   }
 
   set_loggedin(value: boolean) {

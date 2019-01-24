@@ -19,7 +19,7 @@ export class LoginRouteGaurdService implements CanActivate {
     const token = tokenGetter();
     if (token) {
       if (!isExpired) {
-        this._router.navigate(['/']);
+        this._router.navigate(['/main-app']);
         return false;
       }
       return true;

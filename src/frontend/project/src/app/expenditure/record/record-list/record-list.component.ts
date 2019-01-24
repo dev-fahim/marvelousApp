@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { RecordService, ExpenditureRecordFilter } from 'src/app/service/expenditure/record.service';
+import { RecordService } from '../../../service/expenditure/record.service';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({

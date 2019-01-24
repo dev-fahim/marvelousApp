@@ -1,6 +1,6 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
-import { HeadingService } from 'src/app/service/expenditure/heading.service';
+import { HeadingService } from '../../../service/expenditure/heading.service';
 
 @Component({
   selector: 'app-record-filter',

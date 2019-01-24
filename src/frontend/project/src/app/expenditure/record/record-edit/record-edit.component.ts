@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { RecordService, SpecificExpenditureRecordModel } from 'src/app/service/expenditure/record.service';
+import { RecordService, SpecificExpenditureRecordModel } from '../../../service/expenditure/record.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { FundService } from 'src/app/service/credit/fund.service';
-import { HeadingService } from 'src/app/service/expenditure/heading.service';
+import { FundService } from '../../../service/credit/fund.service';
+import { HeadingService } from '../../../service/expenditure/heading.service';
 
 @Component({
   selector: 'app-record-edit',

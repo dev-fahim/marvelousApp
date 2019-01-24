@@ -19,10 +19,10 @@ export class AuthChildGuardService implements CanActivate, CanActivateChild {
         const token = tokenGetter();
         if (token) {
             if (!isExpired) return true;
-            this._router.navigate(['/auth/login']);
+            this._router.navigate(['/login']);
             return false;
         }
-        this._router.navigate(['/auth/login']);
+        this._router.navigate(['/login']);
         return false;
 
     }

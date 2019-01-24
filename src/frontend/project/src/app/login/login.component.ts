@@ -33,6 +33,7 @@ export class LoginComponent implements OnInit {
       .subscribe(
         (response) => {
           if (response.logged_in) {
+            this._authService.set_loggedin(true);
             this.login_error = false;
             return this._router.navigate([AuthService.login_success_url]);
           }
