@@ -10,13 +10,13 @@ import { ServerError } from './serve-error';
 
 export function errorResponse(error: HttpErrorResponse) {
     if (error.status === 401) {
-        return throwError(new UnAuthorized(error.error));
+        return throwError(new UnAuthorized(error));
     }
     if (error.status === 404) {
-        return throwError(new NotFound(error.error));
+        return throwError(new NotFound(error));
     }
     if (error.status === 400) {
-        return throwError(new BadInput(error.error));
+        return throwError(new BadInput(error));
     }
     if (error.status === 403) {
         return throwError(new Forbidden(error));

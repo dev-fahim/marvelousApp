@@ -1,5 +1,9 @@
+import { ServerError } from './../../../common/serve-error';
+import { AppError } from 'src/app/common/app-error';
+import { BadInput } from './../../../common/bad-input';
+import { Forbidden } from 'src/app/common/forbidden';
+import { NotFound } from './../../../common/not-found';
 import { FormControl, Validators, FormGroup } from '@angular/forms';
-import { BehaviorSubject } from 'rxjs';
 import { HeadingService } from 'src/app/service/expenditure/heading.service';
 import { ExpenditureHeadingGETModel } from './../../../service/models';
 import { Component, OnInit } from '@angular/core';
@@ -34,6 +38,26 @@ export class HeadingListComponent implements OnInit {
 
   constructor(private _headingService: HeadingService, private _router: Router) { }
 
+  throw_error(error: AppError) {
+    if (error instanceof BadInput) {
+      return this.messages.splice(0, 0, { message: 'Invalid UUID or fund is limited.', type: 'error' });
+    }
+    if (error instanceof Forbidden) {
+      return this.messages.splice(0, 0, { message: 'You don\'t have permission for this action.', type: 'error' });
+    }
+    if (error instanceof NotFound) {
+      return this.messages.splice(0, 0, { message: '404 Not Found', type: 'error' });
+    }
+    if (error instanceof UnAuthorized) {
+      this._router.navigate(['/login'])
+      return this.messages.splice(0, 0, { message: 'You are not logged in.', type: 'error' });
+    }
+    if (error instanceof ServerError) {
+      return this.messages.splice(0, 0, { message: 'Internal Server Error.', type: 'error' });
+    }
+    return this.messages.splice(0, 0, { message: 'An unexpected error ocurred.', type: 'error' });
+  }
+
   ngOnInit() {
     this._headingService.get_all_headings()
       .subscribe(
@@ -53,10 +77,8 @@ export class HeadingListComponent implements OnInit {
         (next) => {
           this.all_headings = next;
         },
-        (error) => {
-          if (error instanceof UnAuthorized) {
-            this._router.navigate(['/login']);
-          }
+        (error: AppError) => {
+          return this.throw_error(error);
         }
       )
   }
@@ -70,6 +92,9 @@ export class HeadingListComponent implements OnInit {
       .subscribe(
         (next) => {
           this.all_headings = next;
+        },
+        (error: AppError) => {
+          return this.throw_error(error);
         }
       )
   }

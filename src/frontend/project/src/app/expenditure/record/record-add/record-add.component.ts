@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 import { AppError } from 'src/app/common/app-error';
 import { Forbidden } from 'src/app/common/forbidden';
 import { ServerError } from 'src/app/common/serve-error';
+import { ExpenditureHeadingGETModel } from 'src/app/service/models';
 
 @Component({
   selector: 'app-record-add',
@@ -34,11 +35,9 @@ export class RecordAddComponent implements OnInit {
       Validators.required
     ])
   })
-  all_headings;
-  fund_status = {
-    is_not_locked: true
-  };
-  messages: {message: string, type: string}[] = [];
+  all_headings: ExpenditureHeadingGETModel[];
+  fund_status = false;;
+  messages: { message: string, type: string }[] = [];
   loading = false;
 
   constructor(
@@ -109,7 +108,7 @@ export class RecordAddComponent implements OnInit {
   }
 
   get fund_not_locked() {
-    return this.fund_status.is_not_locked
+    return this.fund_status;
   }
 
   onReset() {

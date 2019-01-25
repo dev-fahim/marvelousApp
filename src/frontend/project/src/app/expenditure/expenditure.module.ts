@@ -14,6 +14,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { ExpenditureRoutingModule } from './expenditure-routing.module';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { ExpenditureRoutingModule } from './expenditure-routing.module';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    ExpenditureRoutingModule
+    ExpenditureRoutingModule,
+    SharedModule
   ]
 })
 export class ExpenditureModule { }

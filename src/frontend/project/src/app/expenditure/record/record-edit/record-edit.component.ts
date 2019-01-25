@@ -1,3 +1,4 @@
+import { ExpenditureRecordGETModel } from './../../../service/models';
 import { ServerError } from 'src/app/common/serve-error';
 import { UnAuthorized } from './../../../common/unauthorized-error';
 import { Component, OnInit } from '@angular/core';
@@ -17,14 +18,7 @@ import { NotFound } from 'src/app/common/not-found';
   styleUrls: ['./record-edit.component.scss']
 })
 export class RecordEditComponent implements OnInit {
-  expenditure_data: SpecificExpenditureRecordModel = {
-    expend_by: '',
-    description: '',
-    amount: 0,
-    expend_date: '',
-    expend_heading: '',
-    is_verified: false
-  };
+  expenditure_data: ExpenditureRecordGETModel;
   FUND_LOCKED = false;
   uuid = '';
 
@@ -100,7 +94,7 @@ export class RecordEditComponent implements OnInit {
     this.fundService.get_fund_status()
       .subscribe(
         (result) => {
-          return this.FUND_LOCKED = !result.is_not_locked
+          return this.FUND_LOCKED = !result
         }
       )
     this.headingService.get_all_headings()
@@ -131,7 +125,7 @@ export class RecordEditComponent implements OnInit {
   get is_verified() {
     return this.form.get('is_verified')
   }
-
+  
   onSubmit() {
     this.loading = true;
     console.log(this.form.value)

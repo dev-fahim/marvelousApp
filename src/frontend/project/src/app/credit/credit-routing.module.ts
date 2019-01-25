@@ -13,7 +13,7 @@ const routes: Routes = [
   { path: 'fund', children: [
     { path: 'record', component: FundRecordComponent, children: [
       { path: 'list-add', component: FundRecordListComponent },
-      { path: 'edit', component: FundRecordEditComponent }
+      { path: 'edit/:uuid', component: FundRecordEditComponent }
     ] },
     { path: 'source', component: FundSourceComponent, children: [
       { path: 'list-add', component: FundSourceListComponent },

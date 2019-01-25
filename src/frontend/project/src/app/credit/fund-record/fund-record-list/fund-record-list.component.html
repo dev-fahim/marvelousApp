@@ -1,3 +1,42 @@
-<p>
-  fund-record-list works!
-</p>
+<div class="ui container segment">
+  <h3 class="header">Credit Fund Record</h3>
+</div>
+<div class="ui ui container stackable two column grid">
+  <div class="ui six wide column">
+    <app-fund-record-add (record_data)="onAddData($event)"></app-fund-record-add>
+  </div>
+  <div class="ui ten wide column grid">
+    <div class="ui sixteen wide column">
+      <app-fund-record-filter (filtered_fund_data)="onFilterData($event)" [loading_on_filter]="loading"></app-fund-record-filter>
+    </div>
+    <div class="ui sixteen wide column">
+        <table class="ui selectable blue celled table">
+          <thead>
+            <tr>
+              <th colspan="4"><h3>Credit Fund Records</h3></th>
+              <th>
+                <button class="ui blue icon mini button" (click)="onReload()"
+                [ngClass]="{'loading': loading}"><i class="redo icon"></i></button>
+              </th>
+            </tr>
+            <tr>
+              <th>Source Head Name</th>
+              <th>Description</th>
+              <th>Amount</th>
+              <th>Fund Added</th>
+              <th>Record Added</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let data of all_credit_fund_records">
+              <td class="selectable"><a [routerLink]="[ '/main-app/credit/fund/record/edit', data.uuid ]">{{ data.source_name | titlecase }}</a></td>
+              <td>{{ data.description }}</td>
+              <td>{{ data.amount }}</td>
+              <td>{{ data.added | date }}</td>
+              <td>{{ data.fund_added | date }}</td>
+            </tr>
+          </tbody>
+        </table>
+    </div>
+  </div>
+</div>

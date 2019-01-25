@@ -35,6 +35,23 @@ export class HeadingAddComponent implements OnInit {
 
   constructor(private _headingService: HeadingService, private _router: Router) { }
 
+  throw_error(error: AppError) {
+    if (error instanceof BadInput) {
+      return this.messages.splice(0, 0, { message: 'You have entered invalid data or fund is limited. All fields and required and must be valid.', type: 'error' });
+    }
+    if (error instanceof Forbidden) {
+      return this.messages.splice(0, 0, { message: 'You don\'t have permission for this action.', type: 'error' });
+    }
+    if (error instanceof UnAuthorized) {
+      this._router.navigate(['/login'])
+      return this.messages.splice(0, 0, { message: 'You are not logged in.', type: 'error' });
+    }
+    if (error instanceof ServerError) {
+      return this.messages.splice(0, 0, { message: 'Internal Server Error.', type: 'error' });
+    }
+    return this.messages.splice(0, 0, { message: 'An unexpected error occured.', type: 'error' });
+  }
+
   ngOnInit() {
   }
 
@@ -50,19 +67,7 @@ export class HeadingAddComponent implements OnInit {
             this.messages.splice(0, 0, { message: 'Espenditure Heading ADDED successfuly.', type: 'positive' });
           },
           (error: AppError) => {
-            if (error instanceof BadInput) {
-              this.messages.splice(0, 0, { message: 'You have entered invalid data or fund is limited. All fields and required and must be valid.', type: 'error' });
-            }
-            if (error instanceof Forbidden) {
-              this.messages.splice(0, 0, { message: 'You don\'t have permission for this action.', type: 'error' });
-            }
-            if (error instanceof UnAuthorized) {
-              this._router.navigate(['/login'])
-              this.messages.splice(0, 0, { message: 'You are not logged in.', type: 'error' });
-            }
-            if (error instanceof ServerError) {
-              this.messages.splice(0, 0, { message: 'Internal Server Error.', type: 'error' });
-            }
+            return this.throw_error(error);
           }
         )
     }

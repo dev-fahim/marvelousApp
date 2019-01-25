@@ -1,11 +1,11 @@
 import { CreditFundRecordGETModel } from './../models';
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { LOCAL_REST_API_SERVER } from './../server.url';
-import { catchError } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 import { errorResponse } from 'src/app/common/error-response';
 
-export interface FundListFilter {
+export interface CreditFundRecordListFilter {
   added: string
   fund_source: string
   max_amount: string
@@ -26,7 +26,7 @@ export class FundService {
 
   constructor(private _http: HttpClient) { }
 
-  get_all_funds(filters: FundListFilter = {
+  get_all_funds(filters: CreditFundRecordListFilter = {
     added: '',
     amount: '',
     fund_source: '',
@@ -55,8 +55,19 @@ export class FundService {
     )
   }
 
+  get_specific_fund_record(uuid: string) {
+    return this._http.get<CreditFundRecordGETModel>(LOCAL_REST_API_SERVER + 'credit/fund/view/' + uuid + '/').pipe(
+      catchError(errorResponse)
+    )
+  }
+  
   get_fund_status() {
     return this._http.get<FundStatus>(LOCAL_REST_API_SERVER + 'credit/fund/settings/').pipe(
+      map(
+        (next: FundStatus) => {
+          return next.is_not_locked;
+        }
+      ),
       catchError(errorResponse)
     )
   }

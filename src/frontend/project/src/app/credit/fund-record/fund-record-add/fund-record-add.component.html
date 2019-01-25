@@ -1,3 +1,46 @@
-<p>
-  fund-record-add works!
-</p>
+<div class="ui green segment">
+  <h3 class="header">Add Credit Fund Record</h3>
+  <div class="ui divider"></div>
+  <div class="ui icon message error" *ngIf="fund_is_locked">
+    <i class="ban icon"></i>
+    <div class="content">
+      <b>Fund is now LOCKED.</b>
+    </div>
+  </div>
+  <div class="ui icon message {{ message.type }}" *ngFor="let message of messages">
+    <i class="x icon" *ngIf="message.type === 'error'"></i>
+    <i class="check icon" *ngIf="message.type === 'positive'"></i>
+    <div class="content">
+      <b>{{ message.message }}</b>
+    </div>
+  </div>
+  <form class="ui small fluid form" [formGroup]="form" (ngSubmit)="onSubmit()" [ngClass]="{'loading': loading}">
+    <div class="field" [ngClass]="{'error': form.get('source').touched && form.get('source').invalid}">
+      <label for="source">Source Name</label>
+      <select type="text" formControlName="source" class="ui dropdown" appDropdown>
+        <option value="">Source Name</option>
+        <option value="{{ data.id }}" *ngFor="let data of all_sources">{{ data.source_name }}</option>
+      </select>
+    </div>
+    <div class="field" [ngClass]="{'error': form.get('description').touched && form.get('description').invalid}"> tiny
+      <label for="description">Description</label>
+      <input type="text" formControlName="description">
+    </div>
+    <div class="field" [ngClass]="{'error': form.get('amount').touched && form.get('amount').invalid}">
+      <label for="amount">Amount</label>
+      <input type="number" formControlName="amount">
+    </div>
+    <div class="field" [ngClass]="{'error': form.get('fund_added').touched && form.get('fund_added').invalid}">
+      <label for="fund_added">Fund Added Date</label>
+      <div class="ui calendar">
+        <div class="ui input left icon">
+          <i class="calendar icon"></i>
+          <input type="date" placeholder="Fund Added Date" formControlName="fund_added">
+        </div>
+      </div>
+    </div>
+    <button class="ui violet labeled icon button tiny" type="submit" [ngClass]="{'loading': loading}"><i class="add icon"></i>Add</button>
+  </form>
+  <div class="ui divider"></div>
+  <button class="ui yellow labeled icon button tiny" (click)="onReset()"><i class="eraser icon"></i>Reset</button>
+</div>

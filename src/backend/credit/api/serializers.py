@@ -54,6 +54,7 @@ class CreditFundSourceModelSerializer(serializers.ModelSerializer):
     class Meta:
         model = CreditFundSourceModel
         fields = (
+            'id',
             'source_name',
             'url',
             'description',
@@ -61,7 +62,7 @@ class CreditFundSourceModelSerializer(serializers.ModelSerializer):
             'updated',
             'uuid'
         )
-        read_only_fields = ('uuid', 'added', 'updated')
+        read_only_fields = ('uuid', 'added', 'updated', 'id')
 
     def request_data(self):
         return self.context['request']
@@ -89,6 +90,7 @@ class CreditFundsAccordingToSourcesSerializer(serializers.ModelSerializer):
     class Meta:
         model = CreditFundSourceModel
         fields = (
+            'id',
             'source_name',
             'url',
             'description',
@@ -97,7 +99,7 @@ class CreditFundsAccordingToSourcesSerializer(serializers.ModelSerializer):
             'uuid',
             'funds'
         )
-        read_only_fields = ('uuid', 'added', 'updated')
+        read_only_fields = ('uuid', 'added', 'updated', 'id')
 
 
 class CreditFundSettingsModelSerializer(serializers.ModelSerializer):

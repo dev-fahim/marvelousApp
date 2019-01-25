@@ -1,68 +1,69 @@
-<div class="ui icon message error" *ngIf="!fund_not_locked">
-  <i class="ban icon"></i>
-  <div class="content">
-    <b>Fund is now LOCKED.</b>
+<div class="ui container">
+  <div class="ui icon message error" *ngIf="!fund_not_locked">
+    <i class="ban icon"></i>
+    <div class="content">
+      <b>Fund is now LOCKED.</b>
+    </div>
   </div>
-</div>
-<div class="ui icon message {{ message.type }}" *ngFor="let message of messages">
-  <i class="x icon" *ngIf="message.type === 'error'"></i>
-  <i class="check icon" *ngIf="message.type === 'positive'"></i>
-  <div class="content">
-    <b>{{ message.message }}</b>
+  <div class="ui icon message {{ message.type }}" *ngFor="let message of messages">
+    <i class="x icon" *ngIf="message.type === 'error'"></i>
+    <i class="check icon" *ngIf="message.type === 'positive'"></i>
+    <div class="content">
+      <b>{{ message.message }}</b>
+    </div>
   </div>
-</div>
-<div class="ui grid" *ngIf="!(HTTP_404_ERROR || get_deleted)">
-  <div class="six wide column">
-    <div class="ui segment">
-      <h3>Edit expenditure record</h3>
-      <div class="ui divider"></div>
-      <form class="ui form fluid tiny" [formGroup]='form' (ngSubmit)="onSubmit()"
-      [ngClass]="{'loading': loading || loading_del}">
-        <div class="field" [ngClass]="{'error': expend_heading.touched && expend_by.invalid}">
-          <label>Expend Heading</label>
-          <select formControlName="expend_heading">
-            <option value="">None</option>
-            <option value="{{ data.id }}" *ngFor="let data of all_headings">{{ data.heading }}</option>
-          </select>
+  <div class="ui grid" *ngIf="!(HTTP_404_ERROR || get_deleted)">
+    <div class="column">
+      <div class="ui segment">
+        <h3>Edit expenditure record</h3>
+        <div class="ui divider"></div>
+        <form class="ui form fluid tiny" [formGroup]='form' (ngSubmit)="onSubmit()" [ngClass]="{'loading': loading || loading_del}">
+          <div class="field" [ngClass]="{'error': expend_heading.touched && expend_by.invalid}">
+            <label>Expend Heading</label>
+            <select formControlName="expend_heading" class="ui dropdown" appDropdown>
+              <option value="">{{ expenditure_data.expend_heading_name }}</option>
+              <option value="{{ data.id }}" *ngFor="let data of all_headings">{{ data.heading }}</option>
+            </select>
+          </div>
+          <div class="field" [ngClass]="{'error': expend_by.touched && expend_by.invalid}">
+            <label>Expend by</label>
+            <input type="text" formControlName="expend_by" placeholder="Expend by">
+          </div>
+          <div class="field" [ngClass]="{'error': description.touched && expend_by.invalid}">
+            <label>Description</label>
+            <textarea formControlName="description" placeholder="Description"></textarea>
+          </div>
+          <div class="field" [ngClass]="{'error': amount.touched && expend_by.invalid}">
+            <label>Amount</label>
+            <input type="number" formControlName="amount" placeholder="Amount">
+          </div>
+          <div class="field">
+            <label>Authorized</label>
+            <select formControlName="is_verified" class="ui dropdown" appDropdown>
+              <option value="">{{ expenditure_data.is_verified? 'Yes' : 'No' }}</option>
+              <option value="true">Yes</option>
+              <option value="false">No</option>
+            </select>
+          </div>
+          <div class="field" [ngClass]="{'error': expend_date.touched && expend_by.invalid}">
+            <label>Expend Date. Previous value was {{ expenditure_data.expend_date | date }}</label>
+            <input type="date" formControlName="expend_date" placeholder="Expend Date & Time">
+          </div>
+          <button class="ui labeled icon button purple tiny" type="submit" [ngClass]="{'loading': loading}"><i class="arrow up icon"></i>Update
+            record</button>
+          <a class="ui blue button labeled icon mini" [routerLink]="[ '/main-app/expenditure/record' ]"><i class="arrow left icon"></i>Go
+            back</a>
+        </form>
+        <div class="ui warning message">
+          <div class="header">
+            Important
+          </div>
+          In the form all fields are must be filled and valid.
         </div>
-        <div class="field" [ngClass]="{'error': expend_by.touched && expend_by.invalid}">
-          <label>Expend by</label>
-          <input type="text" formControlName="expend_by" placeholder="Expend by">
-        </div>
-        <div class="field" [ngClass]="{'error': description.touched && expend_by.invalid}">
-          <label>Description</label>
-          <textarea formControlName="description" placeholder="Description"></textarea>
-        </div>
-        <div class="field" [ngClass]="{'error': amount.touched && expend_by.invalid}">
-          <label>Amount</label>
-          <input type="number" formControlName="amount" placeholder="Amount">
-        </div>
-        <div class="field">
-          <label>Authorized</label>
-          <select formControlName="is_verified">
-            <option value="">Default</option>
-            <option value="true">Yes</option>
-            <option value="false">No</option>
-          </select>
-        </div>
-        <div class="field" [ngClass]="{'error': expend_date.touched && expend_by.invalid}">
-          <label>Expend Date. Previous value was {{ expenditure_data.expend_date | date }}</label>
-          <input type="date" formControlName="expend_date" placeholder="Expend Date & Time">
-        </div>
-        <button class="ui labeled icon button purple tiny" type="submit"
-        [ngClass]="{'loading': loading}"><i class="arrow up icon"></i>Update record</button>
-        <a class="ui blue button labeled icon mini" [routerLink]="[ '/main-app/expenditure/record' ]"><i class="arrow left icon"></i>Go
-          back</a>
-      </form>
-      <div class="ui warning message">
-        <div class="header">
-          Important
-        </div>
-        In the form all fields are must be filled and valid.
+        <button class="ui right labeled icon button yellow tiny" (click)="onReset()"><i class="redo icon"></i>Reset</button>
+        <button class="ui labeled icon button red tiny" (click)="onDelete()" [ngClass]="{'loading': loading_del}"><i
+            class="close icon"></i>Delete</button>
       </div>
-      <button class="ui right labeled icon button yellow tiny" (click)="onReset()"><i class="redo icon"></i>Reset</button>
-      <button class="ui labeled icon button red tiny" (click)="onDelete()"
-      [ngClass]="{'loading': loading_del}"><i class="close icon"></i>Delete</button>
     </div>
   </div>
 </div>

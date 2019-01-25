@@ -10,6 +10,6 @@ export class CreditComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    
   }
-
 }

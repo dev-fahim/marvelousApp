@@ -1,11 +1,12 @@
 <div class="ui blue segment">
   <h3>Filter form</h3>
   <div class="ui divider"></div>
-  <form (ngSubmit)="onSubmit()" [formGroup]="filter_form" class="ui form tiny">
+  <form (ngSubmit)="onSubmit()" [formGroup]="filter_form" class="ui form tiny"
+  [ngClass]="{'loading': loading}">
     <div class="fields">
       <div class="four wide field">
         <label>Authorized</label>
-        <select formControlName="is_verified">
+        <select formControlName="is_verified" class="ui dropdown" appDropdown>
           <option value="">All</option>
           <option value="true">Yes</option>
           <option value="false">No</option>
@@ -49,7 +50,7 @@
       </div>
       <div class="four wide field">
         <label>Heading name</label>
-        <select formControlName="heading">
+        <select formControlName="heading" class="ui dropdown" appDropdown>
           <option value="">All</option>
           <option value="{{ heading }}" *ngFor="let heading of all_headings">{{ heading }}</option>
         </select>
@@ -60,7 +61,7 @@
       </div>
       <div class="four wide field">
         <label>Ordering</label>
-        <select formControlName="ordering">
+        <select formControlName="ordering" class="ui dropdown" appDropdown>
           <option value="">No ordering</option>
           <option value="added">Added - Ascending</option>
           <option value="-added">Added - Descending</option>

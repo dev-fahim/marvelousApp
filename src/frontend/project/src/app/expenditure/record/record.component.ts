@@ -11,5 +11,4 @@ export class RecordComponent implements OnInit {
 
   ngOnInit() {
   }
-
 }

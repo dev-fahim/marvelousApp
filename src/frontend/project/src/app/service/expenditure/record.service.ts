@@ -1,3 +1,4 @@
+import { ExpenditureRecordGETModel } from './../models';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { LOCAL_REST_API_SERVER } from './../server.url';
@@ -73,7 +74,7 @@ export class RecordService {
   }
 
   get_specific_record(uuid: string) {
-    return this._http.get<SpecificExpenditureRecordModel>(EXPENDITURE_RECORD_REST_API_URL + 'view/' + uuid + '/').pipe(
+    return this._http.get<ExpenditureRecordGETModel>(EXPENDITURE_RECORD_REST_API_URL + 'view/' + uuid + '/').pipe(
       catchError(errorResponse)
       )
   }

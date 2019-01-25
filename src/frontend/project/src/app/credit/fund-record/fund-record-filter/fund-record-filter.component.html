@@ -1,3 +1,50 @@
-<p>
-  fund-record-filter works!
-</p>
+<div class="ui violet segment">
+  <h3 class="header">Filter Credit Fnnd Records</h3>
+  <div class="ui divider"></div>
+  <form class="ui fluid small form" [formGroup]="form" (ngSubmit)="onSubmit()" [ngClass]="{'loading': loading_on_filter}">
+    <div class="fields">
+      <div class="ui five wide field">
+        <label for="fund_source">Head Name</label>
+        <input type="text" formControlName="fund_source">
+      </div>
+      <div class="ui five wide field">
+        <label for="added">Added Date</label>
+        <input type="date" formControlName="added">
+      </div>
+      <div class="ui five wide field">
+        <label for="amount">Amount</label>
+        <input type="number" formControlName="amount">
+      </div>
+    </div>
+    <div class="fields">
+      <div class="ui five wide field">
+        <label for="min_amount">Min Amount</label>
+        <input type="number" formControlName="min_amount">
+      </div>
+      <div class="ui five wide field">
+        <label for="max_amount">Max Amount</label>
+        <input type="number" formControlName="max_amount">
+      </div>
+      <div class="ui five wide field">
+        <label for="ordering">Ordering</label>
+        <select type="text" formControlName="ordering" class="ui dropdown" appDropdown>
+          <option value="">Ordering</option>
+          <option value="added">Added - Ascending</option> 
+          <option value="-added">Added - Descending</option> 
+          <option value="source__source_name">Source Name - Ascending</option> 
+          <option value="-source__source_name">Source Name - Descending</option> 
+          <option value="amount">Amount - Ascending</option> 
+          <option value="-amount">Amount - Descending</option> 
+        </select>
+      </div>
+    </div>
+    <div class="fields">
+      <div class="ui five wide field">
+        <label for="search">Search</label>
+        <input type="text" formControlName="search">
+      </div>
+    </div>
+    <button class="ui blue labeled icon button tiny" type="submit"><i class="filter icon"
+      [ngClass]="{'loading': loading_on_filter}"></i>Filter</button>
+  </form>
+</div>

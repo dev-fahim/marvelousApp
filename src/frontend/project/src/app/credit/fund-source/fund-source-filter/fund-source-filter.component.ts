@@ -7,9 +7,22 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FundSourceFilterComponent implements OnInit {
 
+  @Output() filtered_fund_data = new EventEmitter<CreditFundRecordListFilter>();
+  @Input() loading_on_filter = false;
+
+  form = new FormGroup({
+    ordering: new FormControl(""),
+    search: new FormControl("")
+  })
+
   constructor() { }
 
   ngOnInit() {
+  }
+
+  onSubmit() {
+    this.loading_on_filter = true;
+    this.filtered_fund_data.emit(this.form.value);
   }
 
 }

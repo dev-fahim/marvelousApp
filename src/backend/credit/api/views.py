@@ -78,6 +78,15 @@ class CreditFundRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIVi
         return self.request.user.base_user.credit_funds.all()
 
 
+class CreditFundRetrieveAPIView(generics.RetrieveAPIView):
+    serializer_class = serializers.CreditFundModelSerializer
+    permission_classes = [permissions.OnlyBaseUser, ]
+    lookup_field = 'uuid'
+
+    def get_queryset(self):
+        return self.request.user.base_user.credit_funds.all()
+
+
 class CreditFundListAPIView(generics.ListAPIView):
     serializer_class = serializers.CreditFundModelSerializer
     permission_classes = [permissions.BaseUserOrSubUser, ]

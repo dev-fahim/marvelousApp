@@ -18,7 +18,7 @@ export interface ExpenditureRecordGETModel {
     description: string;
     amount: number;
     is_verified: boolean;
-    expend_string: string;
+    expend_date: string;
     uuid?: string;
     added?: string;
     updated?: string;
@@ -26,6 +26,7 @@ export interface ExpenditureRecordGETModel {
 }
 
 export interface CreditFundSourceGETModel {
+    id?: number;
     source_name: string;
     url?: string;
     description: string;

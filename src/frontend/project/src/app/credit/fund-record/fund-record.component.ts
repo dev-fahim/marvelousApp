@@ -11,5 +11,4 @@ export class FundRecordComponent implements OnInit {
 
   ngOnInit() {
   }
-
 }
