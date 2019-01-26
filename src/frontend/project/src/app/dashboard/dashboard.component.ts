@@ -32,7 +32,7 @@ export class DashboardComponent {
   }
 
   ngOnInit() {
-    this.sourceService.get_all_sources()
+    this.sourceService.get_all_sources({ordering: '', search: ''})
       .subscribe(
         (result) => {
           this.loading = false;

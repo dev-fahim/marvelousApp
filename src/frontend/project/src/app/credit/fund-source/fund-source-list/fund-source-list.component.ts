@@ -1,3 +1,12 @@
+import { ServerError } from './../../../common/serve-error';
+import { UnAuthorized } from 'src/app/common/unauthorized-error';
+import { NotFound } from 'src/app/common/not-found';
+import { Forbidden } from './../../../common/forbidden';
+import { BadInput } from './../../../common/bad-input';
+import { AppError } from './../../../common/app-error';
+import { SourceService } from './../../../service/credit/source.service';
+import { Router } from '@angular/router';
+import { CreditFundSourceFilterModel, CreditFundSourceGETModel } from './../../../service/models';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -8,19 +17,18 @@ import { Component, OnInit } from '@angular/core';
 export class FundSourceListComponent implements OnInit {
 
   loading = false;
-  all_credit_fund_records: CreditFundRecordGETModel[] = [];
+  credit_fund_source_data: CreditFundSourceGETModel = {
+    source_name: '',
+    description: ''
+  }
+  all_credit_fund_sources: CreditFundSourceGETModel[] = [];
   messages: { message: string, type: string }[] = [];
-  filters: CreditFundRecordListFilter = {
-    added: '',
-    amount: '',
-    fund_source: '',
-    max_amount: '',
-    min_amount: '',
+  filters: CreditFundSourceFilterModel = {
     ordering: '',
     search: ''
   };
 
-  constructor(private _fundService: FundService, private _router: Router) { }
+  constructor(private _sourceService: SourceService, private _router: Router) { }
 
   throw_error(error: AppError) {
     if (error instanceof BadInput) {
@@ -42,21 +50,13 @@ export class FundSourceListComponent implements OnInit {
     return this.messages.splice(0, 0, { message: 'An unexpected error occured.', type: 'error' });
   }
 
-  ngOnInit(filters: CreditFundRecordListFilter = {
-    added: '',
-    amount: '',
-    fund_source: '',
-    max_amount: '',
-    min_amount: '',
-    ordering: '',
-    search: ''
-  }) {
+  ngOnInit(filters: CreditFundSourceFilterModel = this.filters) {
     this.loading = true;
-    this._fundService.get_all_funds(filters)
+    this._sourceService.get_all_sources(filters)
       .subscribe(
         (next) => {
           this.loading = false;
-          this.all_credit_fund_records = next;
+          this.all_credit_fund_sources = next;
         },
         (error: AppError) => {
           this.loading = false;
@@ -65,7 +65,7 @@ export class FundSourceListComponent implements OnInit {
       )
   }
 
-  onFilterData(filters: CreditFundRecordListFilter) {
+  onFilterData(filters: CreditFundSourceFilterModel) {
     this.filters = filters;
     return this.ngOnInit(this.filters); // Todo: Check if filtering has errors,
   }
@@ -74,13 +74,11 @@ export class FundSourceListComponent implements OnInit {
     return this.ngOnInit(this.filters);
   }
 
-  ngAfterViewInit(): void {
-    //Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
-    //Add 'implements AfterViewInit' to the class.
+  onAddData(data: CreditFundSourceGETModel) {
+    this.all_credit_fund_sources.splice(0, 0, data);
   }
 
-  onAddData(data: CreditFundRecordGETModel) {
-    this.all_credit_fund_records.splice(0, 0, data);
+  set_source_data(data: CreditFundSourceGETModel) {
+    return this.credit_fund_source_data = data;
   }
-
 }

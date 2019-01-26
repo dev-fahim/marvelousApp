@@ -72,7 +72,7 @@ export class FundRecordAddComponent implements OnInit {
   }
 
   ngOnInit() {
-    this._sourceService.get_all_sources()
+    this._sourceService.get_all_sources({ordering: '', search: ''})
       .subscribe(
         (next) => {
           this.all_sources = next;

@@ -1,3 +1,23 @@
-<p>
-  fund-source-edit works!
-</p>
+<div class="ui segment violet">
+  <div class="ui icon message {{ message.type }}" *ngFor="let message of messages">
+    <i class="x icon" *ngIf="message.type === 'error'"></i>
+    <i class="check icon" *ngIf="message.type === 'positive'"></i>
+    <div class="content">
+      <b>{{ message.message }}</b>
+    </div>
+  </div>
+  <form class="ui fluid small form" [formGroup]="form" (ngSubmit)="onSubmit()" [ngClass]="{'loading': loading || loading_del}">
+    <div class="field" [ngClass]="{'disabled': !form.get('source_name').valid}">
+      <label>Source Name</label>
+      <input type="text" formControlName="source_name">
+    </div>
+    <div class="field" [ngClass]="{'disabled': !form.get('description').valid}">
+      <label>Desciption</label>
+      <textarea type="text" formControlName="description"></textarea>
+    </div>
+    <button class="ui blue labeled icon button tiny" type="submit" [ngClass]="{'loading': loading}"><i class="angle double up icon"></i>Upgrade</button>
+  </form>
+  <div class="ui divider"></div>
+  <button class="ui yellow labeled icon button tiny" (click)="onReset()"><i class="redo icon"></i>Reset</button>
+  <button class="ui red labeled icon button tiny" [ngClass]="{'loading': loading_del}" (click)="onDelete()"><i class="eraser icon"></i>Delete</button>
+</div>

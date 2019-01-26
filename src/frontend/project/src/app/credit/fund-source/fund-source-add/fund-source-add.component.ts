@@ -25,19 +25,14 @@ export class FundSourceAddComponent implements OnInit {
   fund_is_locked = false;
 
   form = new FormGroup({
-    source: new FormControl(0, [
+    source_name: new FormControl("", [
       Validators.required,
-      Validators.minLength(1)
+      Validators.minLength(4),
+      Validators.maxLength(30)
     ]),
     description: new FormControl("", [
       Validators.required,
       Validators.minLength(4)
-    ]),
-    amount: new FormControl("", [
-      Validators.required
-    ]),
-    fund_added: new FormControl("", [
-      Validators.required
     ])
   });
 

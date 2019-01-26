@@ -92,7 +92,7 @@ export class FundRecordEditComponent implements OnInit {
         return this.throw_error(error);
       }
     )
-    this._sourceService.get_all_sources()
+    this._sourceService.get_all_sources({ordering: '', search: ''})
       .subscribe(
         (next) => {
           this.all_sources = next;

@@ -65,7 +65,7 @@ export class HeadingEditComponent {
       return this.messages.splice(0, 0, { message: 'You are not logged in.', type: 'error' });
     }
     if (error instanceof ServerError) {
-      return this.messages.splice(0, 0, { message: 'Internal Server Error.', type: 'error' });
+      return this.messages.splice(0, 0, { message: 'You have record which belongs to this heading name or Internal server error.', type: 'error' });
     }
     return this.messages.splice(0, 0, { message: 'An unexpected error ocurred.', type: 'error' });
   }
@@ -124,5 +124,6 @@ export class HeadingEditComponent {
 
   onReset() {
     this.messages = [];
+    this.form.reset();
   }
 }

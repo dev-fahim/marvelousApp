@@ -1,3 +1,6 @@
+<div class="ui clearing segment">
+  <h3 class="header">Expenditure Records</h3>
+</div>
 <div class="ui grid">
   <div class="four wide column">
     <app-record-add (expenditure_added)="onAddExpenditure($event)"></app-record-add>
@@ -41,8 +44,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let data of all_expenditures" 
-        [ngClass]="{'error': !data.is_verified}">
+        <tr *ngFor="let data of all_expenditures" [ngClass]="{'error': !data.is_verified}">
           <td class="selectable"><a class="header" [routerLink]="[ '/main-app/expenditure/record/edit', data.uuid ]">{{
               data.expend_heading_name |
               titlecase }}</a></td>

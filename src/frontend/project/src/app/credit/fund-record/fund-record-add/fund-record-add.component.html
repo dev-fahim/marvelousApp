@@ -22,7 +22,7 @@
         <option value="{{ data.id }}" *ngFor="let data of all_sources">{{ data.source_name }}</option>
       </select>
     </div>
-    <div class="field" [ngClass]="{'error': form.get('description').touched && form.get('description').invalid}"> tiny
+    <div class="field" [ngClass]="{'error': form.get('description').touched && form.get('description').invalid}">
       <label for="description">Description</label>
       <input type="text" formControlName="description">
     </div>

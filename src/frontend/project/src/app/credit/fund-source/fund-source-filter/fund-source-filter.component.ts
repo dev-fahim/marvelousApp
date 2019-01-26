@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { CreditFundSourceFilterModel } from './../../../service/models';
+import { FormGroup, FormControl } from '@angular/forms';
+import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
 
 @Component({
   selector: 'app-fund-source-filter',
@@ -7,7 +9,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FundSourceFilterComponent implements OnInit {
 
-  @Output() filtered_fund_data = new EventEmitter<CreditFundRecordListFilter>();
+  @Output() filtered_fund_data = new EventEmitter<CreditFundSourceFilterModel>();
   @Input() loading_on_filter = false;
 
   form = new FormGroup({

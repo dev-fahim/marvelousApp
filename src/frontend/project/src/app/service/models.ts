@@ -35,6 +35,11 @@ export interface CreditFundSourceGETModel {
     uuid?: string;
 }
 
+export interface CreditFundSourceFilterModel {
+    ordering?: string;
+    search?: string;
+}
+
 export interface CreditFundAccordinSourceGETModel {
     source_name: string;
     url?: string;

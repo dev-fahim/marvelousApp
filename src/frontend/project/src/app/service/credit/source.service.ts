@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { LOCAL_REST_API_SERVER } from './../server.url';
 import { catchError } from 'rxjs/operators';
 import { errorResponse } from 'src/app/common/error-response';
-import { CreditFundSourceGETModel } from '../models';
+import { CreditFundSourceGETModel, CreditFundSourceFilterModel } from '../models';
 
 
 @Injectable({
@@ -13,8 +13,11 @@ export class SourceService {
 
   constructor(private _http: HttpClient) { }
 
-  get_all_sources(search: string = '') {
-    return this._http.get<CreditFundSourceGETModel[]>(LOCAL_REST_API_SERVER + 'credit/source/list/', { params: { search: search } }).pipe(
+  get_all_sources(filters: CreditFundSourceFilterModel) {
+    return this._http.get<CreditFundSourceGETModel[]>(LOCAL_REST_API_SERVER + 'credit/source/list/', { params: {
+      ordering: filters.ordering,
+      search: filters.search
+    } }).pipe(
       catchError(errorResponse)
     )
   }

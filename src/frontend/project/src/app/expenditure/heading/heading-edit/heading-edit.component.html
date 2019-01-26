@@ -8,11 +8,11 @@
   </div>
   <form class="ui fluid tiny form" [formGroup]="form" (ngSubmit)="onSubmit()"
   [ngClass]="{'loading': loading || loading_del}">
-    <div class="field" [ngClass]="{'error': form.get('heading_name').invalid && form.get('heading_name').touched}">
+    <div class="field" [ngClass]="{'disabled': form.get('heading_name').invalid}">
       <label>Heading Name</label>
       <input type="text" formControlName="heading_name">
     </div>
-    <div class="field" [ngClass]="{'error': form.get('description').invalid && form.get('description').touched}">
+    <div class="field" [ngClass]="{'disabled': form.get('description').invalid}">
       <label>Desciption</label>
       <textarea type="text" formControlName="description"></textarea>
     </div>

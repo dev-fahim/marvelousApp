@@ -56,7 +56,28 @@ export class RecordEditComponent implements OnInit {
     private _router: Router
   ) { }
 
+  throw_error(error: AppError) {
+    if (error instanceof BadInput) {
+      return this.messages.splice(0, 0, { message: 'Invalid UUID or fund is limited.', type: 'error' });
+    }
+    if (error instanceof Forbidden) {
+      return this.messages.splice(0, 0, { message: 'You don\'t have permission for this action.', type: 'error' });
+    }
+    if (error instanceof NotFound) {
+      return this.messages.splice(0, 0, { message: '404 Not Found', type: 'error' });
+    }
+    if (error instanceof UnAuthorized) {
+      this._router.navigate(['/login'])
+      return this.messages.splice(0, 0, { message: 'You are not logged in.', type: 'error' });
+    }
+    if (error instanceof ServerError) {
+      return this.messages.splice(0, 0, { message: 'Internal Server Error.', type: 'error' });
+    }
+    return this.messages.splice(0, 0, { message: 'An unexpected error ocurred.', type: 'error' });
+  }
+
   ngOnInit() {
+    this.loading = true;
     this._acRoute.paramMap.subscribe(
       (params) => {
         return this.uuid = params.get('uuid');
@@ -65,6 +86,7 @@ export class RecordEditComponent implements OnInit {
     this.recordService.get_specific_record(this.uuid)
       .subscribe(
         (result) => {
+          this.loading = false;
           this.expenditure_data = result;
           this.form.setValue({
             expend_by: this.expenditure_data.expend_by,
@@ -76,30 +98,21 @@ export class RecordEditComponent implements OnInit {
           })
         },
         (error: AppError) => {
-          if (error instanceof BadInput) {
-            this.messages.splice(0, 0, { message: 'You have entered invalid data or fund is limited. All fields and required and must be valid.', type: 'error' });
-          }
-          if (error instanceof Forbidden) {
-            this.messages.splice(0, 0, { message: 'You don\'t have permission for this action.', type: 'error' });
-          }
-          if (error instanceof UnAuthorized) {
-            this._router.navigate(['/login'])
-            this.messages.splice(0, 0, { message: 'You are not logged in.', type: 'error' });
-          }
-          if (error instanceof ServerError) {
-            this.messages.splice(0, 0, { message: 'Internal Server Error.', type: 'error' });
-          }
+          this.loading = false;
+          return this.throw_error(error)
         }
       );
     this.fundService.get_fund_status()
       .subscribe(
         (result) => {
+          this.loading = false;
           return this.FUND_LOCKED = !result
         }
       )
     this.headingService.get_all_headings()
       .subscribe(
         (result) => {
+          this.loading = false;
           for (let heading of result) {
             this.all_headings.push({ heading: heading.heading_name, id: heading.id })
           }
@@ -125,7 +138,7 @@ export class RecordEditComponent implements OnInit {
   get is_verified() {
     return this.form.get('is_verified')
   }
-  
+
   onSubmit() {
     this.loading = true;
     console.log(this.form.value)
@@ -137,22 +150,7 @@ export class RecordEditComponent implements OnInit {
         },
         (error: AppError) => {
           this.loading = false;
-          if (error instanceof BadInput) {
-            this.messages.splice(0, 0, { message: 'Invalid UUID or fund is limited.', type: 'error' });
-          }
-          if (error instanceof Forbidden) {
-            this.messages.splice(0, 0, { message: 'You don\'t have permission for this action.', type: 'error' });
-          }
-          if (error instanceof NotFound) {
-            this.messages.splice(0, 0, { message: '404 Not Found', type: 'error' });
-          }
-          if (error instanceof UnAuthorized) {
-            this._router.navigate(['/login'])
-            this.messages.splice(0, 0, { message: 'You are not logged in.', type: 'error' });
-          }
-          if (error instanceof ServerError) {
-            this.messages.splice(0, 0, { message: 'Internal Server Error.', type: 'error' });
-          }
+          return this.throw_error(error);
         }
       )
   }
@@ -167,22 +165,7 @@ export class RecordEditComponent implements OnInit {
         },
         (error: AppError) => {
           this.loading_del = false;
-          if (error instanceof BadInput) {
-            this.messages.splice(0, 0, { message: 'Invalid UUID or fund is limited.', type: 'error' });
-          }
-          if (error instanceof Forbidden) {
-            this.messages.splice(0, 0, { message: 'You don\'t have permission for this action.', type: 'error' });
-          }
-          if (error instanceof NotFound) {
-            this.messages.splice(0, 0, { message: '404 Not Found', type: 'error' });
-          }
-          if (error instanceof UnAuthorized) {
-            this._router.navigate(['/login'])
-            this.messages.splice(0, 0, { message: 'You are not logged in.', type: 'error' });
-          }
-          if (error instanceof ServerError) {
-            this.messages.splice(0, 0, { message: 'Internal Server Error.', type: 'error' });
-          }
+          return this.throw_error(error);
         }
       )
   }

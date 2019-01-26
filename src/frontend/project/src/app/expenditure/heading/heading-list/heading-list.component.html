@@ -50,8 +50,9 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let data of all_headings" (click)="set_heading_data(data)">
-              <td>{{ data.heading_name }}</td>
+            <tr *ngFor="let data of all_headings">
+              <td
+              class="selectable" (click)="set_heading_data(data)"><a>{{ data.heading_name }}</a></td>
               <td>{{ data.description }}</td>
               <td>{{ data.added | date }}</td>
               <td>{{ data.updated | date }}</td>
