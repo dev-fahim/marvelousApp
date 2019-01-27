@@ -83,14 +83,14 @@ class GrabWhatYouWantedAPIView(generics.GenericAPIView):
             }
         elif self.is_sub_user():
             return {
-                'canAdd': self.request.user.root_user.canAdd,
-                'canEdit': self.request.user.root_user.canEdit,
-                'canList': self.request.user.root_user.canList,
-                'canRetrieve': self.request.user.root_user.canRetrieve,
+                'canAdd': self.request.user.root_sub_user.canAdd,
+                'canEdit': self.request.user.root_sub_user.canEdit,
+                'canList': self.request.user.root_sub_user.canList,
+                'canRetrieve': self.request.user.root_sub_user.canRetrieve,
                 'canFundSourceListCreate': False,
                 'canFundSourceEdit': False,
-                'is_active': self.request.user.root_user.is_active,
-                'user_type': self.request.user.root_user.user_type
+                'is_active': self.request.user.root_sub_user.is_active,
+                'user_type': self.request.user.root_sub_user.user_type
             }
     
     def get_account_status(self):
