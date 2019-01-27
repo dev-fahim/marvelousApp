@@ -19,9 +19,11 @@ export class AuthChildGuardService implements CanActivate, CanActivateChild {
         const token = tokenGetter();
         if (token) {
             if (!isExpired) return true;
+            localStorage.removeItem('access_token');
             this._router.navigate(['/login']);
             return false;
         }
+        localStorage.removeItem('access_token');
         this._router.navigate(['/login']);
         return false;
 
@@ -36,9 +38,11 @@ export class AuthChildGuardService implements CanActivate, CanActivateChild {
         const token = tokenGetter();
         if (token) {
             if (!isExpired) return true;
+            localStorage.removeItem('access_token');
             this._router.navigate(['/login']);
             return false;
         }
+        localStorage.removeItem('access_token');
         this._router.navigate(['/login']);
         return false;
 

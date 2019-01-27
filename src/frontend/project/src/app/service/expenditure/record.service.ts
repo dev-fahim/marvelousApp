@@ -92,4 +92,25 @@ export class RecordService {
       catchError(errorResponse)
     );
   }
+
+  get_csv(filters: ExpenditureRecordFilter) {
+    return this._http.get(LOCAL_REST_API_SERVER + 'expenditure/records-report-pdf/', {
+      params: {
+        is_verified: filters.is_verified,
+        amount: filters.amount,
+        max_amount: filters.max_amount,
+        min_amount: filters.min_amount,
+        added_after: filters.added_after,
+        added_before: filters.added_before,
+        expend_date_after: filters.expend_date_after,
+        expend_date_before: filters.expend_date_before,
+        added_date: filters.added_date,
+        heading: filters.heading,
+        search: filters.search,
+        ordering: filters.ordering
+      }
+    }).pipe(
+      catchError(errorResponse)
+    )
+  }
 }

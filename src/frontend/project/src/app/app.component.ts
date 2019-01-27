@@ -11,13 +11,7 @@ export class AppComponent {
 
   constructor(private _authService: AuthService) { }
 
-  onInit() {
-    this._authService.is_loggedin.subscribe(
-      (value) => {
-        this.set_logged_in(value);
-      }
-    )
-  }
+  onInit() {}
 
   set_logged_in(value: boolean) {
     this.is_loggedin = value;

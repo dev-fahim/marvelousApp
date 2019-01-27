@@ -1,3 +1,4 @@
+import { AuthGuardService } from './login/auth/auth-guard.service';
 import { LoginRouteGaurdService } from './login/auth/login-route-gaurd.service';
 import { LoginComponent } from './login/login.component';
 import { NoAccessComponent } from './no-access/no-access.component';
@@ -7,7 +8,7 @@ import { HomeComponent } from './home/home.component';
 import { AuthChildGuardService } from './login/auth/auth-child-guard.service';
 
 const routes: Routes = [
-  { path: '', pathMatch: 'full', redirectTo: '/main-app' },
+  { path: '', pathMatch: 'full', redirectTo: '/main-app/dashboard', canActivate: [AuthGuardService] },
   { path: 'main-app', children: [
     { path: '', pathMatch: 'full', redirectTo: '/main-app/dashboard' },
     { path: 'dashboard', loadChildren: './dashboard/dashboard.module#DashboardModule' },
@@ -18,7 +19,7 @@ const routes: Routes = [
     { path: 'company', loadChildren: './company/company.module#CompanyModule' },
     { path: 'report', loadChildren: './report/report.module#ReportModule' },
   ], canActivateChild: [AuthChildGuardService], component: HomeComponent },
-  { path: 'no-access', component: NoAccessComponent },
+  { path: 'no-access', component: NoAccessComponent, canActivate: [AuthGuardService] },
   { path: 'login', component: LoginComponent, canActivate: [LoginRouteGaurdService] },
   { path: '**', redirectTo: '/main-app' }
 ];

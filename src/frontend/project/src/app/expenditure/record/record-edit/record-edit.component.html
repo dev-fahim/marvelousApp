@@ -21,7 +21,7 @@
           <div class="field" [ngClass]="{'error': expend_heading.touched && expend_by.invalid}">
             <label>Expend Heading</label>
             <select formControlName="expend_heading" class="ui dropdown" appDropdown>
-              <option value="">{{ expenditure_data.expend_heading_name }}</option>
+              <option value="">{{ expenditure_data.expend_heading_name? '':expenditure_data.expend_heading_name }}</option>
               <option value="{{ data.id }}" *ngFor="let data of all_headings">{{ data.heading }}</option>
             </select>
           </div>

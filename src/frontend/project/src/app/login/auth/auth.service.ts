@@ -1,15 +1,12 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { map, catchError } from 'rxjs/operators';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, throwError } from 'rxjs';
+import * as common from '../../common';
+import { RootObject } from 'src/app/service/models';
 
-const token = () => { return localStorage.getItem('access_token') }
 const helper = new JwtHelperService();
-let isExpired = true;
-if (token) {
-  isExpired = helper.isTokenExpired(token());
-}
 
 interface LoginModel {
   username: string;
@@ -33,45 +30,60 @@ interface LoginResponseModel {
 })
 export class AuthService {
 
-  static login_url = '';
-  static login_success_url = '/home';
-  static login_api_url = '';
-
   constructor(private _http: HttpClient) { }
 
-  private loggedin = new BehaviorSubject(false);
-  get_loggedin = this.loggedin
-
-  login(data: LoginModel) {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' })
-    return this._http.post<LoginResponseModel>(AuthService.login_api_url, JSON.stringify(data), { headers: headers }).pipe(
+  loginUser(credentials: { username: string, password: string }) {
+    return this._http.post('http://localhost:8000/rest-auth/login/', credentials).pipe(
       map(
         (response) => {
-          if (response && response.token) {
-            this.set_loggedin(true);
-            localStorage.setItem('access_token', response.token);
-            return {
-              logged_in: true,
-              user_info: response.user
-            }
-          }
+          return response
         }
       ),
       catchError(
-        (error: Response) => { return Observable.throw(error); }
+        (error: HttpErrorResponse) => {
+          return throwError(common.get_http_response_error(error));
+        }
       )
     )
   }
 
-  isLoggedin() {
-    return !isExpired;
+  getUserPermission() {
+    return this._http.get<RootObject>('http://localhost:8000/api/service/what-do-you-want/').pipe(
+      map(
+        (response: RootObject) => { return response }
+      ),
+      catchError(
+        (error: HttpErrorResponse) => {
+          return throwError(common.get_http_response_error(error));
+        }
+      )
+    );
   }
 
-  get is_loggedin() {
-    return this.get_loggedin;
+  change_fund_status(status: boolean) {
+    return this._http.put("http://localhost:8000/api/credit/fund/settings/edit/", JSON.stringify({is_not_locked: status})).pipe(
+      map(
+        (response: {is_not_locked: boolean}) => {
+          return response;
+        }
+      ),
+      catchError(
+        (error: HttpErrorResponse) => {
+          return throwError(common.get_http_response_error(error));
+        }
+      )
+    )
   }
 
-  set_loggedin(value: boolean) {
-    this.loggedin.next(value);
+  is_logged_in() {
+    const helper = new JwtHelperService();
+    const rawToken = localStorage.getItem('access_token');
+
+    if (rawToken != undefined || rawToken != '') {
+      const isExpired = helper.isTokenExpired(rawToken);
+      return !isExpired;
+    }
+    return false;
   }
+
 }

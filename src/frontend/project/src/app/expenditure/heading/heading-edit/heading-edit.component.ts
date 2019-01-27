@@ -125,5 +125,6 @@ export class HeadingEditComponent {
   onReset() {
     this.messages = [];
     this.form.reset();
+    this.uuid = undefined;
   }
 }

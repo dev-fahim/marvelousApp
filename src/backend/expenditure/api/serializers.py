@@ -93,10 +93,10 @@ class ExpenditureRecordModelSafeSerializer(serializers.ModelSerializer):
         credit_fund_obj = []
 
         if base_user.exists() is True:
-            expend_obj = self.logged_in_user().base_user.all_expenditure_records.all()
+            expend_obj = self.logged_in_user().base_user.all_expenditure_records.all().filter(is_verified=True)
             credit_fund_obj = self.logged_in_user().base_user.credit_funds.all()
         elif sub_user.exists() is True:
-            expend_obj = self.logged_in_user().root_sub_user.base_user.all_expenditure_records.all()
+            expend_obj = self.logged_in_user().root_sub_user.base_user.all_expenditure_records.all().filter(is_verified=True)
             credit_fund_obj = self.logged_in_user().root_sub_user.base_user.credit_funds.all()
 
         all_credit_fund_amounts = [obj.amount for obj in credit_fund_obj]
@@ -142,10 +142,10 @@ class ExpenditureRecordModelSafeSerializer(serializers.ModelSerializer):
         credit_fund_obj = []
 
         if base_user.exists() is True:
-            expend_obj = self.logged_in_user().base_user.all_expenditure_records.all()
+            expend_obj = self.logged_in_user().base_user.all_expenditure_records.all().filter(is_verified=True)
             credit_fund_obj = self.logged_in_user().base_user.credit_funds.all()
         elif sub_user.exists() is True:
-            expend_obj = self.logged_in_user().root_sub_user.base_user.all_expenditure_records.all()
+            expend_obj = self.logged_in_user().root_sub_user.base_user.all_expenditure_records.all().filter(is_verified=True)
             credit_fund_obj = self.logged_in_user().root_sub_user.base_user.credit_funds.all()
 
         all_credit_fund_amounts = [obj.amount for obj in credit_fund_obj]

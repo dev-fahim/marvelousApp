@@ -3,41 +3,50 @@
         <div class="ui placeholder segment red">
             <div class="ui icon header">
                 <h2>Credit Fund status</h2>
-                <i class="{{ get_fund_status()? 'unlock green' : 'lock red' }} icon"></i>
-                <p>Your Credit Fund is now {{ get_fund_status()? 'unlocked' : 'locked' }}.</p>
+                <i class="{{ status? 'unlock green' : 'lock red' }} icon"></i>
+                <p>Fund is {{ status? 'unlocked' : 'locked' }}.</p>
             </div>
-            <div class="ui {{ get_fund_status()? 'red' : 'green' }} button" (click)="toggle_fund()">{{
-                get_fund_status()? 'Lock it' : 'Unlock it' }}</div>
+            <button *ngIf="api_services.is_base_user" class="ui {{ status? 'red' : 'green' }} button tiny" (click)="toggle_fund()">{{
+                status? 'Lock it' : 'Unlock it' }}</button>
         </div>
     </div>
-    <div class="four wide column">
+    <div class="three wide column">
         <div class="ui placeholder segment red">
             <div class="ui icon header">
-                <h2>Total remaining in Credit Fund</h2>
+                <h2>Remaining Balance</h2>
                 <i class="money green bill alternate outline icon"></i>
-                Total 50000 Tk.
+                {{ get_remailning_balance() }} Taka
             </div>
-            <div class="ui violet button">See credit fund records</div>
+            <button [routerLink]="['/main-app/credit/fund/record/list-add']" class="ui violet button tiny">See credit fund records</button>
         </div>
     </div>
-    <div class="four wide column">
+    <div class="three wide column">
         <div class="ui placeholder segment red">
             <div class="ui icon header">
-                <h2>Total expends in this month</h2>
+                <h2>Expends in this month</h2>
                 <i class="money red bill alternate outline icon"></i>
-                Total 50000 Tk.
+                {{ get_this_month_total_expend() }} Taka
             </div>
-            <div class="ui purple button">See expend records</div>
+            <button [routerLink]="['/main-app/expenditure/record']" class="ui purple button tiny">See expend records</button>
         </div>
     </div>
-    <div class="four wide column">
+    <div class="three wide column">
         <div class="ui placeholder segment red">
             <div class="ui icon header">
-                <h2>Total unauthorized expends</h2>
-                <i class="money yellow bill alternate outline icon"></i>
-                Total 50000 Tk.
+                <h2>Starting balance</h2>
+                <i class="money purple bill alternate outline icon"></i>
+                {{  get_starting_balance() }} Taka
             </div>
-            <div class="ui red button">See them all</div>
+        </div>
+    </div>
+    <div class="three wide column">
+        <div class="ui placeholder segment red">
+            <div class="ui icon header">
+                <h2>Unauthorized expends</h2>
+                <i class="money yellow bill alternate outline icon"></i>
+                {{ get_total_unauthorized_expend() }} Taka
+            </div>
+            <button [routerLink]="['/main-app/expenditure/record']" [queryParams]="{is_verified:false}" class="ui red button tiny">See them all</button>
         </div>
     </div>
 </div>

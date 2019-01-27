@@ -135,8 +135,8 @@ class GrabWhatYouWantedAPIView(generics.GenericAPIView):
     
     def get_this_month_total_expend_amount(self):
         this_month_expend_records = self.get_expend_records().filter(
-            added__month=datetime.datetime.now().month, 
-            added__year=datetime.datetime.now().year,
+            expend_date__month=datetime.datetime.now().month, 
+            expend_date__year=datetime.datetime.now().year,
             is_verified=True
             )
         this_month_expend_records_amounts = [obj.amount for obj in this_month_expend_records]

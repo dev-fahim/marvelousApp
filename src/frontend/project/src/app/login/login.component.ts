@@ -1,7 +1,11 @@
+import { AppError } from './../common/errors';
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from './auth/auth.service';
 import { Router } from '@angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UserStoreService } from 'src/store/user.store.service';
+import { RootObject } from '../service/models';
+import * as common from '../common';
 
 @Component({
   selector: 'app-login',
@@ -10,44 +14,47 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 })
 export class LoginComponent implements OnInit {
 
-  login_error = false;
-  message = '';
+  message: string = 'Login Error';
+  has_error = false;
 
   form = new FormGroup({
-    username: new FormControl("", [
-      Validators.required, Validators.minLength(4)
+    username: new FormControl('', [
+      Validators.required,
+      Validators.minLength(4)
     ]),
-    email: new FormControl(""),
-    password: new FormControl("", [
-      Validators.required, Validators.minLength(8)
+    password: new FormControl('', [
+      Validators.required,
+      Validators.minLength(8)
     ])
-  })
+  });
 
-  constructor(private _authService: AuthService, private _router: Router) { }
+  constructor(
+    private _auth: AuthService,
+    private user: UserStoreService,
+    private _router: Router
+  ) { }
 
-  ngOnInit() {
-  }
+  ngOnInit() { }
 
   onSubmit() {
-    this._authService.login(this.form.value)
-      .subscribe(
-        (response) => {
-          if (response.logged_in) {
-            this._authService.set_loggedin(true);
-            this.login_error = false;
-            return this._router.navigate([AuthService.login_success_url]);
+    if (this.form.valid) {
+      const credentials = this.form.value;
+      this._auth.loginUser(credentials)
+        .subscribe(
+          (response: { token: string }) => {
+            localStorage.setItem('access_token', response.token);
+            this._router.navigate(['/main-app/dashboard']);
+          },
+          (error: AppError) => {
+            this.has_error = true;
+            return common.throw_http_response_error(error)
           }
-        },
-        (error: Response) => {
-          this.message = 'Login cridentials are incorrect.';
-          this.form.reset;
-          return this.login_error = true;
-        }
-      );
+        )
+    }
   }
 
-  get get_error() {
-    return this.login_error;
+  get_message() {
+    return this.message;
   }
 
 }

@@ -1,6 +1,7 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { HeadingService } from '../../../service/expenditure/heading.service';
+import { RecordService } from 'src/app/service/expenditure/record.service';
 
 @Component({
   selector: 'app-record-filter',
@@ -27,7 +28,7 @@ export class RecordFilterComponent implements OnInit {
     ordering: new FormControl("")
   })
 
-  constructor(private _headingService: HeadingService) { }
+  constructor(private _headingService: HeadingService, private _recordService: RecordService) { }
 
   ngOnInit() {
     this.loading = true;
@@ -44,6 +45,10 @@ export class RecordFilterComponent implements OnInit {
 
   onSubmit() {
     this.filter_data.emit(this.filter_form.value);
+  }
+
+  onCSV() {
+    this._recordService.get_csv(this.filter_form.value).subscribe()
   }
 
 }
