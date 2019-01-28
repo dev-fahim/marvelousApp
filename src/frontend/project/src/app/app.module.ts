@@ -20,9 +20,6 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { ToolbarComponent } from './toolbar/toolbar.component';
 import { SharedModule } from './shared/shared.module';
 
-AuthService.login_url = 'login';
-AuthService.login_api_url = 'http://localhost:8000/rest-auth/login/';
-AuthService.login_success_url = '/main-app/dashboard';
 @NgModule({
   declarations: [
     AppComponent,

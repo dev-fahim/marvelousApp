@@ -11,7 +11,7 @@ export class HomeGaurd implements CanActivate {
 	constructor(private _authService: AuthService, private _router: Router) { }
 
 	canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-		if (this._authService.isLoggedin()) {
+		if (this._authService.is_logged_in()) {
 			this._router.navigate(['/dashboard']);
 			return false;
 		}
