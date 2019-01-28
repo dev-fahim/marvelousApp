@@ -1,7 +1,7 @@
 import { LoginComponent } from './login/login.component';
 import { NoAccessComponent } from './no-access/no-access.component';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { LOCALE_ID, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -13,12 +13,13 @@ import { HeadingService } from './service/expenditure/heading.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LoginModule } from './login/login.module';
 import { HttpClientModule } from '@angular/common/http';
-import { AuthService } from './login/auth/auth.service';
 import { HomeComponent } from './home/home.component';
 import { RecordService } from './service/expenditure/record.service';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { ToolbarComponent } from './toolbar/toolbar.component';
 import { SharedModule } from './shared/shared.module';
+import localeBn from '@angular/common/locales/bn';
+import { registerLocaleData } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,7 @@ import { SharedModule } from './shared/shared.module';
     FundService, 
     SourceService, 
     HeadingService,
-    RecordService
+    RecordService,
   ],
   bootstrap: [AppComponent]
 })

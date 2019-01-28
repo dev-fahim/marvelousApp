@@ -18,6 +18,7 @@ const routes: Routes = [
     { path: 'sub-user', loadChildren: './sub-user/sub-user.module#SubUserModule' },
     { path: 'company', loadChildren: './company/company.module#CompanyModule' },
     { path: 'report', loadChildren: './report/report.module#ReportModule' },
+    { path: 'profile', loadChildren: './profile/profile.module#ProfileModule' },
   ], canActivateChild: [AuthChildGuardService], component: HomeComponent },
   { path: 'no-access', component: NoAccessComponent, canActivate: [AuthGuardService] },
   { path: 'login', component: LoginComponent, canActivate: [LoginRouteGaurdService] },

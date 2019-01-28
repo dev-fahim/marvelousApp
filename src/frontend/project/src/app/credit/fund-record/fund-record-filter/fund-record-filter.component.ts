@@ -27,7 +27,13 @@ export class FundRecordFilterComponent implements OnInit {
   }
 
   onSubmit() {
-    this.loading_on_filter = true;
+    if (this.form.get('added').value === null) {this.form.get('added').setValue("")}
+    if (this.form.get('amount').value === null) {this.form.get('amount').setValue("")}
+    if (this.form.get('fund_source').value === null) {this.form.get('fund_source').setValue("")}
+    if (this.form.get('max_amount').value === null) {this.form.get('max_amount').setValue("")}
+    if (this.form.get('min_amount').value === null) {this.form.get('min_amount').setValue("")}
+    if (this.form.get('ordering').value === null) {this.form.get('ordering').setValue("")}
+    if (this.form.get('search').value === null) {this.form.get('search').setValue("")}
     this.filtered_fund_data.emit(this.form.value);
   }
 

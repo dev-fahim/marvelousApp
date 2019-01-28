@@ -7,7 +7,7 @@ import { CreditFundRecordGETModel } from 'src/app/service/models';
 import { Component, OnInit } from '@angular/core';
 import { FundService, CreditFundRecordListFilter } from 'src/app/service/credit/fund.service';
 import { AppError } from 'src/app/common/app-error';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-fund-record-list',
@@ -18,17 +18,25 @@ export class FundRecordListComponent implements OnInit {
   loading = false;
   all_credit_fund_records: CreditFundRecordGETModel[] = [];
   messages: { message: string, type: string }[] = [];
-  filters: CreditFundRecordListFilter = {
-    added: '',
-    amount: '',
-    fund_source: '',
-    max_amount: '',
-    min_amount: '',
-    ordering: '',
-    search: ''
-  };
+  added = '';
+  amount = '';
+  fund_source = '';
+  max_amount = '';
+  min_amount = '';
+  search = ''
+  ordering = ''
 
-  constructor(private _fundService: FundService, private _router: Router) { }
+  filter_array = [
+    'added',
+    'amount',
+    'fund_source',
+    'max_amount',
+    'min_amount',
+    'search',
+    'ordering'
+  ]
+
+  constructor(private _fundService: FundService, private _router: Router, private _acRoute: ActivatedRoute) { }
 
   throw_error(error: AppError) {
     if (error instanceof BadInput) {
@@ -58,9 +66,37 @@ export class FundRecordListComponent implements OnInit {
     min_amount: '',
     ordering: '',
     search: ''
-  }) {
+  }, is_filtered = false) {
     this.loading = true;
-    this._fundService.get_all_funds(filters)
+    if (is_filtered) {
+      for (let data of this.filter_array) {
+        if (filters[data] == null) {
+          this[data] = '';
+        } else {
+          this[data] = filters[data];
+        }
+      }
+    } else {
+      this._acRoute.queryParamMap.subscribe(
+        (params) => {
+          for (let data of this.filter_array) {
+            if (params.get(data) == null) {
+              this[data] = '';
+            } else {
+              this[data] = params.get(data);
+            }
+          }
+        })
+    }
+    this._fundService.get_all_funds({
+      added: this.added,
+      amount: this.amount,
+      fund_source: this.fund_source,
+      max_amount: this.max_amount,
+      min_amount: this.min_amount,
+      search: this.search,
+      ordering: this.ordering
+    })
       .subscribe(
         (next) => {
           this.loading = false;
@@ -74,12 +110,11 @@ export class FundRecordListComponent implements OnInit {
   }
 
   onFilterData(filters: CreditFundRecordListFilter) {
-    this.filters = filters;
-    return this.ngOnInit(this.filters); // Todo: Check if filtering has errors,
+    return this.ngOnInit(filters, true); // Todo: Check if filtering has errors,
   }
 
   onReload() {
-    return this.ngOnInit(this.filters);
+    return this.ngOnInit();
   }
 
   ngAfterViewInit(): void {
@@ -89,5 +124,21 @@ export class FundRecordListComponent implements OnInit {
 
   onAddData(data: CreditFundRecordGETModel) {
     this.all_credit_fund_records.splice(0, 0, data);
+  }
+
+  get_sum_amount() {
+    let amounts = [];
+    for (let data of this.all_credit_fund_records) {
+      amounts.push(data.amount);
+    }
+    let sum = 0;
+
+    for (let amount of amounts) {
+      sum = sum + amount;
+    }
+
+    return {
+      'amount': sum
+    }
   }
 }

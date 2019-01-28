@@ -23,7 +23,7 @@ class CompanyInfoModelSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         obj = CompanyInfoModel.objects.create(
             **validated_data,
-            base_users=self.logged_in_user().base_user,
+            base_user=self.logged_in_user().base_user,
             uuid=uuid.uuid4(),
             is_approved=False
             )

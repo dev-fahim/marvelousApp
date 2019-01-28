@@ -23,40 +23,48 @@
       </div>
     </div>
     <app-record-filter (filter_data)="onFilter($event)"></app-record-filter>
-    <table class="ui placeholder violet celled compact table selectable fluid" *ngIf="!is_loading()">
-      <thead>
-        <tr>
-          <th colspan="5">
-            <h3>All expend records</h3>
-          </th>
-          <th>
-            <button class="ui blue icon mini button" (click)="onReload()"><i class="redo icon"></i></button>
-          </th>
-        </tr>
-        <tr>
-          <th>Expend group head</th>
-          <!--Add Shorting TechnoLogy Here-->
-          <th>Expended by</th>
-          <th>Added by</th>
-          <th>Amount in Tk</th>
-          <th>Expended at</th>
-          <th>Record added at</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let data of all_expenditures" [ngClass]="{'error': !data.is_verified}">
-          <td class="selectable"><a class="header" [routerLink]="[ '/main-app/expenditure/record/edit', data.uuid ]">{{
-              data.expend_heading_name |
-              titlecase }}</a></td>
-          <td><i *ngIf="!data.is_verified" class="attention icon"></i>{{ data.expend_by | titlecase }}</td>
-          <td>{{ data.added_by | titlecase }}</td>
-          <!--Data should be from rest api server-->
-          <td>{{ data.amount }}</td>
-          <td>{{ data.expend_date | date:'fullDate' }}</td>
-          <td>{{ data.added | date:'fullDate' }}</td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="myTable">
+      <table class="ui placeholder violet celled compact table selectable fluid" *ngIf="!is_loading()">
+        <thead>
+          <tr>
+            <th>
+              <h3>All expend records</h3>
+            </th>
+            <th colspan="2">
+              <h3>Total authorized amoount: {{ get_sum_amount().amount | currency:' ':'symbol':'1.0-0' }} Taka</h3>
+            </th>
+            <th colspan="2">
+              <h3>Total unauthorized amoount: {{ get_sum_amount().un_amount | currency:' ':'symbol':'1.0-0' }} Taka</h3>
+            </th>
+            <th>
+              <button class="ui blue icon mini button" (click)="onReload()"><i class="redo icon"></i></button>
+            </th>
+          </tr>
+          <tr>
+            <th>Expend group head</th>
+            <!--Add Shorting TechnoLogy Here-->
+            <th>Expended by</th>
+            <th>Added by</th>
+            <th>Amount in Tk</th>
+            <th>Expended at</th>
+            <th>Record added at</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of all_expenditures" [ngClass]="{'error': !data.is_verified}">
+            <td class="selectable"><a class="header" [routerLink]="[ '/main-app/expenditure/record/edit', data.uuid ]">{{
+                data.expend_heading_name |
+                titlecase }}</a></td>
+            <td><i *ngIf="!data.is_verified" class="attention icon"></i>{{ data.expend_by | titlecase }}</td>
+            <td>{{ data.added_by | titlecase }}</td>
+            <!--Data should be from rest api server-->
+            <td>{{ data.amount | currency:' ':'symbol':'1.0-0' }}</td>
+            <td>{{ data.expend_date | date:'fullDate' }}</td>
+            <td>{{ data.added | date:'fullDate' }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
     <div class="ui bottom attached error message" *ngIf="get_expend_length() == 0">
       <b>No records to show.</b>
     </div>

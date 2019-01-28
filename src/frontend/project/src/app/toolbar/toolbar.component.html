@@ -7,14 +7,12 @@
     <a class="item" data-inverted="" data-tooltip="Manage sub users" data-position="bottom left">
       <i class="address book outline icon"></i>
     </a>
-    <a class="item" data-inverted="" data-tooltip="Manage fund settings" data-position="bottom left">
-      <i class="cog icon"></i>
-    </a>
     <div class="right menu">
-      <a class="item" data-inverted="" data-tooltip="Your profile" data-position="bottom left">
+      <a class="item" data-position="bottom left">{{ user | titlecase }}</a>
+      <a [routerLink]="[ '/main-app/profile' ]" class="item" data-inverted="" data-tooltip="Your profile" data-position="bottom left">
         <i class="user icon"></i>
       </a>
-      <a class="item" data-inverted="" data-tooltip="Your profile settings" data-position="bottom left">
+      <a [routerLink]="[ '/main-app/profile/edit' ]" class="item" data-inverted="" data-tooltip="Your profile settings" data-position="bottom left">
         <i class="settings icon"></i>
       </a>
       <a class="item" data-inverted="" data-tooltip="Sign out now" data-position="bottom left"

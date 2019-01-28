@@ -16,6 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, re_path, include
 from rest_framework_jwt.views import verify_jwt_token, refresh_jwt_token
+from user.api.views import EditUserInfo
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -32,6 +33,7 @@ urlpatterns += [
         path('service/', include('service.api.urls')),
         path('user/extra/', include('user.api.urls'))
     ])),
+    path('rest-auth/user/edit/', EditUserInfo.as_view(), name="edit_user_info"),
 ]
 # END HERE
 

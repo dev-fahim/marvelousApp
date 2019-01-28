@@ -11,33 +11,38 @@
     </div>
     <div class="ui divider"></div>
     <div class="row">
-        <table class="ui selectable blue fluid celled table">
-          <thead>
-            <tr>
-              <th colspan="4"><h3>Credit Fund Records</h3></th>
-              <th>
-                <button class="ui blue icon mini button" (click)="onReload()"
-                [ngClass]="{'loading': loading}"><i class="redo icon"></i></button>
-              </th>
-            </tr>
-            <tr>
-              <th>Source Head Name</th>
-              <th>Description</th>
-              <th>Amount</th>
-              <th>Fund Added</th>
-              <th>Record Added</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let data of all_credit_fund_records">
-              <td class="selectable"><a [routerLink]="[ '/main-app/credit/fund/record/edit', data.uuid ]">{{ data.source_name | titlecase }}</a></td>
-              <td>{{ data.description }}</td>
-              <td>{{ data.amount }}</td>
-              <td>{{ data.added | date }}</td>
-              <td>{{ data.fund_added | date }}</td>
-            </tr>
-          </tbody>
-        </table>
+      <table class="ui selectable blue fluid celled table">
+        <thead>
+          <tr>
+            <th colspan="2">
+              <h3>Credit Fund Records</h3>
+            </th>
+            <th colspan="2">
+              <h3>Total amount: {{ get_sum_amount().amount | currency:' ':'symbol':'1.0-0' }} Taka</h3>
+            </th>
+            <th>
+              <button class="ui blue icon mini button" (click)="onReload()" [ngClass]="{'loading': loading}"><i class="redo icon"></i></button>
+            </th>
+          </tr>
+          <tr>
+            <th>Source Head Name</th>
+            <th>Description</th>
+            <th>Amount in Taka</th>
+            <th>Fund Added</th>
+            <th>Record Added</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of all_credit_fund_records">
+            <td class="selectable"><a [routerLink]="[ '/main-app/credit/fund/record/edit', data.uuid ]">{{
+                data.source_name | titlecase }}</a></td>
+            <td>{{ data.description }}</td>
+            <td>{{ data.amount | currency:' ':'symbol':'1.0-0' }}</td>
+            <td>{{ data.added | date }}</td>
+            <td>{{ data.fund_added | date }}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </div>

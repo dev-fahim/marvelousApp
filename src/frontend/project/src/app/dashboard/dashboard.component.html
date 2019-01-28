@@ -1,4 +1,250 @@
 <div class="ui grid" *ngIf="!is_loading()">
+    <div class="column">
+        <div class="ui five cards">
+            <div class="ui {{ status? 'green' : 'red' }} card">
+                <div class="content">
+                    <div class="center aligned header">Credit Fund Status</div>
+                    <div class="ui divider"></div>
+                    <i class="{{ status? 'unlock green' : 'lock red' }} right floated icon"></i>
+                    <div class="meta">
+                        <span class="category">Under authority.</span>
+                    </div>
+                    <div class="description">
+                        <div class="ui statistic tiny">
+                            <div class="label">Fund is {{ status? 'unlocked' : 'locked' }}.</div>
+                        </div>
+                        <p *ngIf="api_services.is_base_user">Click the button to {{ status? 'unlock' : 'lock' }} it.</p>
+                        <p></p>
+                    </div>
+                    <div class="ui divider"></div>
+                    <div class="extra content">
+                        <div class="ui two buttons">
+                            <button *ngIf="api_services.is_base_user" class="ui basic {{ status? 'red' : 'green' }} button mini"
+                                (click)="toggle_fund()">{{
+                                status? 'Lock it' : 'Unlock it' }}</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="ui {{ status? 'green' : 'red' }} link card" [routerLink]="['/main-app/credit/fund/record/list-add']">
+                <div class="content">
+                    <div class="center aligned header">Remaining Balance</div>
+                    <div class="ui divider"></div>
+                    <i class="money green bill right floated alternate outline icon"></i>
+                    <div class="meta">
+                        <span class="category">Last updated data.</span>
+                    </div>
+                    <div class="description center aligned">
+                        <div class="ui statistic tiny">
+                            <div class="value">{{ get_remailning_balance() | currency:' ':'symbol':'1.0-0' }}</div>
+                            <div class="label">
+                                Taka
+                            </div>
+                        </div>
+                        <p>Click to see credit fund records.</p>
+                    </div>
+                    <div class="ui divider"></div>
+                </div>
+            </div>
+            <div class="ui {{ status? 'green' : 'red' }} link card" [routerLink]="['/main-app/expenditure/record']">
+                <div class="content">
+                    <div class="center aligned header">Expends in this month</div>
+                    <div class="ui divider"></div>
+                    <i class="money red bill right floated alternate outline icon"></i>
+                    <div class="meta">
+                        <span class="category">Last updated data.</span>
+                    </div>
+                    <div class="description center aligned">
+                        <div class="ui statistic tiny">
+                            <div class="value">{{ get_this_month_total_expend() | currency:' ':'symbol':'1.0-0' }}</div>
+                            <div class="label">
+                                Taka
+                            </div>
+                        </div>
+                        <p>Click to see expend records.</p>
+                    </div>
+                    <div class="ui divider"></div>
+                </div>
+            </div>
+            <div class="ui {{ status? 'green' : 'red' }} card">
+                <div class="content">
+                    <div class="center aligned header">Starting balance</div>
+                    <div class="ui divider"></div>
+                    <i class="money blue bill right floated alternate outline icon"></i>
+                    <div class="meta">
+                        <span class="category">Counted before today.</span>
+                    </div>
+                    <div class="description center aligned">
+                        <div class="ui statistic tiny">
+                            <div class="value">{{ get_starting_balance() | currency:' ':'symbol':'1.0-0' }}</div>
+                            <div class="label">
+                                Taka
+                            </div>
+                        </div>
+                        <p>This will be changed if admin change any fund records before today.</p>
+                    </div>
+                    <div class="ui divider"></div>
+                </div>
+            </div>
+            <div class="ui {{ status? 'green' : 'red' }} link card" [routerLink]="['/main-app/expenditure/record']"
+                [queryParams]="{is_verified:false}">
+                <div class="content">
+                    <div class="center aligned header">Unauthorized expends</div>
+                    <div class="ui divider"></div>
+                    <i class="money yellow bill right floated alternate outline icon"></i>
+                    <div class="meta">
+                        <span class="category">Last updated data.</span>
+                    </div>
+                    <div class="description center aligned">
+                        <div class="ui statistic tiny">
+                            <div class="value">{{ get_total_unauthorized_expend() | currency:' ':'symbol':'1.0-0' }}</div>
+                            <div class="label">
+                                Taka
+                            </div>
+                        </div>
+                        <p>Click to see all unauthorized expend records.</p>
+                    </div>
+                    <div class="ui divider"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="ui cleared segment">
+    <h3 class="header">Quick information</h3>
+    <button class="ui mini blue button" (click)="onReload()"><i class="redo icon"></i></button>
+</div>
+<div class="ui grid">
+    <div class="four wide column">
+        <div class="ui segment" *ngIf="is_loading()">
+            <div class="ui placeholder">
+                <div class="paragraph">
+                    <div class="line"></div>
+                    <div class="line"></div>
+                    <div class="line"></div>
+                    <div class="line"></div>
+                    <div class="line"></div>
+                </div>
+                <div class="paragraph">
+                    <div class="line"></div>
+                    <div class="line"></div>
+                    <div class="line"></div>
+                </div>
+            </div>
+        </div>
+        <div class="ui blue segment" *ngIf="!is_loading()">
+            <h3><a [routerLink]="['/main-app/credit/fund/source/list-add']">Credit Fund Group Headings</a></h3>
+            <div class="ui divider"></div>
+            <div class="ui very relaxed divided list">
+                <div class="item" *ngFor="let data of all_sources">
+                    <div class="content">
+                        <a class="header" [routerLink]="['/main-app/credit/fund/record/list-add']" [queryParams]="{
+                            fund_source: data.source_name
+                        }">{{ data.source_name }}</a>
+                        <div class="description">Last updated: <b>{{ data.updated | date }}</b></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="eight wide column">
+        <div class="ui segment" *ngIf="is_loading()">
+            <div class="ui placeholder">
+                <div class="paragraph">
+                    <div class="line"></div>
+                    <div class="line"></div>
+                    <div class="line"></div>
+                    <div class="line"></div>
+                    <div class="line"></div>
+                </div>
+                <div class="paragraph">
+                    <div class="line"></div>
+                    <div class="line"></div>
+                    <div class="line"></div>
+                </div>
+            </div>
+        </div>
+        <table class="ui blue celled attached selectable table" *ngIf="!is_loading()">
+            <thead>
+                <tr>
+                    <th colspan="6">
+                        <h3><a routerLink="/main-app/expenditure/record/list-add" [queryParams]="{ 
+                            added_date: today
+                        }">Today's
+                                expend record logs</a></h3>
+                    </th>
+                </tr>
+                <tr>
+                    <th>Expend group head</th>
+                    <!--Add Shorting TechnoLogy Here-->
+                    <th>Expended by</th>
+                    <th>Added by</th>
+                    <th>Amount in Tk</th>
+                    <th>Expend Date</th>
+                    <th>Record Added</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let data of todays_all_expenditures" [ngClass]="{'error': !data.is_verified}">
+                    <td><a class="header" routerLink="/main-app/expenditure/record" [queryParams]="{ 
+                            added_date: today,
+                            heading: data.expend_heading_name
+                        }">{{
+                            data.expend_heading_name | titlecase }}</a></td>
+                    <td><i *ngIf="!data.is_verified" class="attention icon"></i>{{ data.expend_by | titlecase }}</td>
+                    <td>{{ data.added_by | titlecase }}</td>
+                    <!--Data should be from rest api server-->
+                    <td>{{ data.amount | currency:' ':'symbol':'1.0-0' }}</td>
+                    <td>{{ data.expend_date | date }}</td>
+                    <td>{{ data.added | date }}</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="ui bottom attached error message" *ngIf="get_expend_length() == 0">
+            <b>No records to show.</b>
+        </div>
+    </div>
+    <div class="four wide column">
+        <div class="ui segment" *ngIf="is_loading()">
+            <div class="ui placeholder">
+                <div class="paragraph">
+                    <div class="line"></div>
+                    <div class="line"></div>
+                    <div class="line"></div>
+                    <div class="line"></div>
+                    <div class="line"></div>
+                </div>
+                <div class="paragraph">
+                    <div class="line"></div>
+                    <div class="line"></div>
+                    <div class="line"></div>
+                </div>
+            </div>
+        </div>
+        <div class="ui blue segment" *ngIf="!is_loading()">
+            <h3><a [routerLink]="['/main-app/expenditure/heading']">Expenditure Group Headings</a></h3>
+            <div class="ui divider"></div>
+            <div class="ui very relaxed divided list">
+                <div class="item" *ngFor="let data of all_headings">
+                    <div class="content">
+                        <a class="header" routerLink="/main-app/expenditure/record" [queryParams]="{ 
+                            heading: data.heading_name
+                        }">{{
+                            data.heading_name }}</a>
+                        <div class="description">Last updated: <b>{{ data.updated | date }}</b></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<!--
+
     <div class="four wide column">
         <div class="ui placeholder segment red">
             <div class="ui icon header">
@@ -48,130 +294,5 @@
             </div>
             <button [routerLink]="['/main-app/expenditure/record']" [queryParams]="{is_verified:false}" class="ui red button tiny">See them all</button>
         </div>
-    </div>
-</div>
-<div class="ui cleared segment">
-    <h3 class="header">Quick information</h3>
-    <button class="ui mini blue button" (click)="onReload()"><i class="redo icon"></i></button>
-</div>
-<div class="ui grid">
-    <div class="four wide column">
-        <div class="ui segment" *ngIf="is_loading()">
-            <div class="ui placeholder">
-                <div class="paragraph">
-                    <div class="line"></div>
-                    <div class="line"></div>
-                    <div class="line"></div>
-                    <div class="line"></div>
-                    <div class="line"></div>
-                </div>
-                <div class="paragraph">
-                    <div class="line"></div>
-                    <div class="line"></div>
-                    <div class="line"></div>
-                </div>
-            </div>
-        </div>
-        <div class="ui blue segment" *ngIf="!is_loading()">
-            <h3>Credit Fund Group Headings</h3>
-            <div class="ui divider"></div>
-            <div class="ui very relaxed divided list">
-                <div class="item" *ngFor="let data of all_sources">
-                    <div class="content">
-                        <a class="header">{{ data.source_name }}</a>
-                        <div class="description">Last updated: <b>{{ data.updated | date }}</b></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="eight wide column">
-        <div class="ui segment" *ngIf="is_loading()">
-            <div class="ui placeholder">
-                <div class="paragraph">
-                    <div class="line"></div>
-                    <div class="line"></div>
-                    <div class="line"></div>
-                    <div class="line"></div>
-                    <div class="line"></div>
-                </div>
-                <div class="paragraph">
-                    <div class="line"></div>
-                    <div class="line"></div>
-                    <div class="line"></div>
-                </div>
-            </div>
-        </div>
-        <table class="ui blue celled attached selectable table" *ngIf="!is_loading()">
-            <thead>
-                <tr>
-                    <th colspan="5">
-                        <h3><a routerLink="/main-app/expenditure/record/list-add" [queryParams]="{ 
-                            added_date: today
-                        }">Today's
-                                expend record logs</a></h3>
-                    </th>
-                </tr>
-                <tr>
-                    <th>Expend group head</th>
-                    <!--Add Shorting TechnoLogy Here-->
-                    <th>Expended by</th>
-                    <th>Added by</th>
-                    <th>Amount in Tk</th>
-                    <th>Added Time</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let data of todays_all_expenditures"
-                [ngClass]="{'error': !data.is_verified}">
-                    <td><a class="header" routerLink="/main-app/expenditure/record" [queryParams]="{ 
-                            added_date: today,
-                            heading: data.expend_heading_name
-                        }">{{
-                            data.expend_heading_name | titlecase }}</a></td>
-                    <td><i *ngIf="!data.is_verified" class="attention icon"></i>{{ data.expend_by | titlecase }}</td>
-                    <td>{{ data.added_by | titlecase }}</td>
-                    <!--Data should be from rest api server-->
-                    <td>{{ data.amount }}</td>
-                    <td>{{ data.added | date }}</td>
-                </tr>
-            </tbody>
-        </table>
-        <div class="ui bottom attached error message" *ngIf="get_expend_length() == 0">
-            <b>No records to show.</b>
-        </div>
-    </div>
-    <div class="four wide column">
-        <div class="ui segment" *ngIf="is_loading()">
-            <div class="ui placeholder">
-                <div class="paragraph">
-                    <div class="line"></div>
-                    <div class="line"></div>
-                    <div class="line"></div>
-                    <div class="line"></div>
-                    <div class="line"></div>
-                </div>
-                <div class="paragraph">
-                    <div class="line"></div>
-                    <div class="line"></div>
-                    <div class="line"></div>
-                </div>
-            </div>
-        </div>
-        <div class="ui blue segment" *ngIf="!is_loading()">
-            <h3>Expenditure Group Headings</h3>
-            <div class="ui divider"></div>
-            <div class="ui very relaxed divided list">
-                <div class="item" *ngFor="let data of all_headings">
-                    <div class="content">
-                        <a class="header" routerLink="/main-app/expenditure/record" [queryParams]="{ 
-                            heading: data.heading_name
-                        }">{{
-                            data.heading_name }}</a>
-                        <div class="description">Last updated: <b>{{ data.updated | date }}</b></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+    </div>  
+-->

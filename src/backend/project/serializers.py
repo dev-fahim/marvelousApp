@@ -29,3 +29,20 @@ class RootUserModelSerializer(serializers.ModelSerializer):
         obj = User.objects.create_user(username=username, password=password, email=email)
 
         return obj
+    
+    def update(self, instance, validated_data):
+        validated_data.pop('password')
+        validated_data.pop('password2')
+        instance.username = validated_data.get('username', instance.username)
+        instance.email = validated_data.get('email', instance.email)
+
+        instance.save()
+
+        return instance
+
+
+class SafeRootUserModelSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = User
+        fields = ('username', 'email')

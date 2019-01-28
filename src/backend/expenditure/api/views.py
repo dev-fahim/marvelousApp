@@ -144,7 +144,7 @@ class ExpenditureRecordRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestr
 
 
 class ExpenditureCheckoutToday(ExpenditureRecordCreateAPIView):
-    headings = ['Head', 'Added by', 'Expended by', 'Amount', 'Expend time', 'Record added']
+    headings = ['Head', 'Added by', 'Expended by', 'Amount (in Taka)', 'Expend time', 'Record added']
     attributes = ['expend_heading', 'added_by', 'expend_by', 'amount', 'expend_date', 'added']
     mimetype = 'text/csv'
     from_email = os.environ.get('EMAIL')
@@ -153,7 +153,7 @@ class ExpenditureCheckoutToday(ExpenditureRecordCreateAPIView):
         items = self.filter_queryset(queryset=self.get_queryset().filter(added__date=today))
         file_name = f'expenditure_records_of_{today}.csv'
         response = utils.django_download_generated_csv_from_model_object(file_name, items, self.headings, self.attributes)
-        subject = f'Accounts Application: All expenditure records in {today}'
+        subject = f'Accounts Application: Today - {today} - Checkout'
         body = f'''
         This is an automated e-mail from your application.
         Your daily expenditure records in {datetime.datetime.today().strftime("%d %B, %Y")}
@@ -161,7 +161,23 @@ class ExpenditureCheckoutToday(ExpenditureRecordCreateAPIView):
         to = [request.user.email, ]
         content = response.getvalue()
         utils.django_send_email_with_attachments(subject, body, self.from_email, to, file_name, content, self.mimetype)
-        return response
+         # Generate PDF
+        base_user = items.first().base_user
+        company = CompanyInfoModel.objects.get(base_user=base_user)
+        row_values = [[obj.__getattribute__(name) for name in self.attributes] for obj in items]
+        amounts = [obj.amount for obj in items]
+        sum = utils.sum_int_of_array(amounts)
+        context = {
+            'headings': self.headings,
+            'company': company,
+            'row_values': row_values,
+            'pdf_name': f'Expenditure {today}',
+            'date': datetime.datetime.now(),
+            'sum': sum,
+            'page_unique_id': uuid.uuid4()
+        }
+        pdf = utils.django_render_to_pdf('expenditure_pdf_template.html', context)
+        return pdf
 
     def post(self, request, *args, **kwargs):
         return Response(data={'detail': 'Not allowed'}, status=status.HTTP_405_METHOD_NOT_ALLOWED, exception=True)
@@ -176,7 +192,7 @@ class ExpenditureRecordEmailCSV(ExpenditureCheckoutToday):
             file_name=file_name, query_set=items,
             headings=self.headings, attributes=self.attributes
         )
-        subject = 'Accounts Application: All expenditure records.'
+        subject = f'Accounts Application: All expenditure records (Generated {today}).'
         body = 'This is an automated e-mail from your application. Your files are given below.'
         base_user = items.first().base_user
         to = [base_user.base_user.email, ]
@@ -194,17 +210,17 @@ class ExpenditureRenderPDF(ExpenditureCheckoutToday):
         print(items)
         base_user = items.first().base_user
         company = CompanyInfoModel.objects.get(base_user=base_user)
-        row_values = [[obj.__getattribute__(name) for name in self.attributes] for obj in items]
+        # row_values = [[obj.__getattribute__(name) for name in self.attributes] for obj in items]
         amounts = [obj.amount for obj in items]
         sum = utils.sum_int_of_array(amounts)
         context = {
             'headings': self.headings,
             'company': company,
-            'row_values': row_values,
             'pdf_name': f'Expenditure {today}',
             'date': datetime.datetime.now(),
             'sum': sum,
-            'page_unique_id': uuid.uuid4()
+            'page_unique_id': uuid.uuid4(),
+            'items': items
         }
         pdf = utils.django_render_to_pdf('expenditure_pdf_template.html', context)
         return HttpResponse(pdf, content_type='application/pdf')

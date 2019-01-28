@@ -23,6 +23,8 @@ export class FundSourceFilterComponent implements OnInit {
   }
 
   onSubmit() {
+    if (this.form.get("ordering").value === null) {this.form.get("ordering").setValue("")}
+    if (this.form.get("search").value === null) {this.form.get("search").setValue("")}
     this.loading_on_filter = true;
     this.filtered_fund_data.emit(this.form.value);
   }

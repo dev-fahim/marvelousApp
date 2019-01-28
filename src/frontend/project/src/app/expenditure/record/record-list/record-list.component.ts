@@ -113,4 +113,27 @@ export class RecordListComponent implements OnInit, OnDestroy {
     this.ngOnInit();
   }
 
+  get_sum_amount() {
+    let amounts = [];
+    let un_amounts = [];
+    for (let data of this.all_expenditures) {
+      if (data.is_verified === true) {amounts.push(data.amount);}
+      if (data.is_verified === false) {un_amounts.push(data.amount);}
+    }
+    let sum = 0;
+    let un_sum = 0;
+
+    for (let amount of amounts) {
+      sum = sum + amount;
+    }
+    for (let un_amount of un_amounts) {
+      un_sum = un_sum + un_amount;
+    }
+
+    return {
+      'amount': sum,
+      'un_amount': un_sum
+    }
+  }
+
 }

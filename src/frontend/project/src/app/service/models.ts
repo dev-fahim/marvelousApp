@@ -129,3 +129,33 @@ export interface UserExtraInfoGETModel {
     sub_user?: boolean;
     user?: number;
 }
+
+export interface UserModel {
+    pk: number;
+    username: string;
+    email: string;
+    first_name: string;
+    last_name: string;
+}
+
+export interface SubUser {
+    user_type?: any;
+    joined?: any;
+    canAdd: boolean;
+    canRetrieve: boolean;
+    canEdit: boolean;
+    canList: boolean;
+}
+
+export interface SubUserPOSTModel {
+    username: string;
+    email: string;
+    password: string;
+    password2: string;
+    root_sub_user: SubUser;
+}
+
+export interface UserEditModel {
+    username: string;
+    email: string;
+}

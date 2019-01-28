@@ -17,6 +17,7 @@ export class HeadingFilterComponent implements OnInit {
   }
 
   onSubmit() {
+    if (this.search === null) {this.search = ""}
     this.search_data.emit(this.search);
     this.search = ''
   }

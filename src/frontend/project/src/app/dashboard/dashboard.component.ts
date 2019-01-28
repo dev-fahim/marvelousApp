@@ -6,6 +6,7 @@ import { SourceService } from '../service/credit/source.service';
 import { HeadingService } from '../service/expenditure/heading.service';
 import { RecordService } from '../service/expenditure/record.service';
 import { today_date } from '../service/today.date';
+import { getCurrencySymbol } from '@angular/common';
 
 @Component({
   selector: 'app-dashboard',

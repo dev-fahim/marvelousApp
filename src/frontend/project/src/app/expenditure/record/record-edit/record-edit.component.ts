@@ -19,6 +19,7 @@ import { NotFound } from 'src/app/common/not-found';
 })
 export class RecordEditComponent implements OnInit {
   expenditure_data: ExpenditureRecordGETModel;
+
   FUND_LOCKED = false;
   uuid = '';
 

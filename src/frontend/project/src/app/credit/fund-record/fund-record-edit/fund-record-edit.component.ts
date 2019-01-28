@@ -20,7 +20,13 @@ export class FundRecordEditComponent implements OnInit {
   loading = false;
   loading_del = false;
   fund_is_locked = false;
-  record_data: CreditFundRecordGETModel;
+  record_data: CreditFundRecordGETModel = {
+    source: 0,
+    fund_added: '',
+    amount: 0,
+    description: '',
+    source_name: ''
+  };
 
   uuid: string;
   messages: { message: string, type: string }[] = [];
@@ -41,7 +47,10 @@ export class FundRecordEditComponent implements OnInit {
     ])
   });
 
-  all_sources: CreditFundSourceGETModel[];
+  all_sources: CreditFundSourceGETModel[] = [{
+    source_name: '',
+    description: ''
+  }];
 
   constructor(
     private _fundService: FundService,
