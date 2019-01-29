@@ -9,7 +9,7 @@
   <form class="ui fluid tiny form" [formGroup]="form" (ngSubmit)="onSubmit()"
   [ngClass]="{'loading': loading || loading_del}">
     <div class="field" [ngClass]="{'disabled': form.get('heading_name').invalid}">
-      <label>Heading Name</label>
+      <label>Debit Head Name</label>
       <input type="text" formControlName="heading_name">
     </div>
     <button class="ui blue labeled icon button tiny" type="submit" [ngClass]="{'loading': loading}"><i class="angle double up icon"></i>Upgrade</button>

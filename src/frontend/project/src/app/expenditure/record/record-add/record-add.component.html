@@ -1,5 +1,5 @@
 <div class="ui red segment">
-  <h3>Add expenditure record</h3>
+  <h3>Add Debit Record</h3>
   <div class="ui divider"></div>
   <div class="ui icon message error" *ngIf="!fund_not_locked">
     <i class="ban icon"></i>
@@ -17,9 +17,9 @@
   <form class="ui form tiny fluid" [formGroup]='form' (ngSubmit)="onSubmit()"
   [ngClass]="{'loading': loading}">
     <div class="field" [ngClass]="{'error': form.get('expend_heading').touched && !form.get('expend_heading').valid}">
-      <label>Expend Heading</label>
+      <label>Debit Head</label>
       <select formControlName="expend_heading" class="ui dropdown" appDropdown>
-        <option value="">Select Heading</option>
+        <option value="">Select A Head</option>
         <option value="{{ data.id }}" *ngFor="let data of all_headings">{{ data.heading_name }}</option>
       </select>
     </div>

@@ -1,29 +1,39 @@
 <div class="ui left fixed vertical violet inverted large menu" id="menu">
   <div class="space-before"></div>
   <div class="item">
-    <div class="header"><a id="sidebar-menu-name-link" [routerLink]="[ '/main-app/credit' ]">Credit Fund</a></div>
+    <div class="ui header mb-1"><a id="sidebar-menu-name-link" [routerLink]="[ '/main-app/credit' ]">Credit</a></div>
     <div class="menu">
-      <a class="item" routerLinkActive="active" [routerLink]="[ '/main-app/credit/fund/source/list-add' ]">Sources</a>
-      <a class="item" routerLinkActive="active" [routerLink]="[ '/main-app/credit/fund/record/list-add' ]">Records</a>
+      <a class="item" routerLinkActive="active" [routerLink]="[ '/main-app/credit/fund/source/list-add' ]">
+        <h4 class="text-white pl-1 mb-1">Heads</h4>
+        <p class="pl-2">Add, Edit and Filter</p>
+      </a>
+      <a class="item" routerLinkActive="active" [routerLink]="[ '/main-app/credit/fund/record/list-add' ]">
+        <h4 class="text-white pl-1 mb-1">Records</h4>
+        <p class="pl-2">Add, Edit and Filter</p>
+      </a>
     </div>
   </div>
   <div class="item">
-    <div class="header"><a id="sidebar-menu-name-link" [routerLink]="[ '/main-app/expenditure' ]">Expenditure</a></div>
+    <div class="ui header mb-1"><a id="sidebar-menu-name-link" [routerLink]="[ '/main-app/expenditure' ]">Debit</a></div>
     <div class="menu">
-      <a class="item" routerLinkActive="active" [routerLink]="[ '/main-app/expenditure/heading' ]">Expend Group
-        Headings</a>
-      <a class="item" [routerLink]="[ '/main-app/expenditure/record/' ]" routerLinkActive="active">Expend
-        Records</a>
+      <a class="item" routerLinkActive="active" [routerLink]="[ '/main-app/expenditure/heading' ]">
+        <h4 class="text-white pl-1 mb-1">Heads</h4>
+        <p class="pl-2">Add, Edit and Filter</p>
+      </a>
+      <a class="item" [routerLink]="[ '/main-app/expenditure/record/' ]" routerLinkActive="active">
+        <h4 class="text-white pl-1 mb-1">Records</h4>
+        <p class="pl-2">Add, Edit and Filter</p>
+      </a>
     </div>
   </div>
   <div class="item">
-    <div class="header"><a id="sidebar-menu-name-link" [routerLink]="[ '/main-app/company' ]">Company</a></div>
+    <div class="ui header mb-1"><a id="sidebar-menu-name-link" [routerLink]="[ '/main-app/company' ]">Company</a></div>
     <div class="menu">
       <a class="item" routerLinkActive="active" [routerLink]="[ '/main-app/company/edit' ]">Configure</a>
     </div>
   </div>
   <div class="item">
-    <div class="header"><a id="sidebar-menu-name-link" [routerLink]="[ '/main-app/sub-user' ]">Sub User</a></div>
+    <div class="ui header mb-1"><a id="sidebar-menu-name-link" [routerLink]="[ '/main-app/sub-user' ]">Sub User</a></div>
     <div class="menu">
       <a class="item" routerLinkActive="active" [routerLink]="[ '/main-app/sub-user/list-add' ]">All Sub Users</a>
     </div>

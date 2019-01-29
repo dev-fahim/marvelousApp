@@ -1,5 +1,5 @@
 <div class="ui container segment">
-  <h3 class="header">Edit Credit Fund Record</h3>
+  <h3 class="header">Edit Credit Record</h3>
 </div>
 <div class="ui red container segment">
   <div class="ui icon message error" *ngIf="fund_locked">
@@ -17,7 +17,7 @@
   </div>
   <form class="ui small fluid form" [formGroup]="form" (ngSubmit)="onSubmit()" [ngClass]="{'loading': loading || loading_del}">
     <div class="field" [ngClass]="{'error': form.get('source').touched && form.get('source').invalid}">
-      <label for="source">Source Name</label>
+      <label for="source">Credit Head Name</label>
       <select type="text" formControlName="source" class="ui dropdown" appDropdown>
         <option value="">{{ get_record_data() }}</option>
         <option value="{{ data.id }}" *ngFor="let data of all_sources">{{ data.source_name }}</option>

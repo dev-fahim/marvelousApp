@@ -8,11 +8,11 @@
   </div>
   <form class="ui fluid form small" [formGroup]="form" (ngSubmit)="onSubmit()" [ngClass]="{'loading': loading}">
     <div class="field" [ngClass]="{'error': form.get('source_name').invalid && form.get('source_name').touched}">
-      <label>Heading Name</label>
+      <label>Credit Head Name</label>
       <input type="text" formControlName="source_name">
     </div>
     <button class="ui blue labeled icon button tiny" type="submit" [ngClass]="{'loading': loading}"><i class="add icon"></i>Add
-      Heading</button>
+      Head</button>
     <button class="ui yellow labeled icon button tiny" (click)="onReset()"><i class="redo icon"></i>Reset</button>
   </form>
 </div>

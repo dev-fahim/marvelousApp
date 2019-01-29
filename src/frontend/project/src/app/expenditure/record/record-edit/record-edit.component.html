@@ -15,11 +15,11 @@
   <div class="ui grid" *ngIf="!(HTTP_404_ERROR || get_deleted)">
     <div class="column">
       <div class="ui segment">
-        <h3>Edit expenditure record</h3>
+        <h3>Edit Debit Record</h3>
         <div class="ui divider"></div>
         <form class="ui form fluid tiny" [formGroup]='form' (ngSubmit)="onSubmit()" [ngClass]="{'loading': loading || loading_del}">
           <div class="field" [ngClass]="{'error': expend_heading.touched && expend_by.invalid}">
-            <label>Expend Heading</label>
+            <label>Debit Head</label>
             <select formControlName="expend_heading" class="ui dropdown" appDropdown>
               <option value="">{{ expenditure_data.expend_heading_name? '':expenditure_data.expend_heading_name }}</option>
               <option value="{{ data.id }}" *ngFor="let data of all_headings">{{ data.heading }}</option>

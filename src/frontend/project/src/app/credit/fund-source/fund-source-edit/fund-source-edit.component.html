@@ -8,7 +8,7 @@
   </div>
   <form class="ui fluid small form" [formGroup]="form" (ngSubmit)="onSubmit()" [ngClass]="{'loading': loading || loading_del}">
     <div class="field" [ngClass]="{'disabled': !form.get('source_name').valid}">
-      <label>Source Name</label>
+      <label>Credit Head Name</label>
       <input type="text" formControlName="source_name">
     </div>
     <button class="ui blue labeled icon button tiny" type="submit" [ngClass]="{'loading': loading}"><i class="angle double up icon"></i>Upgrade</button>

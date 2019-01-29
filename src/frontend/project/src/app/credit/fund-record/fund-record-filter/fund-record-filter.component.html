@@ -1,10 +1,10 @@
 <div class="ui violet segment">
-  <h3 class="header">Filter Credit Fnnd Records</h3>
+  <h3 class="header">Filter Credit Records</h3>
   <div class="ui divider"></div>
   <form class="ui fluid small form" [formGroup]="form" (ngSubmit)="onSubmit()" [ngClass]="{'loading': loading_on_filter}">
     <div class="fields">
       <div class="ui five wide field">
-        <label for="fund_source">Head Name</label>
+        <label for="fund_source">Credit Head Name</label>
         <input type="text" formControlName="fund_source">
       </div>
       <div class="ui five wide field">
