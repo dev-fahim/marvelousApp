@@ -3,29 +3,34 @@ import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 
 export const UserInitialState: RootObject = {
-  "account_status": {
-    "is_active": false,
-    "is_approved": false,
-    "is_locked": false
-  },
-  "fund_status": false,
   "is_base_user": false,
   "is_sub_user": false,
-  "remaining_credit_fund_amount": 0,
-  "this_month_total_expend_amount": 0,
-  "todays_open_credit_fund": 0,
-  "total_credit_fund_amount": 0,
-  "total_unauthorized_expend_amount": 0,
   "user_permissions": {
     "canAdd": false,
     "canEdit": false,
-    "canFundSourceEdit": false,
-    "canFundSourceListCreate": false,
     "canList": false,
     "canRetrieve": false,
+    "canFundSourceListCreate": false,
+    "canFundSourceEdit": false,
     "is_active": false,
     "user_type": ""
-  }
+  },
+  "account_status": {
+    "is_approved": false,
+    "is_locked": false,
+    "is_active": false
+  },
+  "todays_open_credit_fund": 0,
+  "remaining_credit_fund_amount": 0,
+  "this_month_total_expend_amount": 0,
+  "total_unauthorized_expend_amount": 0,
+  "total_credit_fund_amount": 0,
+  "fund_status": false,
+  "this_year_total_expend_amoun": 0,
+  "this_year_remaining_credit_fund_amount": 0,
+  "this_year_total_credit_fund_amount": 0,
+  "this_year_total_unauthorized_expend_amount": 0,
+  "this_year": new Date()
 }
 
 
