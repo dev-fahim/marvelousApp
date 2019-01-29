@@ -62,6 +62,7 @@ class ExpenditureRecordCreateAPIView(generics.CreateAPIView):
     filterset_class = ExpenditureRecordFilter
     search_fields = (
         'expend_heading__heading_name',
+        'description',
         'uuid',
         'added',
         'updated',
@@ -96,6 +97,7 @@ class ExpenditureRecordListAPIView(generics.ListAPIView):
     filterset_class = ExpenditureRecordFilter
     search_fields = (
         'expend_heading__heading_name',
+        'description',
         'uuid',
         'added',
         'updated',
@@ -124,6 +126,7 @@ class ALLExpenditureRecordListAPIView(generics.ListAPIView):
     filterset_class = ExpenditureRecordFilter
     search_fields = (
         'expend_heading__heading_name',
+        'description',
         'uuid',
         'added',
         'updated',
