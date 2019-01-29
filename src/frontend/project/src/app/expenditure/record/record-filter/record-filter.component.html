@@ -1,8 +1,16 @@
 <div class="ui blue segment">
   <h3>Filter form</h3>
   <div class="ui divider"></div>
-  <form (ngSubmit)="onSubmit()" [formGroup]="filter_form" class="ui form tiny" [ngClass]="{'loading': loading}">
+  <form (ngSubmit)="onSubmit()" [formGroup]="filter_form" class="ui form small" [ngClass]="{'loading': loading}">
     <div class="fields">
+      <div class="four wide field">
+        <label>Heading name</label>
+        <select formControlName="heading" class="ui dropdown" appDropdown>
+          <option value="">All</option>
+          <option value=" ">All</option>
+          <option value="{{ heading }}" *ngFor="let heading of all_headings">{{ heading }}</option>
+        </select>
+      </div>
       <div class="four wide field">
         <label>Authorized</label>
         <select formControlName="is_verified" class="ui dropdown" appDropdown>
@@ -12,52 +20,43 @@
           <option value="false">No</option>
         </select>
       </div>
-
-
       <div class="four wide field">
-        <label>Expend time after</label>
+        <label>Expend Date From</label>
         <input formControlName="expend_date_after" type="date">
       </div>
       <div class="four wide field">
-        <label>Expend time before</label>
+        <label>Expend Date Upto</label>
         <input formControlName="expend_date_before" type="date">
       </div>
       <div class="four wide field">
-        <label>Heading name</label>
-        <select formControlName="heading" class="ui dropdown" appDropdown>
-          <option value="">All</option>
-          <option value=" ">All</option>
-          <option value="{{ heading }}" *ngFor="let heading of all_headings">{{ heading }}</option>
+        <label>Search</label>
+        <input formControlName="search" type="text">
+      </div>
+      <div class="four wide field">
+        <label>Ordering</label>
+        <select formControlName="ordering" class="ui dropdown" appDropdown>
+          <option value="">No ordering</option>
+          <option value=" ">No ordering</option>
+          <option value="added">Added - Ascending</option>
+          <option value="-added">Added - Descending</option>
+          <option value="expend_date">Expend time - Ascending</option>
+          <option value="-expend_date">Expend time - Descending</option>
+          <option value="amount">Amount - Ascending</option>
+          <option value="-amount">Amount - Descending</option>
+          <option value="expend_heading__heading_name">Heading name - Ascending</option>
+          <option value="-expend_heading__heading_name">Heading name - Descending</option>
         </select>
       </div>
     </div>
-    <div class="fields">
-      <div class="four wide field">
-        <label>Max amount</label>
-        <input formControlName="max_amount" type="number">
-      </div>
-      <div class="four wide field">
-        <label>Min amount</label>
-        <input formControlName="min_amount" type="number">
-      </div>
-      <div class="four wide field">
-        <label>Added after</label>
-        <input formControlName="added_after" type="date">
-      </div>
-      <div class="four wide field">
-        <label>Added before</label>
-        <input formControlName="added_before" type="date">
-      </div>
-    </div>
-    <div class="ui styled accordion">
+    <div class="ui styled fluid accordion mb-3" appAccordion>
       <div class="title">
         <i class="dropdown icon"></i>
-        Advance
+        More Filters
       </div>
       <div class="content">
         <div class="fields">
           <div class="four wide field">
-            <label>Amount</label>
+            <label>Specific Amount</label>
             <input formControlName="amount" type="number">
           </div>
           <div class="four wide field">
@@ -65,23 +64,20 @@
             <input formControlName="added_date" type="date">
           </div>
           <div class="four wide field">
-            <label>Search</label>
-            <input formControlName="search" type="text">
+            <label>Max amount</label>
+            <input formControlName="max_amount" type="number">
           </div>
           <div class="four wide field">
-            <label>Ordering</label>
-            <select formControlName="ordering" class="ui dropdown" appDropdown>
-              <option value="">No ordering</option>
-              <option value=" ">No ordering</option>
-              <option value="added">Added - Ascending</option>
-              <option value="-added">Added - Descending</option>
-              <option value="expend_date">Expend time - Ascending</option>
-              <option value="-expend_date">Expend time - Descending</option>
-              <option value="amount">Amount - Ascending</option>
-              <option value="-amount">Amount - Descending</option>
-              <option value="expend_heading__heading_name">Heading name - Ascending</option>
-              <option value="-expend_heading__heading_name">Heading name - Descending</option>
-            </select>
+            <label>Min amount</label>
+            <input formControlName="min_amount" type="number">
+          </div>
+          <div class="four wide field">
+            <label>Added Date From</label>
+            <input formControlName="added_after" type="date">
+          </div>
+          <div class="four wide field">
+            <label>Added Date Upto</label>
+            <input formControlName="added_before" type="date">
           </div>
         </div>
       </div>
