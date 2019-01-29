@@ -41,10 +41,6 @@ export class HeadingEditComponent {
       Validators.required,
       Validators.minLength(4),
       Validators.maxLength(30)
-    ]),
-    description: new FormControl("", [
-      Validators.required,
-      Validators.minLength(4)
     ])
   });
 
@@ -75,8 +71,7 @@ export class HeadingEditComponent {
       x => {
         this.uuid = this.heading.uuid;
         this.form.setValue({
-          heading_name: this.heading.heading_name,
-          description: this.heading.description
+          heading_name: this.heading.heading_name
         })
       }
     );
@@ -90,7 +85,7 @@ export class HeadingEditComponent {
           (next: ExpenditureHeadingGETModel) => {
             this.loading = false;
             console.log('Updated')
-            this.messages.splice(0, 0, { message: 'Espenditure Heading UPDATED successfuly.', type: 'positive' });
+            this.messages.splice(0, 0, { message: 'Debit Heading UPDATED successfuly.', type: 'positive' });
           },
           (error: AppError) => {
             this.loading = false;
@@ -106,7 +101,7 @@ export class HeadingEditComponent {
       this._headingService.delete_heading(this.uuid)
         .subscribe((next: ExpenditureHeadingGETModel) => {
           this.loading_del = false;
-          this.messages.splice(0, 0, { message: 'Espenditure Heading DELETED successfuly.', type: 'positive' });
+          this.messages.splice(0, 0, { message: 'Debit Heading DELETED successfuly.', type: 'positive' });
         },
           (error: AppError) => {
             this.loading_del = false;

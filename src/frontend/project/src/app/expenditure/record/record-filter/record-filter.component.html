@@ -12,28 +12,8 @@
           <option value="false">No</option>
         </select>
       </div>
-      <div class="four wide field">
-        <label>Amount</label>
-        <input formControlName="amount" type="number">
-      </div>
-      <div class="four wide field">
-        <label>Max amount</label>
-        <input formControlName="max_amount" type="number">
-      </div>
-      <div class="four wide field">
-        <label>Min amount</label>
-        <input formControlName="min_amount" type="number">
-      </div>
-    </div>
-    <div class="fields">
-      <div class="four wide field">
-        <label>Added after</label>
-        <input formControlName="added_after" type="date">
-      </div>
-      <div class="four wide field">
-        <label>Added before</label>
-        <input formControlName="added_before" type="date">
-      </div>
+
+
       <div class="four wide field">
         <label>Expend time after</label>
         <input formControlName="expend_date_after" type="date">
@@ -41,12 +21,6 @@
       <div class="four wide field">
         <label>Expend time before</label>
         <input formControlName="expend_date_before" type="date">
-      </div>
-    </div>
-    <div class="fields">
-      <div class="four wide field">
-        <label>Added date</label>
-        <input formControlName="added_date" type="date">
       </div>
       <div class="four wide field">
         <label>Heading name</label>
@@ -56,24 +30,60 @@
           <option value="{{ heading }}" *ngFor="let heading of all_headings">{{ heading }}</option>
         </select>
       </div>
+    </div>
+    <div class="fields">
       <div class="four wide field">
-        <label>Search</label>
-        <input formControlName="search" type="text">
+        <label>Max amount</label>
+        <input formControlName="max_amount" type="number">
       </div>
       <div class="four wide field">
-        <label>Ordering</label>
-        <select formControlName="ordering" class="ui dropdown" appDropdown>
-          <option value="">No ordering</option>
-          <option value=" ">No ordering</option>
-          <option value="added">Added - Ascending</option>
-          <option value="-added">Added - Descending</option>
-          <option value="expend_date">Expend time - Ascending</option>
-          <option value="-expend_date">Expend time - Descending</option>
-          <option value="amount">Amount - Ascending</option>
-          <option value="-amount">Amount - Descending</option>
-          <option value="expend_heading__heading_name">Heading name - Ascending</option>
-          <option value="-expend_heading__heading_name">Heading name - Descending</option>
-        </select>
+        <label>Min amount</label>
+        <input formControlName="min_amount" type="number">
+      </div>
+      <div class="four wide field">
+        <label>Added after</label>
+        <input formControlName="added_after" type="date">
+      </div>
+      <div class="four wide field">
+        <label>Added before</label>
+        <input formControlName="added_before" type="date">
+      </div>
+    </div>
+    <div class="ui styled accordion">
+      <div class="title">
+        <i class="dropdown icon"></i>
+        Advance
+      </div>
+      <div class="content">
+        <div class="fields">
+          <div class="four wide field">
+            <label>Amount</label>
+            <input formControlName="amount" type="number">
+          </div>
+          <div class="four wide field">
+            <label>Added date</label>
+            <input formControlName="added_date" type="date">
+          </div>
+          <div class="four wide field">
+            <label>Search</label>
+            <input formControlName="search" type="text">
+          </div>
+          <div class="four wide field">
+            <label>Ordering</label>
+            <select formControlName="ordering" class="ui dropdown" appDropdown>
+              <option value="">No ordering</option>
+              <option value=" ">No ordering</option>
+              <option value="added">Added - Ascending</option>
+              <option value="-added">Added - Descending</option>
+              <option value="expend_date">Expend time - Ascending</option>
+              <option value="-expend_date">Expend time - Descending</option>
+              <option value="amount">Amount - Ascending</option>
+              <option value="-amount">Amount - Descending</option>
+              <option value="expend_heading__heading_name">Heading name - Ascending</option>
+              <option value="-expend_heading__heading_name">Heading name - Descending</option>
+            </select>
+          </div>
+        </div>
       </div>
     </div>
     <button class="ui labeled icon blue button tiny" type="submit"><i class="filter icon"></i>Filter</button>
@@ -81,8 +91,9 @@
   <div class="ui divider"></div>
   <a class="ui labeled icon blue button tiny" (click)="genUrl()" [ngClass]="{'loading': loading}"><i class="filter icon"></i>Genarate
     URL</a>
-  <a class="ui labeled icon red button tiny" *ngIf="has_url" target="_blank" rel="noopener noreferrer" href="{{ pdf_url }}"><i class="file icon"></i>Get PDF</a>
-  <a class="ui labeled icon red button tiny" *ngIf="has_url" href="{{ csv_url }}"><i class="file icon"></i>Get CSV</a>
-  <a class="ui labeled icon violet button tiny" target="_blank" rel="noopener noreferrer" href="http://localhost:8000/api/expenditure/record/checkout-today/"><i
-      class="file icon"></i>Checkout Today</a>
+  <a class="ui labeled icon red button tiny" *ngIf="has_url" #downloadPDFLink (click)="download(getPDFUrl(), 'pdf')"><i
+      class="file icon"></i>Get PDF</a>
+  <a class="ui labeled icon red button tiny" *ngIf="has_url" #downloadCSVLink (click)="download(getMailCSV(), 'csv')"><i
+      class="file icon"></i>Get CSV</a>
+  <a class="ui labeled icon violet button tiny" (click)="onCheckOut()"><i class="file icon"></i>Checkout Today</a>
 </div>

@@ -22,7 +22,7 @@ class CreditFundModel(models.Model):
     description = models.TextField(blank=True, null=True)
     added = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
-    amount = models.IntegerField()
+    amount = models.PositiveIntegerField()
     uuid = models.UUIDField(unique=True)
     fund_added = models.DateField()
 

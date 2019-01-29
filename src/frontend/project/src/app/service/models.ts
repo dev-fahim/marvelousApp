@@ -1,31 +1,36 @@
-export interface AccountStatus {
-    is_active: boolean;
-    is_approved: boolean;
-    is_locked: boolean;
-}
-
 export interface UserPermissions {
     canAdd: boolean;
     canEdit: boolean;
-    canFundSourceEdit: boolean;
-    canFundSourceListCreate: boolean;
     canList: boolean;
     canRetrieve: boolean;
+    canFundSourceListCreate: boolean;
+    canFundSourceEdit: boolean;
     is_active: boolean;
     user_type: string;
 }
 
+export interface AccountStatus {
+    is_approved: boolean;
+    is_locked: boolean;
+    is_active: boolean;
+}
+
 export interface RootObject {
-    account_status: AccountStatus;
-    fund_status: boolean;
     is_base_user: boolean;
     is_sub_user: boolean;
+    user_permissions: UserPermissions;
+    account_status: AccountStatus;
+    todays_open_credit_fund: number;
     remaining_credit_fund_amount: number;
     this_month_total_expend_amount: number;
-    todays_open_credit_fund: number;
-    total_credit_fund_amount: number;
     total_unauthorized_expend_amount: number;
-    user_permissions: UserPermissions;
+    total_credit_fund_amount: number;
+    fund_status: boolean;
+    this_year_total_expend_amoun: number;
+    this_year_remaining_credit_fund_amount: number;
+    this_year_total_credit_fund_amount: number;
+    this_year_total_unauthorized_expend_amount: number;
+    this_year: Date;
 }
 
 export interface ExpenditureHeadingGETModel {

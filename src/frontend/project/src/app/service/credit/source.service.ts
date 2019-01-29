@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { LOCAL_REST_API_SERVER } from './../server.url';
-import { catchError } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 import { errorResponse } from 'src/app/common/error-response';
 import { CreditFundSourceGETModel, CreditFundSourceFilterModel } from '../models';
 
@@ -36,6 +36,17 @@ export class SourceService {
 
   delete_source(uuid: string) {
     return this._http.delete<CreditFundSourceGETModel>(LOCAL_REST_API_SERVER + 'credit/source/view-update-delete/' + uuid + '/').pipe(
+      catchError(errorResponse)
+    )
+  }
+
+  get_sources_name() {
+    return this._http.get<CreditFundSourceGETModel[]>(LOCAL_REST_API_SERVER + 'credit/source/list/').pipe(
+      map(
+        (res: CreditFundSourceGETModel[]) => {
+          for(let data of res) {return data.source_name}
+        }
+      ),
       catchError(errorResponse)
     )
   }

@@ -19,7 +19,7 @@
     <div class="field" [ngClass]="{'error': form.get('source').touched && form.get('source').invalid}">
       <label for="source">Source Name</label>
       <select type="text" formControlName="source" class="ui dropdown" appDropdown>
-        <option value="">{{ get_record_data() }}</option>
+        <option value="">{{ get_record_data() | async }}</option>
         <option value="{{ data.id }}" *ngFor="let data of all_sources">{{ data.source_name }}</option>
       </select>
     </div>

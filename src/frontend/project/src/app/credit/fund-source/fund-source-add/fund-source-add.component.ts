@@ -29,10 +29,6 @@ export class FundSourceAddComponent implements OnInit {
       Validators.required,
       Validators.minLength(4),
       Validators.maxLength(30)
-    ]),
-    description: new FormControl("", [
-      Validators.required,
-      Validators.minLength(4)
     ])
   });
 

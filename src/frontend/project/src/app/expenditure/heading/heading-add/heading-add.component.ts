@@ -26,10 +26,6 @@ export class HeadingAddComponent implements OnInit {
       Validators.required,
       Validators.minLength(4),
       Validators.maxLength(30)
-    ]),
-    description: new FormControl("", [
-      Validators.required,
-      Validators.minLength(4)
     ])
   });
 
@@ -64,7 +60,7 @@ export class HeadingAddComponent implements OnInit {
             this.heading_data.emit(this.form.value);
             this.loading = false;
             this.form.reset;
-            this.messages.splice(0, 0, { message: 'Espenditure Heading ADDED successfuly.', type: 'positive' });
+            this.messages.splice(0, 0, { message: 'Debit Heading ADDED successfuly.', type: 'positive' });
           },
           (error: AppError) => {
             return this.throw_error(error);

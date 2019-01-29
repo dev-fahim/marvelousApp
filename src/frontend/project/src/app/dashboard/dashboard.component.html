@@ -1,9 +1,9 @@
 <div class="ui grid" *ngIf="!is_loading()">
     <div class="column">
-        <div class="ui five cards">
+        <div class="ui six cards">
             <div class="ui {{ status? 'green' : 'red' }} card">
                 <div class="content">
-                    <div class="center aligned header">Credit Fund Status</div>
+                    <div class="center aligned header">Fund Status</div>
                     <div class="ui divider"></div>
                     <i class="{{ status? 'unlock green' : 'lock red' }} right floated icon"></i>
                     <div class="meta">
@@ -13,7 +13,7 @@
                         <div class="ui statistic tiny">
                             <div class="label">Fund is {{ status? 'unlocked' : 'locked' }}.</div>
                         </div>
-                        <p *ngIf="api_services.is_base_user">Click the button to {{ status? 'unlock' : 'lock' }} it.</p>
+                        <p *ngIf="api_services.is_base_user">Click the button to {{ status? 'lock' : 'unlock' }} it.</p>
                         <p></p>
                     </div>
                     <div class="ui divider"></div>
@@ -28,31 +28,92 @@
             </div>
             <div class="ui {{ status? 'green' : 'red' }} link card" [routerLink]="['/main-app/credit/fund/record/list-add']">
                 <div class="content">
-                    <div class="center aligned header">Remaining Balance</div>
+                    <div class="center aligned header">Credits</div>
                     <div class="ui divider"></div>
                     <i class="money green bill right floated alternate outline icon"></i>
                     <div class="meta">
-                        <span class="category">Last updated data.</span>
+                        <span class="category">Data of {{ get_this_year() }}.</span>
                     </div>
                     <div class="description center aligned">
                         <div class="ui statistic tiny">
-                            <div class="value">{{ get_remailning_balance() | currency:' ':'symbol':'1.0-0' }}</div>
+                            <div class="value">{{ get_this_year_credit() | currency:' ':'symbol':'1.0-0' }}</div>
                             <div class="label">
                                 Taka
                             </div>
                         </div>
-                        <p>Click to see credit fund records.</p>
+                        <p>Click to see credit records.</p>
                     </div>
                     <div class="ui divider"></div>
                 </div>
             </div>
             <div class="ui {{ status? 'green' : 'red' }} link card" [routerLink]="['/main-app/expenditure/record']">
                 <div class="content">
-                    <div class="center aligned header">Expends in this month</div>
+                    <div class="center aligned header">Debits</div>
                     <div class="ui divider"></div>
                     <i class="money red bill right floated alternate outline icon"></i>
                     <div class="meta">
-                        <span class="category">Last updated data.</span>
+                        <span class="category">Data of {{ get_this_year() }}.</span>
+                    </div>
+                    <div class="description center aligned">
+                        <div class="ui statistic tiny">
+                            <div class="value">{{ get_this_year_expends() | currency:' ':'symbol':'1.0-0' }}</div>
+                            <div class="label">
+                                Taka
+                            </div>
+                        </div>
+                        <p>Click to see debit records.</p>
+                    </div>
+                    <div class="ui divider"></div>
+                </div>
+            </div>
+            <div class="ui {{ status? 'green' : 'red' }} link card" [routerLink]="['/main-app/credit/fund/record/list-add']">
+                <div class="content">
+                    <div class="center aligned header">Balance</div>
+                    <div class="ui divider"></div>
+                    <i class="money blue bill right floated alternate outline icon"></i>
+                    <div class="meta">
+                        <span class="category">Data of {{ get_this_year() }}.</span>
+                    </div>
+                    <div class="description center aligned">
+                        <div class="ui statistic tiny">
+                            <div class="value">{{ get_this_year_remaining_balance() | currency:' ':'symbol':'1.0-0' }}</div>
+                            <div class="label">
+                                Taka
+                            </div>
+                        </div>
+                        <p>Click to see credit records.</p>
+                    </div>
+                    <div class="ui divider"></div>
+                </div>
+            </div>
+            <div class="ui {{ status? 'green' : 'red' }} link card" [routerLink]="['/main-app/expenditure/record']"
+                [queryParams]="{is_verified:false}">
+                <div class="content">
+                    <div class="center aligned header">Unauthorized</div>
+                    <div class="ui divider"></div>
+                    <i class="money yellow bill right floated alternate outline icon"></i>
+                    <div class="meta">
+                        <span class="category">Data of {{ get_this_year() }}.</span>
+                    </div>
+                    <div class="description center aligned">
+                        <div class="ui statistic tiny">
+                            <div class="value">{{ get_this_year_unauthorized_expends() | currency:' ':'symbol':'1.0-0' }}</div>
+                            <div class="label">
+                                Taka
+                            </div>
+                        </div>
+                        <p>Click to see all unauthorized debit records.</p>
+                    </div>
+                    <div class="ui divider"></div>
+                </div>
+            </div>
+            <div class="ui {{ status? 'green' : 'red' }} link card" [routerLink]="['/main-app/expenditure/record']">
+                <div class="content">
+                    <div class="center aligned header">Debits of this month</div>
+                    <div class="ui divider"></div>
+                    <i class="money red bill right floated alternate outline icon"></i>
+                    <div class="meta">
+                        <span class="category">Data of {{ get_this_year() }}.</span>
                     </div>
                     <div class="description center aligned">
                         <div class="ui statistic tiny">
@@ -61,48 +122,7 @@
                                 Taka
                             </div>
                         </div>
-                        <p>Click to see expend records.</p>
-                    </div>
-                    <div class="ui divider"></div>
-                </div>
-            </div>
-            <div class="ui {{ status? 'green' : 'red' }} card">
-                <div class="content">
-                    <div class="center aligned header">Starting balance</div>
-                    <div class="ui divider"></div>
-                    <i class="money blue bill right floated alternate outline icon"></i>
-                    <div class="meta">
-                        <span class="category">Counted before today.</span>
-                    </div>
-                    <div class="description center aligned">
-                        <div class="ui statistic tiny">
-                            <div class="value">{{ get_starting_balance() | currency:' ':'symbol':'1.0-0' }}</div>
-                            <div class="label">
-                                Taka
-                            </div>
-                        </div>
-                        <p>This will be changed if admin change any fund records before today.</p>
-                    </div>
-                    <div class="ui divider"></div>
-                </div>
-            </div>
-            <div class="ui {{ status? 'green' : 'red' }} link card" [routerLink]="['/main-app/expenditure/record']"
-                [queryParams]="{is_verified:false}">
-                <div class="content">
-                    <div class="center aligned header">Unauthorized expends</div>
-                    <div class="ui divider"></div>
-                    <i class="money yellow bill right floated alternate outline icon"></i>
-                    <div class="meta">
-                        <span class="category">Last updated data.</span>
-                    </div>
-                    <div class="description center aligned">
-                        <div class="ui statistic tiny">
-                            <div class="value">{{ get_total_unauthorized_expend() | currency:' ':'symbol':'1.0-0' }}</div>
-                            <div class="label">
-                                Taka
-                            </div>
-                        </div>
-                        <p>Click to see all unauthorized expend records.</p>
+                        <p>Click to see debit records.</p>
                     </div>
                     <div class="ui divider"></div>
                 </div>
@@ -115,7 +135,7 @@
     <button class="ui mini blue button" (click)="onReload()"><i class="redo icon"></i></button>
 </div>
 <div class="ui grid">
-    <div class="four wide column">
+    <div class="two wide column">
         <div class="ui segment" *ngIf="is_loading()">
             <div class="ui placeholder">
                 <div class="paragraph">
@@ -133,21 +153,53 @@
             </div>
         </div>
         <div class="ui blue segment" *ngIf="!is_loading()">
-            <h3><a [routerLink]="['/main-app/credit/fund/source/list-add']">Credit Fund Group Headings</a></h3>
+            <h3><a [routerLink]="['/main-app/credit/fund/source/list-add']">Credit Heads</a></h3>
             <div class="ui divider"></div>
-            <div class="ui very relaxed divided list">
+            <div class="ui relaxed list">
                 <div class="item" *ngFor="let data of all_sources">
                     <div class="content">
                         <a class="header" [routerLink]="['/main-app/credit/fund/record/list-add']" [queryParams]="{
                             fund_source: data.source_name
-                        }">{{ data.source_name }}</a>
-                        <div class="description">Last updated: <b>{{ data.updated | date }}</b></div>
+                        }">{{
+                            data.source_name }}</a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="eight wide column">
+    <div class="two wide column">
+        <div class="ui segment" *ngIf="is_loading()">
+            <div class="ui placeholder">
+                <div class="paragraph">
+                    <div class="line"></div>
+                    <div class="line"></div>
+                    <div class="line"></div>
+                    <div class="line"></div>
+                    <div class="line"></div>
+                </div>
+                <div class="paragraph">
+                    <div class="line"></div>
+                    <div class="line"></div>
+                    <div class="line"></div>
+                </div>
+            </div>
+        </div>
+        <div class="ui blue segment" *ngIf="!is_loading()">
+            <h3><a [routerLink]="['/main-app/expenditure/heading']">Debit Heads</a></h3>
+            <div class="ui divider"></div>
+            <div class="ui relaxed list">
+                <div class="item" *ngFor="let data of all_headings">
+                    <div class="content">
+                        <a class="header" routerLink="/main-app/expenditure/record" [queryParams]="{ 
+                            heading: data.heading_name
+                        }">{{
+                            data.heading_name }}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="twelve wide column">
         <div class="ui segment" *ngIf="is_loading()">
             <div class="ui placeholder">
                 <div class="paragraph">
@@ -168,10 +220,9 @@
             <thead>
                 <tr>
                     <th colspan="6">
-                        <h3><a routerLink="/main-app/expenditure/record/list-add" [queryParams]="{ 
+                        <h3><a routerLink="/main-app/expenditure/record" [queryParams]="{ 
                             added_date: today
-                        }">Today's
-                                expend record logs</a></h3>
+                        }">Today's debit records</a></h3>
                     </th>
                 </tr>
                 <tr>
@@ -202,39 +253,6 @@
         </table>
         <div class="ui bottom attached error message" *ngIf="get_expend_length() == 0">
             <b>No records to show.</b>
-        </div>
-    </div>
-    <div class="four wide column">
-        <div class="ui segment" *ngIf="is_loading()">
-            <div class="ui placeholder">
-                <div class="paragraph">
-                    <div class="line"></div>
-                    <div class="line"></div>
-                    <div class="line"></div>
-                    <div class="line"></div>
-                    <div class="line"></div>
-                </div>
-                <div class="paragraph">
-                    <div class="line"></div>
-                    <div class="line"></div>
-                    <div class="line"></div>
-                </div>
-            </div>
-        </div>
-        <div class="ui blue segment" *ngIf="!is_loading()">
-            <h3><a [routerLink]="['/main-app/expenditure/heading']">Expenditure Group Headings</a></h3>
-            <div class="ui divider"></div>
-            <div class="ui very relaxed divided list">
-                <div class="item" *ngFor="let data of all_headings">
-                    <div class="content">
-                        <a class="header" routerLink="/main-app/expenditure/record" [queryParams]="{ 
-                            heading: data.heading_name
-                        }">{{
-                            data.heading_name }}</a>
-                        <div class="description">Last updated: <b>{{ data.updated | date }}</b></div>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 </div>

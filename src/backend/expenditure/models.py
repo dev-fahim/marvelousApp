@@ -25,7 +25,7 @@ class ExpenditureRecordModel(models.Model):
     expend_by = models.CharField(max_length=100)
     description = models.TextField(blank=True, null=True)
 
-    amount = models.IntegerField()
+    amount = models.PositiveIntegerField()
     is_verified = models.BooleanField(default=False)
     expend_date = models.DateField()
 

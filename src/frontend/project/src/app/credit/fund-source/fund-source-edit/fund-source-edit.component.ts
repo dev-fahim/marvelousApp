@@ -42,10 +42,6 @@ export class FundSourceEditComponent implements OnInit {
       Validators.required,
       Validators.minLength(4),
       Validators.maxLength(30)
-    ]),
-    description: new FormControl("", [
-      Validators.required,
-      Validators.minLength(4)
     ])
   });
 
@@ -76,8 +72,7 @@ export class FundSourceEditComponent implements OnInit {
       x => {
         this.uuid = this.source.uuid;
         this.form.setValue({
-          source_name: this.source.source_name,
-          description: this.source.description
+          source_name: this.source.source_name
         })
       }
     );

@@ -12,10 +12,6 @@
       <label>Heading Name</label>
       <input type="text" formControlName="heading_name">
     </div>
-    <div class="field" [ngClass]="{'disabled': form.get('description').invalid}">
-      <label>Desciption</label>
-      <textarea type="text" formControlName="description"></textarea>
-    </div>
     <button class="ui blue labeled icon button tiny" type="submit" [ngClass]="{'loading': loading}"><i class="angle double up icon"></i>Upgrade</button>
   </form>
   <div class="ui divider"></div>

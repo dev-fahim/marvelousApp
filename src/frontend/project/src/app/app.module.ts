@@ -1,3 +1,4 @@
+import { JwtInterceptor } from '@auth0/angular-jwt';
 import { LoginComponent } from './login/login.component';
 import { NoAccessComponent } from './no-access/no-access.component';
 import { BrowserModule } from '@angular/platform-browser';

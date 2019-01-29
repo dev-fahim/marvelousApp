@@ -1,10 +1,11 @@
-from rest_framework import generics, status, filters
+from rest_framework import generics, status, filters, exceptions
 from credit.api import serializers
 from project import permissions
 from credit.models import CreditFundModel, CreditFundSettingsModel
 from base_user.models import BaseUserModel
 from sub_user.models import SubUserModel
 from company.models import CompanyInfoModel
+from expenditure.models import ExpenditureRecordModel
 from rest_framework.response import Response
 from credit.api.filters import CreditFundFilter
 from django_filters.rest_framework import DjangoFilterBackend
@@ -66,6 +67,19 @@ class CreditFundListCreateAPIView(generics.ListCreateAPIView):
     filterset_class = CreditFundFilter
 
     def get_queryset(self):
+        return self.request.user.base_user.credit_funds.all().filter(added__year=datetime.datetime.today().year)
+
+
+class ALLCreditFundListCreateAPIView(generics.ListCreateAPIView):
+    serializer_class = serializers.CreditFundModelSerializer
+    permission_classes = [permissions.OnlyBaseUser, ]
+    filter_backends = (filters.OrderingFilter, filters.SearchFilter, DjangoFilterBackend)
+    search_fields = ('description', 'uuid')
+    ordering_fields = ('added', 'source__source_name', 'amount')
+    ordering = ('-id', )
+    filterset_class = CreditFundFilter
+
+    def get_queryset(self):
         return self.request.user.base_user.credit_funds.all()
 
 
@@ -76,6 +90,27 @@ class CreditFundRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIVi
 
     def get_queryset(self):
         return self.request.user.base_user.credit_funds.all()
+    
+    def perform_destroy(self, instance):
+        raw_value = instance.amount
+
+        expenditure_model = self.request.user.base_user.all_expenditure_records.filter(is_verified=True)
+        expenditure_all_amounts = [obj.amount for obj in expenditure_model]
+        expenditure_total_amount = utils.sum_int_of_array(expenditure_all_amounts)
+
+        credit_fund_model = self.request.user.base_user.credit_funds.all()
+        credit_fund_all_amounts = [obj.amount for obj in credit_fund_model]
+        credit_fund_total_amount = utils.sum_int_of_array(credit_fund_all_amounts)
+
+        credit_fund_remaining_amount = (credit_fund_total_amount - raw_value) - expenditure_total_amount
+        print(credit_fund_remaining_amount)
+
+        if credit_fund_remaining_amount >= 0:
+            deleted = instance.delete()
+            if deleted:
+                return Response(data={"detail": "Deleted"}, status=status.HTTP_204_NO_CONTENT)
+            return Response(data={"detail": "Not found!"}, status=status.HTTP_404_NOT_FOUND)
+        raise exceptions.ValidationError(detail="Credits will be lower than your debits!", code=403)
 
 
 class CreditFundRetrieveAPIView(generics.RetrieveAPIView):
@@ -88,6 +123,22 @@ class CreditFundRetrieveAPIView(generics.RetrieveAPIView):
 
 
 class CreditFundListAPIView(generics.ListAPIView):
+    serializer_class = serializers.CreditFundModelSerializer
+    permission_classes = [permissions.BaseUserOrSubUser, ]
+    filter_backends = (filters.OrderingFilter, filters.SearchFilter, DjangoFilterBackend)
+    search_fields = ('description', 'uuid')
+    ordering_fields = ('added', 'source__source_name', 'amount')
+    ordering = ('-id', )
+    filterset_class = CreditFundFilter
+
+    def get_queryset(self):
+        if BaseUserModel.objects.filter(base_user=self.request.user).exists():
+            return self.request.user.base_user.credit_funds.filter(added__year=datetime.datetime.today().year)
+        elif SubUserModel.objects.filter(root_user=self.request.user).exists():
+            return self.request.user.root_sub_user.base_user.credit_funds.filter(added__year=datetime.datetime.today().year)
+
+
+class ALLCreditFundListAPIView(generics.ListAPIView):
     serializer_class = serializers.CreditFundModelSerializer
     permission_classes = [permissions.BaseUserOrSubUser, ]
     filter_backends = (filters.OrderingFilter, filters.SearchFilter, DjangoFilterBackend)

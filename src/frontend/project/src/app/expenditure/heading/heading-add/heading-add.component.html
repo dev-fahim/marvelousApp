@@ -12,10 +12,6 @@
       <label>Heading Name</label>
       <input type="text" formControlName="heading_name">
     </div>
-    <div class="field" [ngClass]="{'error': form.get('description').invalid && form.get('description').touched}">
-      <label>Desciption</label>
-      <textarea type="text" formControlName="description"></textarea>
-    </div>
     <button class="ui blue labeled icon button tiny" type="submit" [ngClass]="{'loading': loading}"><i class="add icon"></i>Add
       Heading</button>
     <button class="ui yellow labeled icon button tiny" (click)="onReset()"><i class="redo icon"></i>Reset</button>

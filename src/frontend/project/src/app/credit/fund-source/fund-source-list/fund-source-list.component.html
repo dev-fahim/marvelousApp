@@ -35,7 +35,7 @@
         <table class="ui selectable celled red table">
           <thead>
             <tr>
-              <th colspan="3">
+              <th colspan="2">
                 <h3>Credit Fund Sources</h3>
               </th>
               <th>
@@ -45,7 +45,6 @@
             </tr>
             <tr>
               <th>Heading Name</th>
-              <th>Description</th>
               <th>Added</th>
               <th>Last Updated</th>
             </tr>
@@ -55,7 +54,6 @@
               <td
               class="selectable"
               (click)="set_source_data(data)"><a>{{ data.source_name }}</a></td>
-              <td>{{ data.description }}</td>
               <td>{{ data.added | date }}</td>
               <td>{{ data.updated | date }}</td>
             </tr>

@@ -17,7 +17,6 @@ class FundIsNotLocked(BasePermission):
 
     def has_permission(self, request, view):
         if request.user.is_authenticated:
-            user_info = request.user.user_extra_info
             if BaseUserModel.objects.filter(base_user=request.user).exists():
                 return request.user.base_user.fund_settings.is_not_locked
             if SubUserModel.objects.filter(root_user=request.user).exists():

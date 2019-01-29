@@ -20,13 +20,7 @@ export class FundRecordEditComponent implements OnInit {
   loading = false;
   loading_del = false;
   fund_is_locked = false;
-  record_data: CreditFundRecordGETModel = {
-    source: 0,
-    fund_added: '',
-    amount: 0,
-    description: '',
-    source_name: ''
-  };
+  record_data: CreditFundRecordGETModel;
 
   uuid: string;
   messages: { message: string, type: string }[] = [];

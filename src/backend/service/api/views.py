@@ -160,6 +160,53 @@ class GrabWhatYouWantedAPIView(generics.GenericAPIView):
         total = utils.sum_int_of_array(all_amounts)
 
         return total
+
+    # new 
+    def get_this_year_total_expend_amount(self):
+        this_month_expend_records = self.get_expend_records().filter(
+            expend_date__year=datetime.datetime.now().year,
+            is_verified=True
+            )
+        this_month_expend_records_amounts = [obj.amount for obj in this_month_expend_records]
+        this_year_total_expend_amoun = utils.sum_int_of_array(this_month_expend_records_amounts)
+
+        return this_year_total_expend_amoun
+    
+    def get_this_year_remaining_credit_fund_amount(self):
+        last_expend_records = self.get_expend_records().filter(
+            expend_date__year=datetime.datetime.now().year,
+            is_verified=True
+            )
+        last_credit_funds = self.get_credit_funds().filter(
+            fund_added__year=datetime.datetime.now().year
+            )
+        last_credit_funds_amounts = [obj.amount for obj in last_credit_funds]
+        last_expend_records_amounts = [obj.amount for obj in last_expend_records]
+        last_credit_fund_total_amount = utils.sum_int_of_array(last_credit_funds_amounts)
+        last_expend_record_total_amount = utils.sum_int_of_array(last_expend_records_amounts)
+        this_year_remaining_credit_fund_amount = last_credit_fund_total_amount - last_expend_record_total_amount
+
+        return this_year_remaining_credit_fund_amount
+    
+    def get_this_year_total_credit_fund_amount(self):
+        queryset = self.get_credit_funds().filter(
+            fund_added__year=datetime.datetime.now().year
+            )
+        all_amounts = [obj.amount for obj in queryset]
+        this_year_total_credit_fund_amount = utils.sum_int_of_array(all_amounts)
+
+        return this_year_total_credit_fund_amount
+    
+    def get_this_year_total_unauthorized_expend_amount(self):
+        unauthorized_expend_records = self.get_expend_records().filter(
+            expend_date__year=datetime.datetime.now().year,
+            is_verified=False
+            )
+        unauthorized_expend_records_amounts = [obj.amount for obj in unauthorized_expend_records]
+        this_year_total_unauthorized_expend_amount = utils.sum_int_of_array(unauthorized_expend_records_amounts)
+
+        return this_year_total_unauthorized_expend_amount
+
     
     def get(self, request, *args, **kwargs):
         context = {
@@ -172,7 +219,14 @@ class GrabWhatYouWantedAPIView(generics.GenericAPIView):
             'this_month_total_expend_amount': self.get_this_month_total_expend_amount(),
             'total_unauthorized_expend_amount': self.get_total_unauthorized_expend_amount(),
             'total_credit_fund_amount': self.get_total_credit_fund_amount(),
-            'fund_status': self.get_fund_status()
+            'fund_status': self.get_fund_status(),
+
+            "this_year_total_expend_amoun": self.get_this_year_total_expend_amount(),
+            "this_year_remaining_credit_fund_amount": self.get_this_year_remaining_credit_fund_amount(),
+            "this_year_total_credit_fund_amount": self.get_this_year_total_credit_fund_amount(),
+            "this_year_total_unauthorized_expend_amount": self.get_this_year_total_unauthorized_expend_amount(),
+
+            "this_year": datetime.datetime.now().year
         }
         return Response(context)
 

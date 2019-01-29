@@ -78,9 +78,43 @@ class ExpenditureRecordCreateAPIView(generics.CreateAPIView):
         elif SubUserModel.objects.filter(root_user=self.request.user).exists():
             queryset = self.request.user.root_sub_user.base_user.all_expenditure_records.all()
         return queryset
+    
+    def get_base_user(self):
+        if BaseUserModel.objects.filter(base_user=self.request.user).exists():
+            return self.request.user.base_user
+        elif SubUserModel.objects.filter(root_user=self.request.user).exists():
+            return self.request.user.root_sub_user.base_user
 
 
 class ExpenditureRecordListAPIView(generics.ListAPIView):
+    serializer_class = ExpenditureRecordModelSerializer
+    permission_classes = [
+        permissions.BaseUserOrSubUser,
+        permissions.SubUserCanList
+    ]
+    filter_backends = (filters.SearchFilter, DjangoFilterBackend, filters.OrderingFilter)
+    filterset_class = ExpenditureRecordFilter
+    search_fields = (
+        'expend_heading__heading_name',
+        'uuid',
+        'added',
+        'updated',
+        'expend_by',
+        'expend_date'
+    )
+    ordering_fields = ('added', 'expend_date', 'amount', 'expend_heading__heading_name')
+    ordering = ('-id',)
+
+    def get_queryset(self):
+        queryset = None
+        if BaseUserModel.objects.filter(base_user=self.request.user).exists():
+            queryset = self.request.user.base_user.all_expenditure_records.filter(added__year=datetime.datetime.today().year)
+        elif SubUserModel.objects.filter(root_user=self.request.user).exists():
+            queryset = self.request.user.root_sub_user.base_user.all_expenditure_records.filter(added__year=datetime.datetime.today().year)
+        return queryset
+
+
+class ALLExpenditureRecordListAPIView(generics.ListAPIView):
     serializer_class = ExpenditureRecordModelSerializer
     permission_classes = [
         permissions.BaseUserOrSubUser,
@@ -161,8 +195,8 @@ class ExpenditureCheckoutToday(ExpenditureRecordCreateAPIView):
         to = [request.user.email, ]
         content = response.getvalue()
         utils.django_send_email_with_attachments(subject, body, self.from_email, to, file_name, content, self.mimetype)
-         # Generate PDF
-        base_user = items.first().base_user
+        # Generate PDF
+        base_user = self.get_base_user()
         company = CompanyInfoModel.objects.get(base_user=base_user)
         row_values = [[obj.__getattribute__(name) for name in self.attributes] for obj in items]
         amounts = [obj.amount for obj in items]
