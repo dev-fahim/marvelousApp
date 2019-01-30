@@ -23,6 +23,9 @@ import localeBn from '@angular/common/locales/bn';
 import { registerLocaleData } from '@angular/common';
 import { FundSettingsService } from './service/fund-settings/fund-settings.service';
 
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { TokenInterceptor } from 'src/app/login/auth/httpInterceptor.service';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -47,7 +50,12 @@ import { FundSettingsService } from './service/fund-settings/fund-settings.servi
     SourceService, 
     HeadingService,
     RecordService,
-    FundSettingsService
+    FundSettingsService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })
