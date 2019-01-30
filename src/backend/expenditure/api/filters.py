@@ -12,7 +12,13 @@ class ExpenditureRecordFilter(filters.FilterSet):
 
     class Meta:
         model = ExpenditureRecordModel
-        fields = ('is_verified', 'amount',
-                  'max_amount', 'min_amount', 'added', 'expend_date', 'added_date',
-                  'heading'
-                  )
+        fields = (
+            'is_verified', 
+            'amount',
+            'max_amount', 
+            'min_amount', 
+            'added', 
+            'expend_date', 
+            'added_date',
+            'heading'
+            )

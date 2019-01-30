@@ -41,10 +41,7 @@ export class FundRecordEditComponent implements OnInit {
     ])
   });
 
-  all_sources: CreditFundSourceGETModel[] = [{
-    source_name: '',
-    description: ''
-  }];
+  all_sources: CreditFundSourceGETModel[] = [{source_name: '', description: ''}];
 
   constructor(
     private _fundService: FundService,
@@ -74,6 +71,16 @@ export class FundRecordEditComponent implements OnInit {
   }
 
   ngOnInit() {
+    this._sourceService.get_all_sources({ordering: '', search: ''})
+      .subscribe(
+        (next) => {
+          this.all_sources = next;
+        },
+        (error: AppError) => {
+          this.loading = false;
+          this.throw_error(error);
+        }
+      )
     this._acRoute.paramMap.subscribe(
       (paramMap) => {
         this.uuid = paramMap.get('uuid')
@@ -95,16 +102,6 @@ export class FundRecordEditComponent implements OnInit {
         return this.throw_error(error);
       }
     )
-    this._sourceService.get_all_sources({ordering: '', search: ''})
-      .subscribe(
-        (next) => {
-          this.all_sources = next;
-        },
-        (error: AppError) => {
-          this.loading = false;
-          this.throw_error(error);
-        }
-      )
     this._fundService.get_fund_status()
       .subscribe(
         (next) => {

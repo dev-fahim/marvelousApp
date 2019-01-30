@@ -44,7 +44,9 @@ export class SourceService {
     return this._http.get<CreditFundSourceGETModel[]>(LOCAL_REST_API_SERVER + 'credit/source/list/').pipe(
       map(
         (res: CreditFundSourceGETModel[]) => {
-          for(let data of res) {return data.source_name}
+          let all_sources: string[] = [];
+          for(let data of res) {all_sources.push(data.source_name)}
+          return all_sources;
         }
       ),
       catchError(errorResponse)

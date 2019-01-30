@@ -23,8 +23,10 @@ export class FundRecordListComponent implements OnInit {
   fund_source = '';
   max_amount = '';
   min_amount = '';
-  search = ''
-  ordering = ''
+  added_after = '';
+  added_before = '';
+  search = '';
+  ordering = '';
 
   filter_array = [
     'added',
@@ -32,6 +34,8 @@ export class FundRecordListComponent implements OnInit {
     'fund_source',
     'max_amount',
     'min_amount',
+    'added_after',
+    'added_before',
     'search',
     'ordering'
   ]
@@ -64,6 +68,8 @@ export class FundRecordListComponent implements OnInit {
     fund_source: '',
     max_amount: '',
     min_amount: '',
+    added_after: '',
+    added_before: '',
     ordering: '',
     search: ''
   }, is_filtered = false) {
@@ -94,6 +100,8 @@ export class FundRecordListComponent implements OnInit {
       fund_source: this.fund_source,
       max_amount: this.max_amount,
       min_amount: this.min_amount,
+      added_after: this.added_after,
+      added_before: this.added_before,
       search: this.search,
       ordering: this.ordering
     })

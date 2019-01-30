@@ -6,13 +6,15 @@ import { catchError, map } from 'rxjs/operators';
 import { errorResponse } from 'src/app/common/error-response';
 
 export interface CreditFundRecordListFilter {
-  added: string
-  fund_source: string
-  max_amount: string
-  min_amount: string
-  ordering: string
-  amount: string
-  search: string
+  added: string;
+  fund_source: string;
+  max_amount: string;
+  min_amount: string;
+  ordering: string;
+  added_after: string;
+  added_before: string;
+  amount: string;
+  search: string;
 }
 
 export interface FundStatus {
@@ -32,6 +34,8 @@ export class FundService {
     fund_source: '',
     max_amount: '',
     min_amount: '',
+    added_after: '',
+    added_before: '',
     ordering: '',
     search: ''
   }) {
@@ -43,6 +47,8 @@ export class FundService {
         fund_source: filters.fund_source,
         max_amount: filters.max_amount,
         min_amount: filters.min_amount,
+        added_after: filters.added_after,
+        added_before: filters.added_before,
         ordering: filters.ordering,
         search: filters.search
       }

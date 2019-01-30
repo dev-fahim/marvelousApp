@@ -24,7 +24,7 @@
     </div>
     <div class="field" [ngClass]="{'error': form.get('description').touched && form.get('description').invalid}">
       <label for="description">Description</label>
-      <input type="text" formControlName="description">
+      <textarea type="text" formControlName="description"></textarea>
     </div>
     <div class="field" [ngClass]="{'error': form.get('amount').touched && form.get('amount').invalid}">
       <label for="amount">Amount</label>

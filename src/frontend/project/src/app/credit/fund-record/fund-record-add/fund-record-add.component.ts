@@ -43,7 +43,7 @@ export class FundRecordAddComponent implements OnInit {
     ])
   });
 
-  all_sources: CreditFundSourceGETModel[];
+  all_sources: CreditFundSourceGETModel[] = [];
 
   constructor(
     private _fundService: FundService,
