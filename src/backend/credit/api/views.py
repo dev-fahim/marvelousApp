@@ -26,6 +26,7 @@ class CreditFundSourceListCreateAPIView(generics.ListCreateAPIView):
     def get_queryset(self):
         return self.request.user.base_user.credit_fund_sources.all()
 
+
 class CreditFundSourceListAPIView(generics.ListAPIView):
     serializer_class = serializers.CreditFundSourceModelSerializer
     permission_classes = [permissions.BaseUserOrSubUser, ]
@@ -192,7 +193,13 @@ class CreditFundGenCSVEmail(CreditFundListAPIView):
         body = f'This is an automated email from your application.'
         from_email = os.environ.get('EMAIL')
         base_user = items.first().base_user
+
+        emails = base_user.all_emails.filter(is_active=True)
+
         to = [base_user.base_user.email, ]
+
+        for email in emails:
+            to.append(email.email_address)
 
         utils.django_send_email_with_attachments(
             subject=subject,

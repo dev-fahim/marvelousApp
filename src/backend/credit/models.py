@@ -26,6 +26,8 @@ class CreditFundModel(models.Model):
     uuid = models.UUIDField(unique=True)
     fund_added = models.DateField()
 
+    deleted = models.BooleanField(default=False)
+
     def __str__(self):
         return self.source.source_name
 

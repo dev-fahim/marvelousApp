@@ -1,6 +1,5 @@
 from rest_framework import generics
 from company.api.serializers import CompanyInfoModelSerializer
-from company.models import CompanyInfoModel
 from project.permissions import OnlyBaseUser, BaseUserOrSubUser
 from base_user.models import BaseUserModel
 from sub_user.models import SubUserModel

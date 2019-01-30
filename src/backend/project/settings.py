@@ -220,7 +220,8 @@ INSTALLED_APPS += [
     'credit',
     'expenditure',
     'user',
-    'service'
+    'service',
+    'manage_email'
 ]
 
 # END
