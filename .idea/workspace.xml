@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ee5b8223-2822-4c20-b25c-dcc7e4f9e64a" name="Default Changelist" comment="" />
+    <list default="true" id="ee5b8223-2822-4c20-b25c-dcc7e4f9e64a" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/src/backend/project/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/backend/project/settings.py" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,8 +60,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/backend/project/settings.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="399">
-              <caret line="28" column="64" selection-start-line="28" selection-start-column="64" selection-end-line="28" selection-end-column="64" />
+            <state relative-caret-position="209">
+              <caret line="138" column="16" selection-start-line="138" selection-start-column="16" selection-end-line="138" selection-end-column="16" />
             </state>
           </provider>
         </entry>
@@ -178,12 +180,12 @@
         <option value="$PROJECT_DIR$/src/backend/project/urls.py" />
         <option value="$PROJECT_DIR$/src/backend/credit/models.py" />
         <option value="$PROJECT_DIR$/src/backend/manage_email/admin.py" />
-        <option value="$PROJECT_DIR$/src/backend/project/settings.py" />
         <option value="$PROJECT_DIR$/src/backend/company/api/views.py" />
         <option value="$PROJECT_DIR$/src/backend/service/api/views.py" />
         <option value="$PROJECT_DIR$/src/backend/expenditure/api/views.py" />
         <option value="$PROJECT_DIR$/src/backend/credit/api/views.py" />
         <option value="$PROJECT_DIR$/src/backend/manage_email/models.py" />
+        <option value="$PROJECT_DIR$/src/backend/project/settings.py" />
       </list>
     </option>
   </component>
@@ -745,8 +747,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/backend/project/settings.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="399">
-          <caret line="28" column="64" selection-start-line="28" selection-start-column="64" selection-end-line="28" selection-end-column="64" />
+        <state relative-caret-position="209">
+          <caret line="138" column="16" selection-start-line="138" selection-start-column="16" selection-end-line="138" selection-end-column="16" />
         </state>
       </provider>
     </entry>
