@@ -1,14 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ee5b8223-2822-4c20-b25c-dcc7e4f9e64a" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/src/backend/company/api/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/backend/company/api/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/backend/credit/api/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/backend/credit/api/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/backend/credit/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/backend/credit/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/backend/expenditure/api/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/backend/expenditure/api/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/backend/project/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/backend/project/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/backend/service/api/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/backend/service/api/views.py" afterDir="false" />
-    </list>
+    <list default="true" id="ee5b8223-2822-4c20-b25c-dcc7e4f9e64a" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,7 +22,7 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/backend/manage_email/models.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="266">
@@ -62,11 +55,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/backend/project/settings.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="591">
-              <caret line="223" column="18" selection-start-line="223" selection-start-column="18" selection-end-line="223" selection-end-column="18" />
+            <state relative-caret-position="399">
+              <caret line="28" column="64" selection-start-line="28" selection-start-column="64" selection-end-line="28" selection-end-column="64" />
             </state>
           </provider>
         </entry>
@@ -230,6 +223,11 @@
               <item name="marvelousApp" type="b2602c69:ProjectViewProjectNode" />
               <item name="backend" type="462c0819:PsiDirectoryNode" />
               <item name="manage_email" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="marvelousApp" type="b2602c69:ProjectViewProjectNode" />
+              <item name="backend" type="462c0819:PsiDirectoryNode" />
+              <item name="project" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -674,13 +672,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/backend/project/settings.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="591">
-          <caret line="223" column="18" selection-start-line="223" selection-start-column="18" selection-end-line="223" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/backend/base_user/api/views.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="114">
@@ -749,6 +740,13 @@
           <folding>
             <element signature="e#0#28#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/backend/project/settings.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="399">
+          <caret line="28" column="64" selection-start-line="28" selection-start-column="64" selection-end-line="28" selection-end-column="64" />
         </state>
       </provider>
     </entry>
