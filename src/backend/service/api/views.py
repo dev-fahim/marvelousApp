@@ -55,9 +55,28 @@ class MailOnWrongPassword(generics.GenericAPIView):
     def get(self, request, *args, **kwargs):
         
         subject = "Account Application: Malicious login."
-        body = "Did you just wanted to login? The person who is trying to login entered wrong password. If the person is not you please immediate contact us to overcome this issue or change your password now."
+        body = "Did you just wanted to change your Fund Settings? We refused that request. The person who is trying to login entered wrong password. If the person is not you please immediate contact us to overcome this issue or change your password now."
         from_email = os.environ.get('EMAIL')
         to = [request.user.email, ]
+        wrong_password_email = utils.django_send_email(subject=subject, body=body, from_email=from_email, to=to)
+
+        return Response({"An email was sent to the admin about this situation."})
+
+
+class MailOnNonBaseUser(generics.GenericAPIView):
+    permission_classes = [BaseUserOrSubUser, ]
+
+    def get(self, request, *args, **kwargs):
+        
+        subject = "Account Application: A non authorizer login."
+        body = "A non authorizer account is trying to change the Fund Settings. We refused that request."
+        from_email = os.environ.get('EMAIL')
+        to = []
+        if BaseUserModel.objects.filter(base_user=request.user).exists():
+            to.append(request.user.email)
+        elif SubUserModel.objects.filter(root_user=request.user).exists():
+            to.append(request.user.root_sub_user.base_user.base_user.email)
+        wrong_password_email = utils.django_send_email(subject=subject, body=body, from_email=from_email, to=to)
         wrong_password_email = utils.django_send_email(subject=subject, body=body, from_email=from_email, to=to)
 
         return Response({"An email was sent to the admin about this situation."})

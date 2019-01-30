@@ -48,6 +48,8 @@ export class FundLoginAgainComponent implements OnInit {
                       this.all_okay.emit(true)
                     } else {
                       this.all_okay.emit(false);
+                      this._fundSettingsService.mailOnNonBaseUser()
+                        .subscribe();
                       localStorage.removeItem('access_token');
                       this._router.navigate(['/login']);
                     }
@@ -62,11 +64,8 @@ export class FundLoginAgainComponent implements OnInit {
           (error) => {
             this.all_okay.emit(false);
             this._fundSettingsService.mailOnWrong()
-              .subscribe(
-                (response) => {
-                  this._router.navigate(['/login']);
-                }
-              );
+              .subscribe();
+            this._router.navigate(['/login']);
             localStorage.removeItem('access_token');
           }
         )

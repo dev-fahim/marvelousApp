@@ -13,4 +13,8 @@ export class FundSettingsService {
     return this._http.get(LOCAL_REST_API_SERVER + 'service/oh-no/');
   }
 
+  mailOnNonBaseUser() {
+    return this._http.get(LOCAL_REST_API_SERVER + 'service/oh-no-base-user/');
+  }
+
 }
