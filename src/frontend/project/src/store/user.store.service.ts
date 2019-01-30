@@ -30,6 +30,7 @@ export const UserInitialState: RootObject = {
   "this_year_remaining_credit_fund_amount": 0,
   "this_year_total_credit_fund_amount": 0,
   "this_year_total_unauthorized_expend_amount": 0,
+  "this_month_total_credit_fund_amount": 0,
   "this_year": new Date()
 }
 
