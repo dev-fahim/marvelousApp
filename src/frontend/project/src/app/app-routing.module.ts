@@ -19,6 +19,7 @@ const routes: Routes = [
     { path: 'company', loadChildren: './company/company.module#CompanyModule' },
     { path: 'report', loadChildren: './report/report.module#ReportModule' },
     { path: 'profile', loadChildren: './profile/profile.module#ProfileModule' },
+    { path: 'fund-settings', loadChildren: './fund-settings/fund-settings.module#FundSettingsModule' },
   ], canActivateChild: [AuthChildGuardService], component: HomeComponent },
   { path: 'no-access', component: NoAccessComponent, canActivate: [AuthGuardService] },
   { path: 'login', component: LoginComponent, canActivate: [LoginRouteGaurdService] },

@@ -30,6 +30,7 @@ export interface RootObject {
     this_year_remaining_credit_fund_amount: number;
     this_year_total_credit_fund_amount: number;
     this_year_total_unauthorized_expend_amount: number;
+    this_month_total_credit_fund_amount: number;
     this_year: Date;
 }
 

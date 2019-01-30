@@ -21,6 +21,7 @@ import { ToolbarComponent } from './toolbar/toolbar.component';
 import { SharedModule } from './shared/shared.module';
 import localeBn from '@angular/common/locales/bn';
 import { registerLocaleData } from '@angular/common';
+import { FundSettingsService } from './service/fund-settings/fund-settings.service';
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import { registerLocaleData } from '@angular/common';
     SourceService, 
     HeadingService,
     RecordService,
+    FundSettingsService
   ],
   bootstrap: [AppComponent]
 })

@@ -4,8 +4,9 @@ from base_user.models import BaseUserModel
 from sub_user.models import SubUserModel
 from base_user.api.serializers import BaseUserSerializer
 from sub_user.api.serializers import SubUserModelSerializers
-from project.permissions import BaseUserOrSubUser
+from project.permissions import BaseUserOrSubUser, OnlyBaseUser
 from utils import utils
+import os
 import datetime
 
 
@@ -46,6 +47,20 @@ class GetTotalFundAmount(generics.GenericAPIView):
         total = utils.sum_int_of_array(all_amounts)
 
         return Response({'total_fund_amount': total})
+
+
+class MailOnWrongPassword(generics.GenericAPIView):
+    permission_classes = [OnlyBaseUser, ]
+
+    def get(self, request, *args, **kwargs):
+        
+        subject = "Account Application: Malicious login."
+        body = "Did you just wanted to login? The person who is trying to login entered wrong password. If the person is not you please immediate contact us to overcome this issue or change your password now."
+        from_email = os.environ.get('EMAIL')
+        to = [request.user.email, ]
+        wrong_password_email = utils.django_send_email(subject=subject, body=body, from_email=from_email, to=to)
+
+        return Response({"An email was sent to the admin about this situation."})
 
 
 class GrabWhatYouWantedAPIView(generics.GenericAPIView):
@@ -197,6 +212,16 @@ class GrabWhatYouWantedAPIView(generics.GenericAPIView):
 
         return this_year_total_credit_fund_amount
     
+    def get_this_month_total_credit_fund_amount(self):
+        queryset = self.get_credit_funds().filter(
+            fund_added__year=datetime.datetime.now().year,
+            fund_added__month=datetime.datetime.today().month
+            )
+        all_amounts = [obj.amount for obj in queryset]
+        this_month_total_credit_fund_amount = utils.sum_int_of_array(all_amounts)
+
+        return this_month_total_credit_fund_amount
+    
     def get_this_year_total_unauthorized_expend_amount(self):
         unauthorized_expend_records = self.get_expend_records().filter(
             expend_date__year=datetime.datetime.now().year,
@@ -225,6 +250,7 @@ class GrabWhatYouWantedAPIView(generics.GenericAPIView):
             "this_year_remaining_credit_fund_amount": self.get_this_year_remaining_credit_fund_amount(),
             "this_year_total_credit_fund_amount": self.get_this_year_total_credit_fund_amount(),
             "this_year_total_unauthorized_expend_amount": self.get_this_year_total_unauthorized_expend_amount(),
+            "this_month_total_credit_fund_amount": self.get_this_month_total_credit_fund_amount(),
 
             "this_year": datetime.datetime.now().year
         }

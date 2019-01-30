@@ -1,12 +1,10 @@
 import { AuthService } from './../login/auth/auth.service';
 import { RootObject } from './../service/models';
-import { UserStoreService } from './../../store/user.store.service';
 import { Component } from '@angular/core';
 import { SourceService } from '../service/credit/source.service';
 import { HeadingService } from '../service/expenditure/heading.service';
 import { RecordService } from '../service/expenditure/record.service';
 import { today_date } from '../service/today.date';
-import { getCurrencySymbol } from '@angular/common';
 
 @Component({
   selector: 'app-dashboard',
@@ -51,6 +49,7 @@ export class DashboardComponent {
     "this_year_remaining_credit_fund_amount": 0,
     "this_year_total_credit_fund_amount": 0,
     "this_year_total_unauthorized_expend_amount": 0,
+    "this_month_total_credit_fund_amount": 0,
     "this_year": new Date()
 }
 
@@ -60,15 +59,6 @@ export class DashboardComponent {
     public recordService: RecordService,
     private _auth: AuthService
   ) {
-  }
-
-  toggle_fund() {
-    return this._auth.change_fund_status(!this.status)
-      .subscribe(
-        (response) => {
-          return this.fund_status = response.is_not_locked;
-        }
-      )
   }
 
   get_api_services() {
@@ -169,6 +159,10 @@ export class DashboardComponent {
 
   get_this_year_unauthorized_expends() {
     return this.api_services.this_year_total_unauthorized_expend_amount;
+  }
+
+  get_this_month_total_credit_fund_amount() {
+    return this.api_services.this_month_total_credit_fund_amount;
   }
 
   get_this_year() {

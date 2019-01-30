@@ -1,31 +1,6 @@
 <div class="ui grid" *ngIf="!is_loading()">
     <div class="column">
         <div class="ui six cards">
-            <div class="ui {{ status? 'green' : 'red' }} card">
-                <div class="content">
-                    <div class="center aligned header">Fund Status</div>
-                    <div class="ui divider"></div>
-                    <i class="{{ status? 'unlock green' : 'lock red' }} right floated icon"></i>
-                    <div class="meta">
-                        <span class="category">Under authority.</span>
-                    </div>
-                    <div class="description">
-                        <div class="ui statistic tiny">
-                            <div class="label">Fund is {{ status? 'unlocked' : 'locked' }}.</div>
-                        </div>
-                        <p *ngIf="api_services.is_base_user">Click the button to {{ status? 'lock' : 'unlock' }} it.</p>
-                        <p></p>
-                    </div>
-                    <div class="ui divider"></div>
-                    <div class="extra content">
-                        <div class="ui two buttons">
-                            <button *ngIf="api_services.is_base_user" class="ui basic {{ status? 'red' : 'green' }} button mini"
-                                (click)="toggle_fund()">{{
-                                status? 'Lock it' : 'Unlock it' }}</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
             <div class="ui {{ status? 'green' : 'red' }} link card" [routerLink]="['/main-app/credit/fund/record/list-add']">
                 <div class="content">
                     <div class="center aligned header">Credits</div>
@@ -97,12 +72,34 @@
                     </div>
                     <div class="description center aligned">
                         <div class="ui statistic tiny">
-                            <div class="value">{{ get_this_year_unauthorized_expends() | currency:' ':'symbol':'1.0-0' }}</div>
+                            <div class="value">{{ get_this_year_unauthorized_expends() | currency:' ':'symbol':'1.0-0'
+                                }}</div>
                             <div class="label">
                                 Taka
                             </div>
                         </div>
                         <p>Click to see all unauthorized debit records.</p>
+                    </div>
+                    <div class="ui divider"></div>
+                </div>
+            </div>
+            <div class="ui {{ status? 'green' : 'red' }} link card" [routerLink]="['/main-app/credit/fund/record/list-add']">
+                <div class="content">
+                    <div class="center aligned header">Credits of this month</div>
+                    <div class="ui divider"></div>
+                    <i class="money green bill right floated alternate outline icon"></i>
+                    <div class="meta">
+                        <span class="category">Data of {{ get_this_year() }}.</span>
+                    </div>
+                    <div class="description center aligned">
+                        <div class="ui statistic tiny">
+                            <div class="value">{{ get_this_month_total_credit_fund_amount() | currency:'
+                                ':'symbol':'1.0-0' }}</div>
+                            <div class="label">
+                                Taka
+                            </div>
+                        </div>
+                        <p>Click to see credit records.</p>
                     </div>
                     <div class="ui divider"></div>
                 </div>
@@ -222,7 +219,8 @@
                     <th colspan="6">
                         <h3><a routerLink="/main-app/expenditure/record" [queryParams]="{ 
                             added_date: today
-                        }">Today's debit records</a></h3>
+                        }">Today's
+                                debit records</a></h3>
                     </th>
                 </tr>
                 <tr>

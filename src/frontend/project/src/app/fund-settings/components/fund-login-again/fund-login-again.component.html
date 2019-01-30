@@ -1,0 +1,16 @@
+<div class="ui container">
+  <div class="ui segment">
+    <div class="ui error message" *ngIf="has_error">{{ message }}</div>
+    <form class="ui large form" [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="field">
+        <label for="username">Username</label>
+        <input type="text" formControlName="username">
+      </div>
+      <div class="field">
+        <label for="password">Password</label>
+        <input type="password" formControlName="password">
+      </div>
+      <button class="ui blue button" type="submit">Go there</button>
+    </form>
+  </div>
+</div>
