@@ -19,12 +19,12 @@ import { RecordService } from './service/expenditure/record.service';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { ToolbarComponent } from './toolbar/toolbar.component';
 import { SharedModule } from './shared/shared.module';
-import localeBn from '@angular/common/locales/bn';
-import { registerLocaleData } from '@angular/common';
 import { FundSettingsService } from './service/fund-settings/fund-settings.service';
 
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from 'src/app/login/auth/httpInterceptor.service';
+import { NotificationMessageComponent } from './notification-message/notification-message.component';
+import { NotificationMessageService } from './notification-message.service';
 
 @NgModule({
   declarations: [
@@ -33,7 +33,8 @@ import { TokenInterceptor } from 'src/app/login/auth/httpInterceptor.service';
     NoAccessComponent,
     SidebarComponent,
     ToolbarComponent,
-    LoginComponent
+    LoginComponent,
+    NotificationMessageComponent
   ],
   imports: [
     LoginModule,
@@ -55,7 +56,8 @@ import { TokenInterceptor } from 'src/app/login/auth/httpInterceptor.service';
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,
       multi: true
-    }
+    },
+    NotificationMessageService
   ],
   bootstrap: [AppComponent]
 })

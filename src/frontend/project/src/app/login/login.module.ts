@@ -32,7 +32,7 @@ export function tokenGetter() {
 		AuthService,
 		AuthChildGuardService,
 		AuthGuardService,
-		LoginRouteGaurdService, ,
+		LoginRouteGaurdService,
 		{
 			provide: HTTP_INTERCEPTORS,
 			useClass: JwtInterceptor,
