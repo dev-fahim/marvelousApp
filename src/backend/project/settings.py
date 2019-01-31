@@ -145,6 +145,7 @@ ASGI_APPLICATION = 'project.routing.application'
 
 # REST FRAMEWORK KAHINI
 INSTALLED_APPS += [
+    'drf_multiple_model',
     'django_extensions',
     'rest_framework',
     'rest_framework.authtoken',

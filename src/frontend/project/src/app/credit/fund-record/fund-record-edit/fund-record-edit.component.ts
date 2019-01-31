@@ -7,7 +7,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { FundService } from 'src/app/service/credit/fund.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { CreditFundRecordGETModel, CreditFundSourceGETModel } from './../../../service/models';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AppError } from 'src/app/common/app-error';
 import { SourceService } from 'src/app/service/credit/source.service';
 
@@ -16,7 +16,7 @@ import { SourceService } from 'src/app/service/credit/source.service';
   templateUrl: './fund-record-edit.component.html',
   styleUrls: ['./fund-record-edit.component.scss']
 })
-export class FundRecordEditComponent implements OnInit {
+export class FundRecordEditComponent implements OnInit, OnDestroy {
   loading = false;
   loading_del = false;
   fund_is_locked = false;
@@ -38,10 +38,14 @@ export class FundRecordEditComponent implements OnInit {
     ]),
     fund_added: new FormControl("", [
       Validators.required
-    ])
+    ]),
+    extra_description: new FormControl("", [
+      Validators.required
+    ]),
+    is_deleted: new FormControl(false)
   });
 
-  all_sources: CreditFundSourceGETModel[] = [{source_name: '', description: ''}];
+  all_sources: CreditFundSourceGETModel[] = [{source_name: '', description: '', extra_description: ''}];
 
   constructor(
     private _fundService: FundService,
@@ -94,7 +98,9 @@ export class FundRecordEditComponent implements OnInit {
           source: next.source,
           description: next.description,
           amount: next.amount,
-          fund_added: next.fund_added
+          fund_added: next.fund_added,
+          extra_description: '',
+          is_deleted: false
         })
       },
       (error: AppError) => {
@@ -111,13 +117,13 @@ export class FundRecordEditComponent implements OnInit {
   }
 
   onSubmit() {
+    console.log(this.form.value)
     if (this.form.valid) {
       this.loading = true;
       this._fundService.update_funds(this.form.value, this.uuid)
         .subscribe(
           (next: CreditFundRecordGETModel) => {
             this.loading = false;
-            console.log('Updated')
             this.messages.splice(0, 0, { message: 'Credit fund record has been UPDATED successfuly.', type: 'positive' });
           },
           (error: AppError) => {
@@ -129,9 +135,11 @@ export class FundRecordEditComponent implements OnInit {
   }
 
   onDelete() {
+    console.log(this.form.value)
     if (this.form.valid) {
       this.loading_del = true;
-      this._fundService.delete_funds(this.uuid)
+      this.form.get('is_deleted').setValue(true);
+      this._fundService.update_funds(this.form.value, this.uuid)
         .subscribe((next: CreditFundRecordGETModel) => {
           this.loading_del = false;
           this.messages.splice(0, 0, { message: 'Credit fund record has been DELETED successfuly.', type: 'positive' });
@@ -154,5 +162,9 @@ export class FundRecordEditComponent implements OnInit {
 
   get_record_data() {
     return this.record_data.source_name;
+  }
+
+  ngOnDestroy() {
+    this.form.reset();
   }
 }

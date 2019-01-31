@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "89c44d6759aeb194b6d9c30d15496401535ea620dde04c5e95f90cbc23c4646f"
+            "sha256": "bf135b649b26d833ef2d5ba476526ab1764a485ff74550e1cf8f18ab00c93d09"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -137,11 +137,11 @@
         },
         "django-extensions": {
             "hashes": [
-                "sha256:8317a3fe479b1ba3e3a04ecf33fb8d6ccf09bb18f30eab64e34c40a593741d26",
-                "sha256:a76a61566f1c8d96acc7bcf765080b8e91367a25a2c6f8c5bddd574493839180"
+                "sha256:6fcedb2ea660c9dbf9ac59441721ffdd4ab5b753fbd6159c3e28f391a65bab46",
+                "sha256:a607459e5fa8c579a672131b63366fa52fab80adb2a862d362f5fb48cd2d2cac"
             ],
             "index": "pypi",
-            "version": "==2.1.4"
+            "version": "==2.1.5"
         },
         "django-filter": {
             "hashes": [
@@ -157,6 +157,14 @@
             ],
             "index": "pypi",
             "version": "==0.9.3"
+        },
+        "django-rest-multiple-models": {
+            "hashes": [
+                "sha256:0fcb16671513e726047881527b01d606ea8d5bda645451f1ddad1fc6a6eb5bdf",
+                "sha256:5503bfd36d37fdd6f2d4535f848ade35cdbc1c54562b13e82bf1f4772d2ef988"
+            ],
+            "index": "pypi",
+            "version": "==2.1.3"
         },
         "django-sendgrid-v5": {
             "hashes": [

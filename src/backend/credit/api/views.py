@@ -84,22 +84,22 @@ class ALLCreditFundListCreateAPIView(generics.ListCreateAPIView):
         return self.request.user.base_user.credit_funds.all()
 
 
-class CreditFundRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
+class CreditFundRetrieveUpdateAPIView(generics.RetrieveUpdateAPIView):
     serializer_class = serializers.CreditFundModelSerializer
     permission_classes = [permissions.OnlyBaseUser, ]
     lookup_field = 'uuid'
 
     def get_queryset(self):
-        return self.request.user.base_user.credit_funds.all()
+        return self.request.user.base_user.credit_funds.filter(is_deleted=False)
     
     def perform_destroy(self, instance):
         raw_value = instance.amount
 
-        expenditure_model = self.request.user.base_user.all_expenditure_records.filter(is_verified=True)
+        expenditure_model = self.request.user.base_user.all_expenditure_records.filter(is_deleted=False)
         expenditure_all_amounts = [obj.amount for obj in expenditure_model]
         expenditure_total_amount = utils.sum_int_of_array(expenditure_all_amounts)
 
-        credit_fund_model = self.request.user.base_user.credit_funds.all()
+        credit_fund_model = self.request.user.base_user.credit_funds.filter(is_deleted=False)
         credit_fund_all_amounts = [obj.amount for obj in credit_fund_model]
         credit_fund_total_amount = utils.sum_int_of_array(credit_fund_all_amounts)
 
@@ -120,7 +120,7 @@ class CreditFundRetrieveAPIView(generics.RetrieveAPIView):
     lookup_field = 'uuid'
 
     def get_queryset(self):
-        return self.request.user.base_user.credit_funds.all()
+        return self.request.user.base_user.credit_funds.filter(is_deleted=False)
 
 
 class CreditFundListAPIView(generics.ListAPIView):
@@ -134,9 +134,11 @@ class CreditFundListAPIView(generics.ListAPIView):
 
     def get_queryset(self):
         if BaseUserModel.objects.filter(base_user=self.request.user).exists():
-            return self.request.user.base_user.credit_funds.filter(added__year=datetime.datetime.today().year)
+            return self.request.user.base_user.credit_funds.filter(
+                added__year=datetime.datetime.today().year, is_deleted=False)
         elif SubUserModel.objects.filter(root_user=self.request.user).exists():
-            return self.request.user.root_sub_user.base_user.credit_funds.filter(added__year=datetime.datetime.today().year)
+            return self.request.user.root_sub_user.base_user.credit_funds.filter(
+                added__year=datetime.datetime.today().year, is_deleted=False)
 
 
 class ALLCreditFundListAPIView(generics.ListAPIView):
@@ -150,9 +152,9 @@ class ALLCreditFundListAPIView(generics.ListAPIView):
 
     def get_queryset(self):
         if BaseUserModel.objects.filter(base_user=self.request.user).exists():
-            return self.request.user.base_user.credit_funds.all()
+            return self.request.user.base_user.credit_funds.filter(is_deleted=False)
         elif SubUserModel.objects.filter(root_user=self.request.user).exists():
-            return self.request.user.root_sub_user.base_user.credit_funds.all()
+            return self.request.user.root_sub_user.base_user.credit_funds.filter(is_deleted=False)
 
 
 class CreditFundSettingsView(generics.RetrieveAPIView):
@@ -172,6 +174,22 @@ class CreditFundSettingsEditView(generics.RetrieveUpdateAPIView):
 
     def get_object(self):
         return self.request.user.base_user.fund_settings
+
+
+class CreditFundHistory(generics.ListAPIView):
+    serializer_class = serializers.CreditFundHistoryModelSerializer
+    permission_classes = [permissions.OnlyBaseUser, ]
+
+    def get_queryset(self):
+        return self.request.user.base_user.all_credit_fund_histories.all()
+
+
+class CreditFundSourceHistory(generics.ListAPIView):
+    serializer_class = serializers.CreditFundSourceHistoryModelSerializer
+    permission_classes = [permissions.OnlyBaseUser, ]
+
+    def get_queryset(self):
+        return self.request.user.base_user.all_credit_fund_source_histories.all()
 
 
 class CreditFundGenCSVEmail(CreditFundListAPIView):

@@ -6,9 +6,9 @@ declare var jQuery: any;
 })
 export class AccordionDirective implements AfterViewInit {
 
-  constructor(private dropdown: ElementRef) {}
+  constructor(private accordion: ElementRef) {}
 
   ngAfterViewInit(): void {
-    jQuery(this.dropdown.nativeElement).accordion();
+    jQuery(this.accordion.nativeElement).accordion();
   }
 }

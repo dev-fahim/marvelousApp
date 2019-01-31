@@ -42,6 +42,8 @@ export interface ExpenditureHeadingGETModel {
     uuid?: string;
     added?: string;
     updated?: string;
+    is_deleted?: boolean;
+    extra_description?: string;
 }
 
 export interface ExpenditureRecordGETModel {
@@ -59,6 +61,8 @@ export interface ExpenditureRecordGETModel {
     added?: string;
     updated?: string;
     expend_heading: number;
+    is_deleted?: boolean;
+    extra_description?: string;
 }
 
 export interface CreditFundSourceGETModel {
@@ -69,6 +73,8 @@ export interface CreditFundSourceGETModel {
     added?: string;
     updated?: string;
     uuid?: string;
+    is_deleted?: boolean;
+    extra_description?: string;
 }
 
 export interface CreditFundSourceFilterModel {
@@ -83,6 +89,8 @@ export interface CreditFundAccordinSourceGETModel {
     added?: string;
     updated?: string;
     uuid?: string;
+    is_deleted?: boolean;
+    extra_description?: string;
     funds: CreditFundSourceGETModel[];
 }
 
@@ -96,6 +104,8 @@ export interface CreditFundRecordGETModel {
     amount: number;
     fund_added: string;
     uuid?: string;
+    is_deleted?: boolean;
+    extra_description?: string;
 }
 
 export interface CompnayInfoGETModel {

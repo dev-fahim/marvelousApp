@@ -47,6 +47,7 @@ Twisted = "==18.9.0"
 "zope.interface" = "==4.6.0"
 xhtml2pdf = "*"
 django-extensions = "*"
+django-rest-multiple-models = "*"
 
 [requires]
 python_version = "3.7"

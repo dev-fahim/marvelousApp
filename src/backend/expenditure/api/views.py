@@ -1,6 +1,11 @@
 from rest_framework import generics, status, filters
-from expenditure.models import ExpenditureRecordModel
-from expenditure.api.serializers import ExpenditureHeadingModelSerializer, ExpenditureRecordModelSerializer, ExpenditureRecordModelSafeSerializer
+from expenditure.api.serializers import (
+    ExpenditureHeadingModelSerializer,
+    ExpenditureRecordModelSerializer,
+    ExpenditureRecordModelSafeSerializer,
+    ExpenditureRecordHistoryModelSerializer,
+    ExpenditureHeadingsHistoryModelSerializer
+)
 from project import permissions
 from base_user.models import BaseUserModel
 from sub_user.models import SubUserModel
@@ -24,7 +29,8 @@ class ExpenditureHeadingListCreateAPIView(generics.ListCreateAPIView):
     ordering = ('-added')
 
     def get_queryset(self):
-        return self.request.user.base_user.expenditure_headings.all()
+        return self.request.user.base_user.expenditure_headings.filter(is_deleted=False)
+
 
 class ExpenditureHeadingListAPIView(generics.ListAPIView):
     serializer_class = ExpenditureHeadingModelSerializer
@@ -36,19 +42,35 @@ class ExpenditureHeadingListAPIView(generics.ListAPIView):
     def get_queryset(self):
         queryset = None
         if BaseUserModel.objects.filter(base_user=self.request.user).exists():
-            queryset = self.request.user.base_user.expenditure_headings.all()
+            queryset = self.request.user.base_user.expenditure_headings.filter(is_deleted=False)
         elif SubUserModel.objects.filter(root_user=self.request.user).exists():
-            queryset = self.request.user.root_sub_user.base_user.expenditure_headings.all()
+            queryset = self.request.user.root_sub_user.base_user.expenditure_headings.filter(is_deleted=False)
         return queryset
 
 
-class ExpenditureHeadingRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
+class ExpenditureHeadingRetrieveUpdateAPIView(generics.RetrieveUpdateAPIView):
     serializer_class = ExpenditureHeadingModelSerializer
     permission_classes = [permissions.OnlyBaseUser, ]
     lookup_field = 'uuid'
 
     def get_queryset(self):
-        return self.request.user.base_user.expenditure_headings.all()
+        return self.request.user.base_user.expenditure_headings.filter(is_deleted=False)
+
+
+class ExpenditureHeadingHistory(generics.ListAPIView):
+    serializer_class = ExpenditureHeadingsHistoryModelSerializer
+    permission_classes = [permissions.OnlyBaseUser, ]
+
+    def get_queryset(self):
+        return self.request.user.base_user.expenditure_headings_history.all()
+
+
+class ExpenditureRecordHistory(generics.ListAPIView):
+    serializer_class = ExpenditureRecordHistoryModelSerializer
+    permission_classes = [permissions.OnlyBaseUser, ]
+
+    def get_queryset(self):
+        return self.request.user.base_user.all_expenditure_records_history.all()
 
 
 class ExpenditureRecordCreateAPIView(generics.CreateAPIView):
@@ -75,9 +97,9 @@ class ExpenditureRecordCreateAPIView(generics.CreateAPIView):
     def get_queryset(self):
         queryset = None
         if BaseUserModel.objects.filter(base_user=self.request.user).exists():
-            queryset = self.request.user.base_user.all_expenditure_records.all()
+            queryset = self.request.user.base_user.all_expenditure_records.filter(is_deleted=False)
         elif SubUserModel.objects.filter(root_user=self.request.user).exists():
-            queryset = self.request.user.root_sub_user.base_user.all_expenditure_records.all()
+            queryset = self.request.user.root_sub_user.base_user.all_expenditure_records.filter(is_deleted=False)
         return queryset
     
     def get_base_user(self):
@@ -110,9 +132,11 @@ class ExpenditureRecordListAPIView(generics.ListAPIView):
     def get_queryset(self):
         queryset = None
         if BaseUserModel.objects.filter(base_user=self.request.user).exists():
-            queryset = self.request.user.base_user.all_expenditure_records.filter(added__year=datetime.datetime.today().year)
+            queryset = self.request.user.base_user.all_expenditure_records.filter(
+                added__year=datetime.datetime.today().year, is_deleted=False)
         elif SubUserModel.objects.filter(root_user=self.request.user).exists():
-            queryset = self.request.user.root_sub_user.base_user.all_expenditure_records.filter(added__year=datetime.datetime.today().year)
+            queryset = self.request.user.root_sub_user.base_user.all_expenditure_records.filter(
+                added__year=datetime.datetime.today().year, is_deleted=False)
         return queryset
 
 
@@ -139,9 +163,9 @@ class ALLExpenditureRecordListAPIView(generics.ListAPIView):
     def get_queryset(self):
         queryset = None
         if BaseUserModel.objects.filter(base_user=self.request.user).exists():
-            queryset = self.request.user.base_user.all_expenditure_records.all()
+            queryset = self.request.user.base_user.all_expenditure_records.filter(is_deleted=False)
         elif SubUserModel.objects.filter(root_user=self.request.user).exists():
-            queryset = self.request.user.root_sub_user.base_user.all_expenditure_records.all()
+            queryset = self.request.user.root_sub_user.base_user.all_expenditure_records.filter(is_deleted=False)
         return queryset
 
 
@@ -156,13 +180,13 @@ class ExpenditureRecordRetrieveAPIView(generics.RetrieveAPIView):
     def get_queryset(self):
         queryset = None
         if BaseUserModel.objects.filter(base_user=self.request.user).exists():
-            queryset = self.request.user.base_user.all_expenditure_records.all()
+            queryset = self.request.user.base_user.all_expenditure_records.filter(is_deleted=False)
         elif SubUserModel.objects.filter(root_user=self.request.user).exists():
-            queryset = self.request.user.root_sub_user.base_user.all_expenditure_records.all()
+            queryset = self.request.user.root_sub_user.base_user.all_expenditure_records.filter(is_deleted=False)
         return queryset
 
 
-class ExpenditureRecordRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
+class ExpenditureRecordRetrieveUpdateAPIView(generics.RetrieveUpdateAPIView):
     serializer_class = ExpenditureRecordModelSerializer
     permission_classes = [
         permissions.FundIsNotLocked,
@@ -174,9 +198,9 @@ class ExpenditureRecordRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestr
     def get_queryset(self):
         queryset = None
         if BaseUserModel.objects.filter(base_user=self.request.user).exists():
-            queryset = self.request.user.base_user.all_expenditure_records.all()
+            queryset = self.request.user.base_user.all_expenditure_records.filter(is_deleted=False)
         elif SubUserModel.objects.filter(root_user=self.request.user).exists():
-            queryset = self.request.user.root_sub_user.base_user.all_expenditure_records.all()
+            queryset = self.request.user.root_sub_user.base_user.all_expenditure_records.filter(is_deleted=False)
         return queryset
 
 

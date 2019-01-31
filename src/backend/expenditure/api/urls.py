@@ -8,7 +8,8 @@ urlpatterns = [
         path('list/', views.ExpenditureHeadingListAPIView.as_view(), name="heading_list"),
         path('list-add/', views.ExpenditureHeadingListCreateAPIView.as_view(), name='heading_list_add'),
         path('view-update-delete/<uuid:uuid>/',
-             views.ExpenditureHeadingRetrieveUpdateDestroyAPIView.as_view(), name='heading_view_update_delete')
+             views.ExpenditureHeadingRetrieveUpdateAPIView.as_view(), name='heading_view_update'),
+        path('history/', views.ExpenditureHeadingHistory.as_view(), name="heading_history")
     ])),
     path('record/', include([
         path('list/', views.ExpenditureRecordListAPIView.as_view(), name='record_list'),
@@ -16,7 +17,8 @@ urlpatterns = [
         path('view/<uuid:uuid>/',
              views.ExpenditureRecordRetrieveAPIView.as_view(), name='record_view'),
         path('view-update-delete/<uuid:uuid>/',
-             views.ExpenditureRecordRetrieveUpdateDestroyAPIView.as_view(), name='record_view_update_delete'),
+             views.ExpenditureRecordRetrieveUpdateAPIView.as_view(), name='record_view_update'),
+        path('history/', views.ExpenditureRecordHistory.as_view(), name="record_history"),
         path('checkout-today/', views.ExpenditureCheckoutToday.as_view(), name='checkout_today')
     ])),
     path('records-mail-csv/', views.ExpenditureRecordEmailCSV.as_view(), name='records_mail_csv'),

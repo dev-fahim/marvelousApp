@@ -40,7 +40,9 @@ export class FundRecordAddComponent implements OnInit {
     ]),
     fund_added: new FormControl("", [
       Validators.required
-    ])
+    ]),
+    extra_description: new FormControl(""),
+    is_deleted: new FormControl(false)
   });
 
   all_sources: CreditFundSourceGETModel[] = [];

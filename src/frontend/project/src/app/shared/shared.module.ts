@@ -2,16 +2,19 @@ import { DropdownDirective } from './dropdown.directive';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AccordionDirective } from './accordion.directive';
+import { ModalDirective } from './modal.directive';
 
 @NgModule({
   declarations: [
     DropdownDirective,
-    AccordionDirective
+    AccordionDirective,
+    ModalDirective
   ],
   exports: [
     CommonModule,
     DropdownDirective,
-    AccordionDirective
+    AccordionDirective,
+    ModalDirective
   ]
 })
 export class SharedModule { }

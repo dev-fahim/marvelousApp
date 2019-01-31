@@ -1,5 +1,8 @@
 from rest_framework import generics
 from rest_framework.response import Response
+from drf_multiple_model.views import FlatMultipleModelAPIView
+from credit.api.serializers import CreditFundHistoryModelSerializer
+from expenditure.api.serializers import ExpenditureRecordHistoryModelSerializer
 from base_user.models import BaseUserModel
 from sub_user.models import SubUserModel
 from base_user.api.serializers import BaseUserSerializer
@@ -33,9 +36,9 @@ class GetTotalFundAmount(generics.GenericAPIView):
 
     def get_queryset(self):
         if BaseUserModel.objects.filter(base_user=self.request.user).exists():
-            return self.request.user.base_user.credit_funds.all()
+            return self.request.user.base_user.credit_funds.filter(is_deleted=False)
         elif SubUserModel.objects.filter(root_user=self.request.user).exists():
-            return self.request.user.root_sub_user.base_user.credit_funds.all()
+            return self.request.user.root_sub_user.base_user.credit_funds.filter(is_deleted=False)
 
     def get(self, request, *args, **kwargs):
         queryset = self.get_queryset()
@@ -125,10 +128,10 @@ class GrabWhatYouWantedAPIView(generics.GenericAPIView):
         return SubUserModel.objects.filter(root_user=self.request.user).exists()
 
     def get_credit_funds(self):
-        return self.get_base_user().credit_funds.all()
+        return self.get_base_user().credit_funds.filter(is_deleted=False)
     
     def get_expend_records(self):
-        return self.get_base_user().all_expenditure_records.all()
+        return self.get_base_user().all_expenditure_records.filter(is_deleted=False)
     
     def get_user_permissions(self):
         if self.is_base_user():
@@ -301,4 +304,21 @@ class GrabWhatYouWantedAPIView(generics.GenericAPIView):
             "this_year": datetime.datetime.now().year
         }
         return Response(context)
+
+
+class CreditExpenditureHistoryAPIView(FlatMultipleModelAPIView):
+    permission_classes = [OnlyBaseUser, ]
+    sorting_fields = ['-added', ]
+
+    def get_querylist(self):
+        return [
+            {
+                'queryset': self.request.user.base_user.all_credit_fund_histories.all(),
+                'serializer_class': CreditFundHistoryModelSerializer
+            },
+            {
+                'queryset': self.request.user.base_user.all_expenditure_records_history.all(),
+                'serializer_class': ExpenditureRecordHistoryModelSerializer
+            }
+        ]
 

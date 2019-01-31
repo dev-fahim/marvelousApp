@@ -15,7 +15,7 @@
       <b>{{ message.message }}</b>
     </div>
   </div>
-  <form class="ui small fluid form" [formGroup]="form" (ngSubmit)="onSubmit()" [ngClass]="{'loading': loading || loading_del}">
+  <form class="ui small fluid form" [formGroup]="form" id="form" (ngSubmit)="onSubmit()" [ngClass]="{'loading': loading || loading_del}">
     <div class="field" [ngClass]="{'error': form.get('source').touched && form.get('source').invalid}">
       <label for="source">Credit Head Name</label>
       <select type="text" formControlName="source" class="ui dropdown" appDropdown>
@@ -40,10 +40,36 @@
         </div>
       </div>
     </div>
-    <button class="ui violet labeled icon button tiny" type="submit" [ngClass]="{'loading': loading}"><i class="angle double up icon"></i>Upgrade</button>
+    <div class="ui tiny modal update">
+      <div class="header">
+        Leave a text..
+      </div>
+      <div class="content">
+        <textarea class="modal-form" formControlName="extra_description"></textarea> <!--Todo Fix the ffffffffff bugs-->
+      </div>
+      <div class="actions">
+        <div class="ui cancel green button">Cancel</div>
+        <button class="ui approve blue button" type="submit" form="form">Done</button>
+      </div>
+    </div>
+    <div class="ui tiny modal delete">
+      <div class="header">
+        Leave a text..
+      </div>
+      <div class="content">
+        <textarea class="modal-form" formControlName="extra_description"></textarea>
+      </div>
+      <div class="actions">
+        <div class="ui cancel green button">Cancel</div>
+        <button class="ui approve red button" (click)="onDelete()">Confirm</button>
+      </div>
+    </div>
   </form>
   <div class="ui divider"></div>
-  <button class="ui red labeled icon button tiny" [ngClass]="{'loading': loading_del}" (click)="onDelete()"><i class="eraser icon"></i>Delete</button>
+  <button class="ui violet labeled icon button tiny" id="modal_update" [ngClass]="{'loading': loading}" appModal
+    [element]="'.ui.modal.update'" [button_k]="'#modal_update'"><i class="angle double up icon"></i>Upgrade</button>
+  <button class="ui red labeled icon button tiny" id="modal_delete" [ngClass]="{'loading': loading_del}" [button_k]="'#modal_delete'" appModal [element]="'.ui.modal.delete'"><i
+      class="eraser icon"></i>Delete</button>
   <button class="ui yellow labeled icon button tiny" (click)="onReset()"><i class="eraser icon"></i>Reset</button>
   <a class="ui blue labeled icon button tiny" routerLink="/main-app/credit/fund/record/list-add"><i class="angle double left icon"></i>Go
     back</a>
