@@ -8,7 +8,7 @@ export function today_date() {
     let new_mm = '';
     let yyyy = today.getFullYear();
     if (dd < 10) {
-        new_dd = '0' + dd.toString;
+        new_dd = '0' + dd.toString();
     } else {
         new_dd = dd.toString()
     }
