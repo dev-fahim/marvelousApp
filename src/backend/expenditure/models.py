@@ -69,6 +69,7 @@ class ExpenditureRecordModel(models.Model):
     updated = models.DateTimeField(auto_now=True)
 
     is_deleted = models.BooleanField(default=False)
+    is_for_refund = models.BooleanField(default=False)
 
     def __str__(self):
         return self.added_by.username

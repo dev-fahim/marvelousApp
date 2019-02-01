@@ -32,6 +32,7 @@ class CreditFundModel(models.Model):
     fund_added = models.DateField()
 
     is_deleted = models.BooleanField(default=False)
+    is_refundable = models.BooleanField(default=False)
 
     def __str__(self):
         return self.source.source_name
@@ -104,4 +105,7 @@ class CreditFundHistoryModel(models.Model):
 
     def __str__(self):
         return self.old_source.source_name
+
+
+
 

@@ -198,18 +198,23 @@ class GrabWhatYouWantedAPIView(generics.GenericAPIView):
         return remaining_credit_fund_amount
     
     def get_this_month_total_expend_amount(self):
-        this_month_expend_records = self.get_expend_records().filter(
-            expend_date__month=datetime.datetime.now().month, 
+        expend_obj_non_ref = self.get_base_user().all_expenditure_records.all().filter(
+            is_verified=True,
             expend_date__year=datetime.datetime.now().year,
-            is_verified=True
-            )
-        this_month_expend_records_amounts = [obj.amount for obj in this_month_expend_records]
-        this_month_total_expend_amount = utils.sum_int_of_array(this_month_expend_records_amounts)
+            expend_date__month=datetime.datetime.now().month,
+            is_for_refund=False,
+            is_deleted=False)
+        all_record_amounts_non_ref = [obj.amount for obj in expend_obj_non_ref]
+
+        this_month_total_expend_amount = utils.sum_int_of_array(all_record_amounts_non_ref)
 
         return this_month_total_expend_amount
     
     def get_total_unauthorized_expend_amount(self):
-        unauthorized_expend_records = self.get_expend_records().filter(is_verified=False)
+        unauthorized_expend_records = self.get_expend_records().filter(
+            is_verified=False,
+            is_deleted=False
+        )
         unauthorized_expend_records_amounts = [obj.amount for obj in unauthorized_expend_records]
         total_unauthorized_expend_amount = utils.sum_int_of_array(unauthorized_expend_records_amounts)
 
@@ -227,47 +232,88 @@ class GrabWhatYouWantedAPIView(generics.GenericAPIView):
 
     # new 
     def get_this_year_total_expend_amount(self):
-        this_month_expend_records = self.get_expend_records().filter(
+        expend_obj_non_ref = self.get_base_user().all_expenditure_records.all().filter(
+            is_verified=True,
             expend_date__year=datetime.datetime.now().year,
-            is_verified=True
-            )
-        this_month_expend_records_amounts = [obj.amount for obj in this_month_expend_records]
-        this_year_total_expend_amoun = utils.sum_int_of_array(this_month_expend_records_amounts)
+            is_for_refund=False,
+            is_deleted=False)
+        all_record_amounts_non_ref = [obj.amount for obj in expend_obj_non_ref]
 
-        return this_year_total_expend_amoun
+        this_year_total_expend_amount = utils.sum_int_of_array(all_record_amounts_non_ref)
+
+        return this_year_total_expend_amount
     
     def get_this_year_remaining_credit_fund_amount(self):
-        last_expend_records = self.get_expend_records().filter(
+        expend_obj_non_ref = self.get_base_user().all_expenditure_records.all().filter(
+            is_verified=True,
             expend_date__year=datetime.datetime.now().year,
-            is_verified=True
-            )
-        last_credit_funds = self.get_credit_funds().filter(
-            fund_added__year=datetime.datetime.now().year
-            )
-        last_credit_funds_amounts = [obj.amount for obj in last_credit_funds]
-        last_expend_records_amounts = [obj.amount for obj in last_expend_records]
-        last_credit_fund_total_amount = utils.sum_int_of_array(last_credit_funds_amounts)
-        last_expend_record_total_amount = utils.sum_int_of_array(last_expend_records_amounts)
-        this_year_remaining_credit_fund_amount = last_credit_fund_total_amount - last_expend_record_total_amount
+            is_for_refund=False,
+            is_deleted=False)
+        all_record_amounts_non_ref = [obj.amount for obj in expend_obj_non_ref]
+
+        this_year_total_expend_amount_non_ref = utils.sum_int_of_array(all_record_amounts_non_ref)
+
+        expend_obj_ref = self.get_base_user().all_expenditure_records.all().filter(
+            is_verified=True,
+            expend_date__year=datetime.datetime.now().year,
+            is_for_refund=True,
+            is_deleted=False)
+
+        queryset = self.get_credit_funds().filter(
+            fund_added__year=datetime.datetime.now().year,
+            is_deleted=False
+        )
+        all_record_amounts_ref = [obj.amount for obj in expend_obj_ref]
+        all_amounts = [obj.amount for obj in queryset]
+
+        this_year_total_expend_amount = utils.sum_int_of_array(all_record_amounts_ref)
+        this_year_total_credit_fund_amount = utils.sum_int_of_array(all_amounts)
+
+        real_asset = this_year_total_credit_fund_amount - this_year_total_expend_amount
+
+        this_year_remaining_credit_fund_amount = real_asset - this_year_total_expend_amount_non_ref
 
         return this_year_remaining_credit_fund_amount
     
     def get_this_year_total_credit_fund_amount(self):
-        queryset = self.get_credit_funds().filter(
-            fund_added__year=datetime.datetime.now().year
-            )
-        all_amounts = [obj.amount for obj in queryset]
-        this_year_total_credit_fund_amount = utils.sum_int_of_array(all_amounts)
+        expend_obj_ref = self.get_base_user().all_expenditure_records.all().filter(
+            is_verified=True,
+            expend_date__year=datetime.datetime.now().year,
+            is_for_refund=True,
+            is_deleted=False)
 
-        return this_year_total_credit_fund_amount
-    
-    def get_this_month_total_credit_fund_amount(self):
         queryset = self.get_credit_funds().filter(
             fund_added__year=datetime.datetime.now().year,
-            fund_added__month=datetime.datetime.today().month
+            is_deleted=False
             )
+        all_record_amounts_ref = [obj.amount for obj in expend_obj_ref]
         all_amounts = [obj.amount for obj in queryset]
+
+        this_year_total_expend_amount = utils.sum_int_of_array(all_record_amounts_ref)
+        this_year_total_credit_fund_amount = utils.sum_int_of_array(all_amounts)
+
+        real_asset = this_year_total_credit_fund_amount - this_year_total_expend_amount
+
+        return real_asset
+    
+    def get_this_month_total_credit_fund_amount(self):
+        expend_obj_ref = self.get_base_user().all_expenditure_records.all().filter(
+            is_verified=True,
+            expend_date__year=datetime.datetime.now().year,
+            expend_date__month=datetime.datetime.now().month,
+            is_for_refund=True,
+            is_deleted=False)
+        queryset = self.get_credit_funds().filter(
+            fund_added__year=datetime.datetime.now().year,
+            fund_added__month=datetime.datetime.now().month,
+            is_deleted=False
+        )
+        all_amounts = [obj.amount for obj in queryset]
+        all_record_amounts_ref = [obj.amount for obj in expend_obj_ref]
         this_month_total_credit_fund_amount = utils.sum_int_of_array(all_amounts)
+        this_month_total_expend_amount = utils.sum_int_of_array(all_record_amounts_ref)
+
+        this_month_total_credit_fund_amount = this_month_total_credit_fund_amount - this_month_total_expend_amount
 
         return this_month_total_credit_fund_amount
     
@@ -280,7 +326,6 @@ class GrabWhatYouWantedAPIView(generics.GenericAPIView):
         this_year_total_unauthorized_expend_amount = utils.sum_int_of_array(unauthorized_expend_records_amounts)
 
         return this_year_total_unauthorized_expend_amount
-
     
     def get(self, request, *args, **kwargs):
         context = {

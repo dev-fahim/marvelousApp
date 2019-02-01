@@ -223,7 +223,8 @@ INSTALLED_APPS += [
     'expenditure',
     'user',
     'service',
-    'manage_email'
+    'manage_email',
+    'loan_management'
 ]
 
 # END

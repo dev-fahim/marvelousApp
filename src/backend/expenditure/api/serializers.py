@@ -131,7 +131,7 @@ class ExpenditureRecordModelSafeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ExpenditureRecordModel
-        exclude = ('base_user', )
+        exclude = ('base_user', 'is_for_refund')
         read_only_fields = ('uuid', 'added_by', 'added', 'updated', 'is_verified')
 
     def request_data(self):
@@ -178,10 +178,15 @@ class ExpenditureRecordModelSafeSerializer(serializers.ModelSerializer):
     '''
 
     def create(self, validated_data):
-        value = validated_data.get('amount')
-        expend_obj = self.base_user_model().all_expenditure_records.all().filter(is_verified=True)
+        raw_value = validated_data.get('amount')
+        validated_data.pop('extra_description')
+        expend_obj_non_ref = self.base_user_model().all_expenditure_records.all().filter(is_verified=True,
+                                                                                         is_for_refund=False,
+                                                                                         is_deleted=False)
+        expend_obj_ref = self.base_user_model().all_expenditure_records.all().filter(is_verified=True,
+                                                                                     is_for_refund=True,
+                                                                                     is_deleted=False)
         credit_fund_obj = self.base_user_model().credit_funds.all()
-
         '''
         if base_user.exists() is True:
             expend_obj = self.logged_in_user().base_user.all_expenditure_records.all().filter(is_verified=True)
@@ -192,16 +197,20 @@ class ExpenditureRecordModelSafeSerializer(serializers.ModelSerializer):
         '''
 
         all_credit_fund_amounts = [obj.amount for obj in credit_fund_obj]
-        all_record_amounts = [obj.amount for obj in expend_obj]
+        all_record_amounts_ref = [obj.amount for obj in expend_obj_ref]
+        all_record_amounts_non_ref = [obj.amount for obj in expend_obj_non_ref]
 
         total_pre_credit_fund_amount = utils.sum_int_of_array(all_credit_fund_amounts)
-        total_pre_record_amount = utils.sum_int_of_array(all_record_amounts)
+        total_pre_record_amount_non_ref = utils.sum_int_of_array(all_record_amounts_non_ref)
+        total_pre_record_amount_ref = utils.sum_int_of_array(all_record_amounts_ref)
 
-        highest_amount = total_pre_credit_fund_amount - total_pre_record_amount
+        real_asset = total_pre_credit_fund_amount - total_pre_record_amount_ref
+
+        highest_amount = real_asset - total_pre_record_amount_non_ref
         print(f'Highest: {highest_amount}')
-        print(f'Entering: {value}')
+        print(f'Entering: {raw_value}')
 
-        if highest_amount >= value:
+        if highest_amount >= raw_value:
             obj = ExpenditureRecordModel.objects.create(
                 added_by=self.logged_in_user(),
                 base_user=self.base_user_model(),
@@ -240,36 +249,76 @@ class ExpenditureRecordModelSafeSerializer(serializers.ModelSerializer):
             instance.save()
             return instance
         if instance.is_deleted is True and validated_data.get('is_deleted') is False:
-            instance.is_deleted = False
             # Todo: add history with is_restore = True
-            ExpenditureRecordHistoryModel.objects.create(
-                action_by=self.logged_in_user(),
-                base_user=self.base_user_model(),
-                related_records=instance,
-                old_expend_heading=instance.expend_heading,
-                new_expend_heading=instance.expend_heading,
-                old_expend_by=instance.expend_by,
-                new_expend_by=instance.expend_by,
-                old_description=instance.description,
-                new_description=instance.description,
-                old_amount=instance.amount,
-                new_amount=instance.amount,
-                old_is_verified=instance.is_verified,
-                new_is_verified=instance.is_verified,
-                old_expend_date=instance.expend_date,
-                new_expend_date=instance.expend_date,
-                old_uuid=instance.uuid,
-                is_updated=False,
-                is_deleted=False,
-                is_restored=True,
-                description=validated_data.get('extra_description'),
-            )
-            instance.save()
-            return instance
+            raw_amount = instance.amount
+            expend_obj_non_ref = self.base_user_model().all_expenditure_records.all().filter(is_verified=True,
+                                                                                             is_for_refund=False,
+                                                                                             is_deleted=False)
+            expend_obj_ref = self.base_user_model().all_expenditure_records.all().filter(is_verified=True,
+                                                                                         is_for_refund=True,
+                                                                                         is_deleted=False)
+            credit_fund_obj = self.base_user_model().credit_funds.all()
+            '''
+            if base_user.exists() is True:
+                expend_obj = self.logged_in_user().base_user.all_expenditure_records.all().filter(is_verified=True)
+                credit_fund_obj = self.logged_in_user().base_user.credit_funds.all()
+            elif sub_user.exists() is True:
+                expend_obj = self.logged_in_user().root_sub_user.base_user.all_expenditure_records.all().filter(is_verified=True)
+                credit_fund_obj = self.logged_in_user().root_sub_user.base_user.credit_funds.all()
+            '''
+
+            all_credit_fund_amounts = [obj.amount for obj in credit_fund_obj]
+            all_record_amounts_ref = [obj.amount for obj in expend_obj_ref]
+            all_record_amounts_non_ref = [obj.amount for obj in expend_obj_non_ref]
+
+            total_pre_credit_fund_amount = utils.sum_int_of_array(all_credit_fund_amounts)
+            total_pre_record_amount_non_ref = utils.sum_int_of_array(all_record_amounts_non_ref)
+            total_pre_record_amount_ref = utils.sum_int_of_array(all_record_amounts_ref)
+
+            real_asset = total_pre_credit_fund_amount - total_pre_record_amount_ref
+
+            highest_amount = real_asset - total_pre_record_amount_non_ref
+            print(f'Highest: {highest_amount}')
+            print(f'Entering: {raw_amount}')
+
+            if highest_amount >= raw_amount:
+                instance.is_deleted = False
+                ExpenditureRecordHistoryModel.objects.create(
+                    action_by=self.logged_in_user(),
+                    base_user=self.base_user_model(),
+                    related_records=instance,
+                    old_expend_heading=instance.expend_heading,
+                    new_expend_heading=instance.expend_heading,
+                    old_expend_by=instance.expend_by,
+                    new_expend_by=instance.expend_by,
+                    old_description=instance.description,
+                    new_description=instance.description,
+                    old_amount=instance.amount,
+                    new_amount=instance.amount,
+                    old_is_verified=instance.is_verified,
+                    new_is_verified=instance.is_verified,
+                    old_expend_date=instance.expend_date,
+                    new_expend_date=instance.expend_date,
+                    old_uuid=instance.uuid,
+                    is_updated=False,
+                    is_deleted=False,
+                    is_restored=True,
+                    description=validated_data.get('extra_description'),
+                )
+                instance.save()
+                return instance
+            raise serializers.ValidationError(
+                detail='Credit Fund will be exceede! So you cannot add any more records. After authority add more Credit Fund in Database you can entry more records.')
+
         raw_amount = instance.amount
         new_amount = validated_data.get('amount', instance.amount)
         test_amount = new_amount - raw_amount
-        expend_obj = self.base_user_model().all_expenditure_records.all().filter(is_verified=True)
+        expend_obj_non_ref = self.base_user_model().all_expenditure_records.all().filter(is_verified=True,
+                                                                                         is_for_refund=False,
+                                                                                         is_deleted=False)
+        expend_obj_ref = self.base_user_model().all_expenditure_records.all().filter(is_verified=True,
+                                                                                     is_for_refund=True,
+                                                                                     is_deleted=False)
         credit_fund_obj = self.base_user_model().credit_funds.all()
         '''
         if base_user.exists() is True:
@@ -281,16 +330,20 @@ class ExpenditureRecordModelSafeSerializer(serializers.ModelSerializer):
         '''
 
         all_credit_fund_amounts = [obj.amount for obj in credit_fund_obj]
-        all_record_amounts = [obj.amount for obj in expend_obj]
+        all_record_amounts_ref = [obj.amount for obj in expend_obj_ref]
+        all_record_amounts_non_ref = [obj.amount for obj in expend_obj_non_ref]
 
         total_pre_credit_fund_amount = utils.sum_int_of_array(all_credit_fund_amounts)
-        total_pre_record_amount = utils.sum_int_of_array(all_record_amounts)
+        total_pre_record_amount_non_ref = utils.sum_int_of_array(all_record_amounts_non_ref)
+        total_pre_record_amount_ref = utils.sum_int_of_array(all_record_amounts_ref)
 
-        highest_amount = total_pre_credit_fund_amount - total_pre_record_amount
+        real_asset = total_pre_credit_fund_amount - total_pre_record_amount_ref - raw_amount
+
+        highest_amount = real_asset - total_pre_record_amount_non_ref
         print(f'Highest: {highest_amount}')
         print(f'Entering: {test_amount}')
 
-        if highest_amount >= test_amount:
+        if highest_amount >= new_amount:
             # Todo: add history with is_updated = True
             ExpenditureRecordHistoryModel.objects.create(
                 action_by=self.logged_in_user(),
