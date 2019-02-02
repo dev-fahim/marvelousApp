@@ -91,7 +91,7 @@ class CreditFundRetrieveUpdateAPIView(generics.RetrieveUpdateAPIView):
     lookup_field = 'uuid'
 
     def get_queryset(self):
-        return self.request.user.base_user.credit_funds.filter(is_deleted=False)
+        return self.request.user.base_user.credit_funds.filter(is_deleted=False, is_refundable=False)
 
 
 class CreditFundRetrieveAPIView(generics.RetrieveAPIView):
@@ -100,7 +100,7 @@ class CreditFundRetrieveAPIView(generics.RetrieveAPIView):
     lookup_field = 'uuid'
 
     def get_queryset(self):
-        return self.request.user.base_user.credit_funds.filter(is_deleted=False)
+        return self.request.user.base_user.credit_funds.filter(is_deleted=False, is_refundable=False)
 
 
 class CreditFundListAPIView(generics.ListAPIView):

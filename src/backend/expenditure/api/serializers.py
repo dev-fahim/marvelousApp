@@ -39,6 +39,7 @@ class ExpenditureHeadingModelSerializer(serializers.ModelSerializer):
             return self.logged_in_user().root_sub_user.base_user
 
     def create(self, validated_data):
+        validated_data.pop('extra_description')
         obj = ExpenditureHeadingModel.objects.create(
             base_user=self.logged_in_user().base_user,
             uuid=uuid.uuid4(),
@@ -174,19 +175,20 @@ class ExpenditureRecordModelSafeSerializer(serializers.ModelSerializer):
 
         if credit_fund_value_after_entry >= 0:
             return value
-        raise serializers.ValidationError(detail='Credit Fund will be exceede! So you cannot add any more records. After authority add more Credit Fund in Database you can entry more records.')
+        raise serializers.ValidationError(detail='Credit Fund will be exceed! So you cannot add any more records. After authority add more Credit Fund in Database you can entry more records.')
     '''
 
     def create(self, validated_data):
         raw_value = validated_data.get('amount')
         validated_data.pop('extra_description')
+        print(validated_data)
         expend_obj_non_ref = self.base_user_model().all_expenditure_records.all().filter(is_verified=True,
                                                                                          is_for_refund=False,
                                                                                          is_deleted=False)
         expend_obj_ref = self.base_user_model().all_expenditure_records.all().filter(is_verified=True,
                                                                                      is_for_refund=True,
                                                                                      is_deleted=False)
-        credit_fund_obj = self.base_user_model().credit_funds.all()
+        credit_fund_obj = self.base_user_model().credit_funds.filter(is_deleted=False)
         '''
         if base_user.exists() is True:
             expend_obj = self.logged_in_user().base_user.all_expenditure_records.all().filter(is_verified=True)
@@ -257,7 +259,7 @@ class ExpenditureRecordModelSafeSerializer(serializers.ModelSerializer):
             expend_obj_ref = self.base_user_model().all_expenditure_records.all().filter(is_verified=True,
                                                                                          is_for_refund=True,
                                                                                          is_deleted=False)
-            credit_fund_obj = self.base_user_model().credit_funds.all()
+            credit_fund_obj = self.base_user_model().credit_funds.filter(is_deleted=False)
             '''
             if base_user.exists() is True:
                 expend_obj = self.logged_in_user().base_user.all_expenditure_records.all().filter(is_verified=True)
@@ -319,7 +321,7 @@ class ExpenditureRecordModelSafeSerializer(serializers.ModelSerializer):
         expend_obj_ref = self.base_user_model().all_expenditure_records.all().filter(is_verified=True,
                                                                                      is_for_refund=True,
                                                                                      is_deleted=False)
-        credit_fund_obj = self.base_user_model().credit_funds.all()
+        credit_fund_obj = self.base_user_model().credit_funds.filter(is_deleted=False)
         '''
         if base_user.exists() is True:
             expend_obj = self.logged_in_user().base_user.all_expenditure_records.all().filter(is_verified=True)

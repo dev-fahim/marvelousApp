@@ -33,9 +33,10 @@ class CreditFundModelSerializer(serializers.ModelSerializer):
             'fund_added',
             'uuid',
             'is_deleted',
+            'is_refundable',
             'extra_description'
         )
-        read_only_fields = ('uuid', 'added', 'updated', 'source_name')
+        read_only_fields = ('uuid', 'added', 'updated', 'source_name', 'is_refundable')
 
     def request_data(self):
         return self.context['request']
@@ -98,6 +99,7 @@ class CreditFundModelSerializer(serializers.ModelSerializer):
         if instance.is_deleted is False and validated_data.get('is_deleted') is True:
             # Todo: add history with is_deleted = True
             raw_value = instance.amount
+            print(raw_value)
 
             expend_obj_non_ref = self.base_user_model().all_expenditure_records.all().filter(is_verified=True,
                                                                                              is_for_refund=False,
@@ -105,15 +107,7 @@ class CreditFundModelSerializer(serializers.ModelSerializer):
             expend_obj_ref = self.base_user_model().all_expenditure_records.all().filter(is_verified=True,
                                                                                          is_for_refund=True,
                                                                                          is_deleted=False)
-            credit_fund_obj = self.base_user_model().credit_funds.all()
-            '''
-            if base_user.exists() is True:
-                expend_obj = self.logged_in_user().base_user.all_expenditure_records.all().filter(is_verified=True)
-                credit_fund_obj = self.logged_in_user().base_user.credit_funds.all()
-            elif sub_user.exists() is True:
-                expend_obj = self.logged_in_user().root_sub_user.base_user.all_expenditure_records.all().filter(is_verified=True)
-                credit_fund_obj = self.logged_in_user().root_sub_user.base_user.credit_funds.all()
-            '''
+            credit_fund_obj = self.base_user_model().credit_funds.filter(is_deleted=False)
 
             all_credit_fund_amounts = [obj.amount for obj in credit_fund_obj]
             all_record_amounts_ref = [obj.amount for obj in expend_obj_ref]
@@ -123,7 +117,11 @@ class CreditFundModelSerializer(serializers.ModelSerializer):
             total_pre_record_amount_non_ref = utils.sum_int_of_array(all_record_amounts_non_ref)
             total_pre_record_amount_ref = utils.sum_int_of_array(all_record_amounts_ref)
 
+            print(total_pre_credit_fund_amount, total_pre_record_amount_non_ref, total_pre_record_amount_ref)
+
             real_asset = total_pre_credit_fund_amount - total_pre_record_amount_ref - raw_value
+
+            print(real_asset)
 
             if real_asset >= total_pre_record_amount_non_ref:
                 CreditFundHistoryModel.objects.create(
@@ -161,14 +159,6 @@ class CreditFundModelSerializer(serializers.ModelSerializer):
                                                                                      is_for_refund=True,
                                                                                      is_deleted=False)
         credit_fund_obj = self.base_user_model().credit_funds.all()
-        '''
-        if base_user.exists() is True:
-            expend_obj = self.logged_in_user().base_user.all_expenditure_records.all().filter(is_verified=True)
-            credit_fund_obj = self.logged_in_user().base_user.credit_funds.all()
-        elif sub_user.exists() is True:
-            expend_obj = self.logged_in_user().root_sub_user.base_user.all_expenditure_records.all().filter(is_verified=True)
-            credit_fund_obj = self.logged_in_user().root_sub_user.base_user.credit_funds.all()
-        '''
 
         all_credit_fund_amounts = [obj.amount for obj in credit_fund_obj]
         all_record_amounts_ref = [obj.amount for obj in expend_obj_ref]

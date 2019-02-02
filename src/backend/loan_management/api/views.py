@@ -48,5 +48,5 @@ class LoanExpenditureListCreateAPIView(generics.ListCreateAPIView):
             return self.logged_in_user().root_sub_user.base_user
 
     def get_queryset(self):
-        return self.base_user_model().all_expenditure_records.filter(is_for_refund=True)
+        return self.base_user_model().all_expenditure_records.filter(is_for_refund=True, is_deleted=False)
 
