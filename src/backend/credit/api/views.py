@@ -47,7 +47,7 @@ class CreditFundsAccordingToSourcesListAPIView(CreditFundSourceListCreateAPIView
         return Response(data={'detail': 'Not allowed'}, status=status.HTTP_405_METHOD_NOT_ALLOWED, exception=True)
 
 
-class CreditFundSourceRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
+class CreditFundSourceRetrieveUpdateAPIView(generics.RetrieveUpdateAPIView):
     serializer_class = serializers.CreditFundSourceModelSerializer
     permission_classes = [permissions.OnlyBaseUser, permissions.FundIsNotLocked]
     lookup_field = 'uuid'

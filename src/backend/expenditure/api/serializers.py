@@ -21,7 +21,7 @@ class ExpenditureHeadingModelSerializer(serializers.ModelSerializer):
     class Meta:
         model = ExpenditureHeadingModel
         exclude = ('base_user', )
-        read_only_fields = ('uuid', 'added', 'updated')
+        read_only_fields = ('uuid', 'added', 'updated', 'is_for_refund')
 
     def request_data(self):
         return self.context['request']
@@ -132,8 +132,8 @@ class ExpenditureRecordModelSafeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ExpenditureRecordModel
-        exclude = ('base_user', 'is_for_refund')
-        read_only_fields = ('uuid', 'added_by', 'added', 'updated', 'is_verified')
+        exclude = ('base_user', )
+        read_only_fields = ('uuid', 'added_by', 'added', 'updated', 'is_verified', 'is_for_refund')
 
     def request_data(self):
         return self.context['request']
@@ -150,53 +150,16 @@ class ExpenditureRecordModelSafeSerializer(serializers.ModelSerializer):
         if sub_user.exists():
             return self.logged_in_user().root_sub_user.base_user
 
-    '''
-    def validate_amount(self, value):
-        base_user = BaseUserModel.objects.filter(base_user=self.logged_in_user()) 
-        sub_user = SubUserModel.objects.filter(root_user=self.logged_in_user())
-        expend_obj = []
-        credit_fund_obj = []
-
-        if base_user.exists() is True:
-            expend_obj = self.logged_in_user().base_user.all_expenditure_records.all()
-            credit_fund_obj = self.logged_in_user().base_user.credit_funds.all()
-        elif sub_user.exists() is True:
-            expend_obj = self.logged_in_user().root_sub_user.base_user.all_expenditure_records.all()
-            credit_fund_obj = self.logged_in_user().root_sub_user.base_user.credit_funds.all()
-
-        all_credit_fund_amounts = [obj.amount for obj in credit_fund_obj]
-        all_record_amounts = [obj.amount for obj in expend_obj]
-
-        total_pre_credit_fund_amount = utils.sum_int_of_array(all_credit_fund_amounts)
-        total_pre_record_amount = utils.sum_int_of_array(all_record_amounts)
-
-        record_value_after_entry = total_pre_record_amount + value
-        credit_fund_value_after_entry = total_pre_credit_fund_amount - record_value_after_entry
-
-        if credit_fund_value_after_entry >= 0:
-            return value
-        raise serializers.ValidationError(detail='Credit Fund will be exceed! So you cannot add any more records. After authority add more Credit Fund in Database you can entry more records.')
-    '''
-
     def create(self, validated_data):
-        raw_value = validated_data.get('amount')
         validated_data.pop('extra_description')
-        print(validated_data)
-        expend_obj_non_ref = self.base_user_model().all_expenditure_records.all().filter(is_verified=True,
+        new_value = validated_data.get('amount')
+        expend_obj_non_ref = self.base_user_model().all_expenditure_records.all().filter(
                                                                                          is_for_refund=False,
                                                                                          is_deleted=False)
-        expend_obj_ref = self.base_user_model().all_expenditure_records.all().filter(is_verified=True,
+        expend_obj_ref = self.base_user_model().all_expenditure_records.all().filter(
                                                                                      is_for_refund=True,
                                                                                      is_deleted=False)
         credit_fund_obj = self.base_user_model().credit_funds.filter(is_deleted=False)
-        '''
-        if base_user.exists() is True:
-            expend_obj = self.logged_in_user().base_user.all_expenditure_records.all().filter(is_verified=True)
-            credit_fund_obj = self.logged_in_user().base_user.credit_funds.all()
-        elif sub_user.exists() is True:
-            expend_obj = self.logged_in_user().root_sub_user.base_user.all_expenditure_records.all().filter(is_verified=True)
-            credit_fund_obj = self.logged_in_user().root_sub_user.base_user.credit_funds.all()
-        '''
 
         all_credit_fund_amounts = [obj.amount for obj in credit_fund_obj]
         all_record_amounts_ref = [obj.amount for obj in expend_obj_ref]
@@ -206,13 +169,11 @@ class ExpenditureRecordModelSafeSerializer(serializers.ModelSerializer):
         total_pre_record_amount_non_ref = utils.sum_int_of_array(all_record_amounts_non_ref)
         total_pre_record_amount_ref = utils.sum_int_of_array(all_record_amounts_ref)
 
+        final_non_ref_expend = total_pre_record_amount_non_ref + new_value
+
         real_asset = total_pre_credit_fund_amount - total_pre_record_amount_ref
 
-        highest_amount = real_asset - total_pre_record_amount_non_ref
-        print(f'Highest: {highest_amount}')
-        print(f'Entering: {raw_value}')
-
-        if highest_amount >= raw_value:
+        if real_asset >= final_non_ref_expend:
             obj = ExpenditureRecordModel.objects.create(
                 added_by=self.logged_in_user(),
                 base_user=self.base_user_model(),
@@ -220,7 +181,7 @@ class ExpenditureRecordModelSafeSerializer(serializers.ModelSerializer):
                 **validated_data
             )
             return obj
-        raise serializers.ValidationError(detail='Credit Fund will be exceede! So you cannot add any more records. After authority add more Credit Fund in Database you can entry more records.')
+        raise serializers.ValidationError(detail='Credit Fund will be exceed! So you cannot add any more records. After authority add more Credit Fund in Database you can entry more records.')
 
     def update(self, instance, validated_data):
         if instance.is_deleted is False and validated_data.get('is_deleted') is True:
@@ -253,21 +214,13 @@ class ExpenditureRecordModelSafeSerializer(serializers.ModelSerializer):
         if instance.is_deleted is True and validated_data.get('is_deleted') is False:
             # Todo: add history with is_restore = True
             raw_amount = instance.amount
-            expend_obj_non_ref = self.base_user_model().all_expenditure_records.all().filter(is_verified=True,
+            expend_obj_non_ref = self.base_user_model().all_expenditure_records.all().filter(
                                                                                              is_for_refund=False,
                                                                                              is_deleted=False)
-            expend_obj_ref = self.base_user_model().all_expenditure_records.all().filter(is_verified=True,
+            expend_obj_ref = self.base_user_model().all_expenditure_records.all().filter(
                                                                                          is_for_refund=True,
                                                                                          is_deleted=False)
             credit_fund_obj = self.base_user_model().credit_funds.filter(is_deleted=False)
-            '''
-            if base_user.exists() is True:
-                expend_obj = self.logged_in_user().base_user.all_expenditure_records.all().filter(is_verified=True)
-                credit_fund_obj = self.logged_in_user().base_user.credit_funds.all()
-            elif sub_user.exists() is True:
-                expend_obj = self.logged_in_user().root_sub_user.base_user.all_expenditure_records.all().filter(is_verified=True)
-                credit_fund_obj = self.logged_in_user().root_sub_user.base_user.credit_funds.all()
-            '''
 
             all_credit_fund_amounts = [obj.amount for obj in credit_fund_obj]
             all_record_amounts_ref = [obj.amount for obj in expend_obj_ref]
@@ -277,13 +230,11 @@ class ExpenditureRecordModelSafeSerializer(serializers.ModelSerializer):
             total_pre_record_amount_non_ref = utils.sum_int_of_array(all_record_amounts_non_ref)
             total_pre_record_amount_ref = utils.sum_int_of_array(all_record_amounts_ref)
 
+            final_value_after_delete = total_pre_record_amount_non_ref - raw_amount
+
             real_asset = total_pre_credit_fund_amount - total_pre_record_amount_ref
 
-            highest_amount = real_asset - total_pre_record_amount_non_ref
-            print(f'Highest: {highest_amount}')
-            print(f'Entering: {raw_amount}')
-
-            if highest_amount >= raw_amount:
+            if real_asset >= final_value_after_delete:
                 instance.is_deleted = False
                 ExpenditureRecordHistoryModel.objects.create(
                     action_by=self.logged_in_user(),
@@ -315,21 +266,14 @@ class ExpenditureRecordModelSafeSerializer(serializers.ModelSerializer):
         raw_amount = instance.amount
         new_amount = validated_data.get('amount', instance.amount)
         test_amount = new_amount - raw_amount
-        expend_obj_non_ref = self.base_user_model().all_expenditure_records.all().filter(is_verified=True,
-                                                                                         is_for_refund=False,
-                                                                                         is_deleted=False)
-        expend_obj_ref = self.base_user_model().all_expenditure_records.all().filter(is_verified=True,
-                                                                                     is_for_refund=True,
-                                                                                     is_deleted=False)
+
+        expend_obj_non_ref = self.base_user_model().all_expenditure_records.all().filter(
+            is_for_refund=False,
+            is_deleted=False)
+        expend_obj_ref = self.base_user_model().all_expenditure_records.all().filter(
+            is_for_refund=True,
+            is_deleted=False)
         credit_fund_obj = self.base_user_model().credit_funds.filter(is_deleted=False)
-        '''
-        if base_user.exists() is True:
-            expend_obj = self.logged_in_user().base_user.all_expenditure_records.all().filter(is_verified=True)
-            credit_fund_obj = self.logged_in_user().base_user.credit_funds.all()
-        elif sub_user.exists() is True:
-            expend_obj = self.logged_in_user().root_sub_user.base_user.all_expenditure_records.all().filter(is_verified=True)
-            credit_fund_obj = self.logged_in_user().root_sub_user.base_user.credit_funds.all()
-        '''
 
         all_credit_fund_amounts = [obj.amount for obj in credit_fund_obj]
         all_record_amounts_ref = [obj.amount for obj in expend_obj_ref]
@@ -339,13 +283,11 @@ class ExpenditureRecordModelSafeSerializer(serializers.ModelSerializer):
         total_pre_record_amount_non_ref = utils.sum_int_of_array(all_record_amounts_non_ref)
         total_pre_record_amount_ref = utils.sum_int_of_array(all_record_amounts_ref)
 
-        real_asset = total_pre_credit_fund_amount - total_pre_record_amount_ref - raw_amount
+        final_value_after_delete = total_pre_record_amount_non_ref - test_amount
 
-        highest_amount = real_asset - total_pre_record_amount_non_ref
-        print(f'Highest: {highest_amount}')
-        print(f'Entering: {test_amount}')
+        real_asset = total_pre_credit_fund_amount - total_pre_record_amount_ref
 
-        if highest_amount >= new_amount:
+        if real_asset >= final_value_after_delete:
             # Todo: add history with is_updated = True
             ExpenditureRecordHistoryModel.objects.create(
                 action_by=self.logged_in_user(),
@@ -395,7 +337,7 @@ class ExpenditureRecordModelSerializer(ExpenditureRecordModelSafeSerializer):
     class Meta:
         model = ExpenditureRecordModel
         exclude = ('base_user', )
-        read_only_fields = ('uuid', 'added_by', 'added', 'updated')
+        read_only_fields = ('uuid', 'added_by', 'added', 'updated', 'is_for_refund')
 
 
 class ExpenditureHeadingsHistoryModelSerializer(serializers.ModelSerializer):
@@ -403,7 +345,6 @@ class ExpenditureHeadingsHistoryModelSerializer(serializers.ModelSerializer):
     class Meta:
         model = ExpenditureHeadingHistoryModel
         fields = '__all__'
-        read_only_fields = '__all__'
 
     def create(self, validated_data):
         raise serializers.ValidationError("Cannot be added by human.")

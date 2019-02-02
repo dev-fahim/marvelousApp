@@ -8,7 +8,7 @@ urlpatterns = [
         path('list/', views.CreditFundSourceListAPIView.as_view(), name="fund_source_list"),
         path('list-add/', views.CreditFundSourceListCreateAPIView.as_view(), name='fund_source_list_add'),
         path('view-update-delete/<uuid:uuid>/',
-             views.CreditFundSourceRetrieveUpdateDestroyAPIView.as_view(), name='fund_source_view_update_delete'),
+             views.CreditFundSourceRetrieveUpdateAPIView.as_view(), name='fund_source_view_update_delete'),
         path('history/', views.CreditFundSourceHistory.as_view(), name='fund_source_history')
     ])),
     path('fund/', include([

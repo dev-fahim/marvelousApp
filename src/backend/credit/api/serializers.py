@@ -52,8 +52,9 @@ class CreditFundModelSerializer(serializers.ModelSerializer):
             return self.logged_in_user().base_user
         if sub_user.exists():
             return self.logged_in_user().root_sub_user.base_user
-    
-    def validate_amount(self, value):
+
+    @staticmethod
+    def validate_amount(value):
         if value <= 0:
             raise serializers.ValidationError(detail="Amount cannot be ZERO or LOWER than ZERO")
         return value
@@ -96,15 +97,15 @@ class CreditFundModelSerializer(serializers.ModelSerializer):
             instance.save()
             return instance
 
-        if instance.is_deleted is False and validated_data.get('is_deleted') is True:
+        if instance.is_deleted is False and validated_data.get('is_deleted') is True:  # OK
             # Todo: add history with is_deleted = True
             raw_value = instance.amount
             print(raw_value)
 
-            expend_obj_non_ref = self.base_user_model().all_expenditure_records.all().filter(is_verified=True,
+            expend_obj_non_ref = self.base_user_model().all_expenditure_records.all().filter(
                                                                                              is_for_refund=False,
                                                                                              is_deleted=False)
-            expend_obj_ref = self.base_user_model().all_expenditure_records.all().filter(is_verified=True,
+            expend_obj_ref = self.base_user_model().all_expenditure_records.all().filter(
                                                                                          is_for_refund=True,
                                                                                          is_deleted=False)
             credit_fund_obj = self.base_user_model().credit_funds.filter(is_deleted=False)
@@ -152,10 +153,10 @@ class CreditFundModelSerializer(serializers.ModelSerializer):
 
         raw_value = instance.amount
         new_value = validated_data.get('amount', raw_value)
-        expend_obj_non_ref = self.base_user_model().all_expenditure_records.all().filter(is_verified=True,
+        expend_obj_non_ref = self.base_user_model().all_expenditure_records.all().filter(
                                                                                          is_for_refund=False,
                                                                                          is_deleted=False)
-        expend_obj_ref = self.base_user_model().all_expenditure_records.all().filter(is_verified=True,
+        expend_obj_ref = self.base_user_model().all_expenditure_records.all().filter(
                                                                                      is_for_refund=True,
                                                                                      is_deleted=False)
         credit_fund_obj = self.base_user_model().credit_funds.all()
@@ -245,6 +246,7 @@ class CreditFundSourceModelSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         validated_data.pop('extra_description')
+        validated_data.pop('is_deleted')
         obj = CreditFundSourceModel.objects.create(
             base_user=self.logged_in_user().base_user,
             uuid=uuid.uuid4(),
@@ -360,10 +362,10 @@ class CreditFundSourceHistoryModelSerializer(serializers.ModelSerializer):
     class Meta:
         model = CreditFundSourceHistoryModel
         fields = '__all__'
-        read_only_fields = '__all__'
 
     def update(self, instance, validated_data):
         return serializers.ValidationError("Cannot be updated by human!")
 
     def create(self, validated_data):
         return serializers.ValidationError("Cannot be created by human!")
+

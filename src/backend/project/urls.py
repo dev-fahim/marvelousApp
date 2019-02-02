@@ -32,7 +32,7 @@ urlpatterns += [
         path('expenditure/', include('expenditure.api.urls', namespace='expenditure_app')),
         path('service/', include('service.api.urls')),
         path('user/extra/', include('user.api.urls')),
-        path('loan/', include('loan_management.api.urls'))
+        path('loan/', include('loan_management.api.urls', namespace="loan-app"))
     ])),
     path('rest-auth/user/edit/', EditUserInfo.as_view(), name="edit_user_info"),
 ]

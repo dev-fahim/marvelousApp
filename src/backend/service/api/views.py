@@ -271,7 +271,7 @@ class GrabWhatYouWantedAPIView(generics.GenericAPIView):
 
         return this_year_remaining_credit_fund_amount
     
-    def get_this_year_total_credit_fund_amount(self):
+    def get_this_year_total_credit_fund_amount(self):  # OK
         expend_obj_ref = self.get_expend_records().filter(
             is_verified=True,
             expend_date__year=datetime.datetime.now().year,

@@ -10,7 +10,7 @@ class CreditFundOnLoanModel(models.Model):
     credit_fund = models.OneToOneField(CreditFundModel, on_delete=models.CASCADE, related_name="loan")
 
     def __str__(self):
-        return self.loan_model.loan_from
+        return self.credit_fund.source.source_name
 
 
 class ExpenditureRecordOnLoanModel(models.Model):
