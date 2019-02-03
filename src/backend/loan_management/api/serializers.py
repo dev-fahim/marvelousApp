@@ -377,11 +377,11 @@ class ExpenditureForLoanSerializer(expend_serializers.ExpenditureRecordModelSafe
         total_pre_record_amount_non_ref = utils.sum_int_of_array(all_record_amounts_non_ref)
         total_pre_record_amount_ref = utils.sum_int_of_array(all_record_amounts_ref)
 
-        final_value_after_delete = total_pre_record_amount_non_ref + new_amount
+        final_value_after_edit = total_pre_record_amount_non_ref + test_amount
 
-        real_asset = (total_pre_credit_fund_amount - total_pre_record_amount_ref) - raw_amount
+        real_asset = (total_pre_credit_fund_amount - total_pre_record_amount_ref)
 
-        if real_asset >= final_value_after_delete:
+        if real_asset >= final_value_after_edit:
             # Todo: add history with is_updated = True
             expend_models.ExpenditureRecordHistoryModel.objects.create(
                 action_by=self.logged_in_user(),

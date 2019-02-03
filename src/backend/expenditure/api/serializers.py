@@ -52,6 +52,8 @@ class ExpenditureHeadingModelSerializer(serializers.ModelSerializer):
         is_deleted = validated_data.get('is_deleted')
 
         if is_deleted is True and instance.is_deleted is False:
+            if self.base_user_model().all_expenditure_records.filter(expend_heading=instance).exists():
+                raise serializers.ValidationError(detail="You have one or more debit records which belong to this debit head.", code=400)
             instance.is_deleted = True
             history = ExpenditureHeadingHistoryModel
             history.objects.create(

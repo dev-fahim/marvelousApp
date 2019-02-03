@@ -80,19 +80,6 @@ class ExpenditureRecordCreateAPIView(generics.CreateAPIView):
         permissions.BaseUserOrSubUser,
         permissions.SubUserCanAdd
     ]
-    filter_backends = (filters.SearchFilter, DjangoFilterBackend, filters.OrderingFilter)
-    filterset_class = ExpenditureRecordFilter
-    search_fields = (
-        'expend_heading__heading_name',
-        'description',
-        'uuid',
-        'added',
-        'updated',
-        'expend_by',
-        'expend_date'
-    )
-    ordering_fields = ('added', 'expend_date', 'amount', 'expend_heading__heading_name')
-    ordering = ('-id',)
 
     def get_queryset(self):
         queryset = None
@@ -205,6 +192,9 @@ class ExpenditureRecordRetrieveUpdateAPIView(generics.RetrieveUpdateAPIView):
 
 
 class ExpenditureCheckoutToday(ExpenditureRecordCreateAPIView):
+    permission_classes = [
+        permissions.BaseUserOrSubUser
+    ]
     headings = ['Head', 'Added by', 'Expended by', 'Amount (in Taka)', 'Expend time', 'Record added']
     attributes = ['expend_heading', 'added_by', 'expend_by', 'amount', 'expend_date', 'added']
     mimetype = 'text/csv'

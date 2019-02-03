@@ -277,6 +277,8 @@ class CreditFundSourceModelSerializer(serializers.ModelSerializer):
 
         if instance.is_deleted is False and validated_data.get('is_deleted') is True:
             # Todo: add history with is_deleted = True
+            if self.base_user_model().credit_funds.filter(source=instance).exists():
+                raise serializers.ValidationError("You have one or more credit records which belong to this credit head.")
             CreditFundSourceHistoryModel.objects.create(
                 action_by=self.logged_in_user(),
                 base_user=self.base_user_model(),
