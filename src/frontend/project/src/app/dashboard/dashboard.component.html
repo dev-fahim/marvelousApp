@@ -426,14 +426,15 @@
 					<tr>
 						<th>Expend group head</th>
 						<th>Expended by</th>
-						<th>Added by</th>
+                        <th>Added by</th>
+						<th>Refunded</th>
 						<th>Amount in Tk</th>
 						<th>Expend Date</th>
 						<th>Record Added</th>
 					</tr>
 				</thead>
 				<tbody>
-					<tr appShadow *ngFor="let data of todays_all_expenditures" [ngClass]="{'has-background-danger': !data.is_verified}">
+					<tr appShadow *ngFor="let data of todays_all_expenditures" [ngClass]="{'has-background-warning': !data.is_verified}">
 						<td><a class="header" routerLink="/main-app/expenditure/record" [queryParams]="{ 
                                         added_date: today,
                                         heading: data.expend_heading_name
@@ -441,6 +442,7 @@
 								data.expend_heading_name | titlecase }}</a></td>
 						<td><i *ngIf="!data.is_verified" class="attention icon"></i>{{ data.expend_by | titlecase }}</td>
 						<td>{{ data.added_by | titlecase }}</td>
+                        <td>{{ data.is_for_refund? 'Yes':'No' }}</td>
 						<td>{{ data.amount | currency:' ':'symbol':'1.0-0' }}</td>
 						<td>{{ data.expend_date | date }}</td>
 						<td>{{ data.added | date }}</td>

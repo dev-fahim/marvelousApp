@@ -10,7 +10,7 @@ COPY . .
 
 RUN npm install node-sass --save-dev
 
-RUN npm run build
+RUN npm run prod_aot
 
 # Stage 2
 FROM nginx:1.15.8-alpine

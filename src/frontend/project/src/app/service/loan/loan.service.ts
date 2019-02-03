@@ -45,7 +45,7 @@ export class LoanService {
   }
 
   add_record(data: models.LoanExpendPOSTModel) {
-    return this._http.post(EXPENDITURE_RECORD_LOAN_API_URL + 'add/', JSON.stringify(data)).pipe(
+    return this._http.post(EXPENDITURE_RECORD_LOAN_API_URL + 'list-add/', JSON.stringify(data)).pipe(
       catchError(
         (error: HttpErrorResponse) => {
           return throwError(common.get_http_response_error(error))
