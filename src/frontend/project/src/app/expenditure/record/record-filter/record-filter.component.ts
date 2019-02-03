@@ -21,6 +21,7 @@ export class RecordFilterComponent implements OnInit {
   csv_url: string;
   has_url = false;
   cho_url = 'expenditure/record/checkout-today/';
+  menu = false;
 
   filter_form = new FormGroup({
     is_verified: new FormControl(""),
@@ -41,6 +42,10 @@ export class RecordFilterComponent implements OnInit {
     private _headingService: HeadingService,
     private _fileDownloadService: FileDownloadService
   ) { }
+
+  toggle_menu() {
+    return this.menu = !this.menu;
+  }
 
   ngOnInit() {
     this.loading = true;

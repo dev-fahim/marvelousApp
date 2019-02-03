@@ -15,6 +15,8 @@ export class FundRecordFilterComponent implements OnInit {
 
   all_credit_fund_sources: string[] = [];
 
+  collapse = false;
+
   /*
   fund_source=&amount=&added_after=&added_before=&max_amount=&min_amount=
   */
@@ -31,6 +33,10 @@ export class FundRecordFilterComponent implements OnInit {
   })
 
   constructor(private _sourceService: SourceService) { }
+
+  toggle_collapse() {
+    return this.collapse = !this.collapse;
+  }
 
   ngOnInit() {
     this._sourceService.get_sources_name()

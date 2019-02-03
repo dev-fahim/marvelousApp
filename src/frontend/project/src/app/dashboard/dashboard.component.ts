@@ -5,6 +5,7 @@ import { SourceService } from '../service/credit/source.service';
 import { HeadingService } from '../service/expenditure/heading.service';
 import { RecordService } from '../service/expenditure/record.service';
 import { today_date } from '../service/today.date';
+import * as errors from '../common';
 
 @Component({
   selector: 'app-dashboard',
@@ -21,6 +22,7 @@ export class DashboardComponent {
   loading = true;
   arr = [1,2,3,4]
   today = today_date();
+  messages: {message: string, type: string}[] = [];
   api_services: RootObject = {
     "is_base_user": false,
     "is_sub_user": false,
@@ -50,7 +52,7 @@ export class DashboardComponent {
     "this_year_total_credit_fund_amount": 0,
     "this_year_total_unauthorized_expend_amount": 0,
     "this_month_total_credit_fund_amount": 0,
-    "this_year": new Date()
+    "this_year": ""
 }
 
   constructor(
@@ -67,6 +69,11 @@ export class DashboardComponent {
         (response) => {
           this.fund_status = response.fund_status;
           return this.api_services = response;
+        },
+        (error: errors.AppError) => {
+          this.loading = false;
+          const main_error = errors.throw_http_response_error(error);
+          return this.messages.push({message: main_error.detail, type: main_error.type})
         }
       )
   }
@@ -80,8 +87,10 @@ export class DashboardComponent {
           this.loading = false;
           return this.all_sources = result;
         },
-        (errors) => {
-          return console.log(errors);
+        (error: errors.AppError) => {
+          this.loading = false;
+          const main_error = errors.throw_http_response_error(error);
+          return this.messages.push({message: main_error.detail, type: main_error.type})
         }
       )
     this.headingService.get_all_headings()
@@ -90,8 +99,10 @@ export class DashboardComponent {
           this.loading = false;
           return this.all_headings = result;
         },
-        (errors) => {
-          return console.log(errors);
+        (error: errors.AppError) => {
+          this.loading = false;
+          const main_error = errors.throw_http_response_error(error);
+          return this.messages.push({message: main_error.detail, type: main_error.type})
         }
       )
     this.recordService.get_all_expenditures({
@@ -113,8 +124,10 @@ export class DashboardComponent {
           this.loading = false;
           return this.todays_all_expenditures = result;
         },
-        (errors) => {
-          return console.log(errors);
+        (error: errors.AppError) => {
+          this.loading = false;
+          const main_error = errors.throw_http_response_error(error);
+          return this.messages.push({message: main_error.detail, type: main_error.type})
         }
       )
   }

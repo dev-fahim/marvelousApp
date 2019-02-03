@@ -1,4 +1,5 @@
-<div class="ui grid" *ngIf="!is_loading()">
+<!--
+    <div class="ui grid" *ngIf="!is_loading()">
     <div class="column">
         <div class="ui six cards">
             <div class="ui {{ status? 'green' : 'red' }} link card" [routerLink]="['/main-app/credit/fund/record/list-add']">
@@ -225,7 +226,6 @@
                 </tr>
                 <tr>
                     <th>Expend group head</th>
-                    <!--Add Shorting TechnoLogy Here-->
                     <th>Expended by</th>
                     <th>Added by</th>
                     <th>Amount in Tk</th>
@@ -242,7 +242,6 @@
                             data.expend_heading_name | titlecase }}</a></td>
                     <td><i *ngIf="!data.is_verified" class="attention icon"></i>{{ data.expend_by | titlecase }}</td>
                     <td>{{ data.added_by | titlecase }}</td>
-                    <!--Data should be from rest api server-->
                     <td>{{ data.amount | currency:' ':'symbol':'1.0-0' }}</td>
                     <td>{{ data.expend_date | date }}</td>
                     <td>{{ data.added | date }}</td>
@@ -254,6 +253,8 @@
         </div>
     </div>
 </div>
+
+-->
 
 
 
@@ -312,3 +313,140 @@
         </div>
     </div>  
 -->
+
+
+
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-lg-3 mt-1 col-md-4 col-xl-2">
+			<div class="card shadow" [routerLink]="['/main-app/credit/fund/record/list-add']">
+				<div class="card-content has-text-centered">
+					<p class="title has-text-success is-size-4">Credits</p>
+					<p class="subtitle is-size-7">Data of {{ get_this_year() }}</p>
+					<hr>
+					<p class="title">{{ get_this_year_credit() | currency:' ':'symbol':'1.0-0' }}</p>
+					<p class="subtitle">Taka</p>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-3 mt-1 col-md-4 col-xl-2">
+			<div class="card shadow" [routerLink]="['/main-app/expenditure/record']">
+				<div class="card-content has-text-centered">
+					<p class="title has-text-danger is-size-4">Debits</p>
+					<p class="subtitle is-size-7">Data of {{ get_this_year() }}</p>
+					<hr>
+					<p class="title">{{ get_this_year_expends() | currency:' ':'symbol':'1.0-0' }}</p>
+					<p class="subtitle">Taka</p>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-3 mt-1 col-md-4 col-xl-2">
+			<div class="card shadow" [routerLink]="['/main-app/credit/fund/record/list-add']">
+				<div class="card-content has-text-centered">
+					<p class="title has-text-link is-size-4">Balance</p>
+					<p class="subtitle is-size-7">Data of {{ get_this_year() }}</p>
+					<hr>
+					<p class="title">{{ get_remailning_balance() | currency:' ':'symbol':'1.0-0' }}</p>
+					<p class="subtitle">Taka</p>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-3 mt-1 col-md-4 col-xl-2">
+			<div class="card shadow" [routerLink]="['/main-app/expenditure/record']" [queryParams]="{is_verified:false}">
+				<div class="card-content has-text-centered">
+					<p class="title has-text-warning is-size-4">Unauthorized</p>
+					<p class="subtitle is-size-7">All Data</p>
+					<hr>
+					<p class="title">{{ get_total_unauthorized_expend() | currency:' ':'symbol':'1.0-0' }}</p>
+					<p class="subtitle">Taka</p>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-3 mt-1 col-md-4 col-xl-2">
+			<div class="card shadow" [routerLink]="['/main-app/credit/fund/record/list-add']">
+				<div class="card-content has-text-centered">
+					<p class="title has-text-info is-size-4">Credits</p>
+					<p class="subtitle is-size-7">Data of this month</p>
+					<hr>
+					<p class="title">{{ get_this_month_total_credit_fund_amount() | currency:' ':'symbol':'1.0-0' }}</p>
+					<p class="subtitle">Taka</p>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-3 mt-1 col-md-4 col-xl-2">
+			<div class="card shadow" [routerLink]="['/main-app/expenditure/record']">
+				<div class="card-content has-text-centered">
+					<p class="title has-text-danger is-size-4">Debits</p>
+					<p class="subtitle is-size-7">Data of this month</p>
+					<hr>
+					<p class="title">{{ get_this_month_total_expend() | currency:' ':'symbol':'1.0-0' }}</p>
+					<p class="subtitle">Taka</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<hr>
+	<button class="button is-info is-small mb-3" [ngClass]="{'is-loading': loading}" (click)="onReload()" appShadow>Reload</button>
+	<div class="row">
+		<div class="col-2">
+			<div class="list-group">
+				<button type="button" class="list-group-item list-group-item-action active">
+					Credit Heads
+				</button>
+				<button appShadow type="button" *ngFor="let data of all_sources" class="list-group-item list-group-item-action"
+				  [routerLink]="['/main-app/credit/fund/record/list-add']" [queryParams]="{
+                    fund_source: data.source_name
+                }">{{
+					data.source_name }}</button>
+			</div>
+		</div>
+		<div class="col-2">
+			<div class="list-group">
+				<button type="button" class="list-group-item list-group-item-action active">
+					Debit Heads
+				</button>
+				<button appShadow type="button" *ngFor="let data of all_headings" class="list-group-item list-group-item-action"
+				  [routerLink]="['/main-app/expenditure/record']" [queryParams]="{ 
+                    heading: data.heading_name
+                }">{{
+					data.heading_name }}</button>
+			</div>
+		</div>
+		<div class="col-8">
+			<table class="table is-bordered is-hoverable is-fullwidth" *ngIf="!is_loading()">
+				<thead class="has-background-light" appShadow>
+					<tr>
+						<th colspan="6">
+							<h3><a routerLink="/main-app/expenditure/record" [queryParams]="{ 
+                                        added_date: today
+                                    }">Today's
+									debit records</a></h3>
+						</th>
+					</tr>
+					<tr>
+						<th>Expend group head</th>
+						<th>Expended by</th>
+						<th>Added by</th>
+						<th>Amount in Tk</th>
+						<th>Expend Date</th>
+						<th>Record Added</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr appShadow *ngFor="let data of todays_all_expenditures" [ngClass]="{'has-background-danger': !data.is_verified}">
+						<td><a class="header" routerLink="/main-app/expenditure/record" [queryParams]="{ 
+                                        added_date: today,
+                                        heading: data.expend_heading_name
+                                    }">{{
+								data.expend_heading_name | titlecase }}</a></td>
+						<td><i *ngIf="!data.is_verified" class="attention icon"></i>{{ data.expend_by | titlecase }}</td>
+						<td>{{ data.added_by | titlecase }}</td>
+						<td>{{ data.amount | currency:' ':'symbol':'1.0-0' }}</td>
+						<td>{{ data.expend_date | date }}</td>
+						<td>{{ data.added | date }}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>

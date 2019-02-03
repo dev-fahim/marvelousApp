@@ -1,0 +1,154 @@
+<!--
+  
+<div class="ui container segment">
+  <h3 class="header">Edit Credit Record {{ extra_description }}</h3>
+</div>
+<div class="ui red container segment">
+  <div class="ui icon message error" *ngIf="fund_locked">
+    <i class="ban icon"></i>
+    <div class="content">
+      <b>Fund is now LOCKED.</b>
+    </div>
+  </div>
+  <div class="ui icon message {{ message.type }}" *ngFor="let message of messages">
+    <i class="x icon" *ngIf="message.type === 'error'"></i>
+    <i class="check icon" *ngIf="message.type === 'positive'"></i>
+    <div class="content">
+      <b>{{ message.message }}</b>
+    </div>
+  </div>
+  <form class="ui small fluid form" [formGroup]="form" id="form" (ngSubmit)="onSubmit()" [ngClass]="{'loading': loading || loading_del}">
+    <div class="field" [ngClass]="{'error': form.get('source').touched && form.get('source').invalid}">
+      <label for="source">Credit Head Name</label>
+      <select type="text" formControlName="source" class="ui dropdown" appDropdown>
+        <option value="">{{ get_record_data() }}</option>
+        <option value="{{ data.id }}" *ngFor="let data of all_sources">{{ data.source_name }}</option>
+      </select>
+    </div>
+    <div class="field" [ngClass]="{'error': form.get('description').touched && form.get('description').invalid}">
+      <label for="description">Description</label>
+      <input type="text" formControlName="description">
+    </div>
+    <div class="field" [ngClass]="{'error': form.get('amount').touched && form.get('amount').invalid}">
+      <label for="amount">Amount</label>
+      <input type="number" formControlName="amount">
+    </div>
+    <div class="field" [ngClass]="{'error': form.get('fund_added').touched && form.get('fund_added').invalid}">
+      <label for="fund_added">Fund Added Date</label>
+      <div class="ui calendar">
+        <div class="ui input left icon">
+          <i class="calendar icon"></i>
+          <input type="date" placeholder="Fund Added Date" formControlName="fund_added">
+        </div>
+      </div>
+    </div>
+    <div class="ui tiny modal update">
+      <div class="header">
+        Leave a text..
+      </div>
+      <div class="content">
+        <textarea class="modal-form" formControlName="extra_description"></textarea>
+      </div>
+      <div class="actions">
+        <div class="ui cancel green button">Cancel</div>
+        <button class="ui approve blue button" type="submit" form="form">Done</button>
+      </div>
+    </div>
+  </form>
+  <div class="ui divider"></div>
+  <button class="ui violet labeled icon button tiny" id="modal_update" [ngClass]="{'loading': loading}" appModal
+    [element]="'.ui.modal.update'" [button_k]="'#modal_update'"><i class="angle double up icon"></i>Upgrade</button>
+  <button class="ui red labeled icon button tiny" id="modal_delete" [ngClass]="{'loading': loading_del}" [button_k]="'#modal_delete'"
+    appModal [element]="'.ui.modal.delete'"><i class="eraser icon"></i>Delete</button>
+  <button class="ui yellow labeled icon button tiny" (click)="onReset()"><i class="eraser icon"></i>Reset</button>
+  <a class="ui blue labeled icon button tiny" routerLink="/main-app/credit/fund/record/list-add"><i class="angle double left icon"></i>Go
+    back</a>
+</div>
+
+<div class="ui tiny modal delete">
+  <div class="header">
+    Leave a text..
+  </div>
+  <div class="content">
+    <textarea class="modal-form" name="extra_description" [(ngModel)]="extra_description"></textarea>
+  </div>
+  <div class="actions">
+    <div class="ui cancel green button">Cancel</div>
+    <button class="ui red button" (click)="onDelete()">Confirm</button>
+  </div>
+</div>
+-->
+
+<div class="segment container">
+    <div class="row">
+      <div class="col">
+        <article class="message is-danger" *ngIf="fund_is_locked">
+          <div class="message-header">
+            <p>Fund</p>
+          </div>
+          <div class="message-body">
+            Fund Locked
+          </div>
+        </article>
+        <article class="message" *ngFor="let message of messages" [ngClass]="{'is-danger': message.type === 'error', 'is-success': message.type === 'positive'}">
+          <div class="message-header">
+            <p>{{ message.type === 'error'? 'Error' : 'Success' }}</p>
+          </div>
+          <div class="message-body">
+            {{ message.message }}
+          </div>
+        </article>
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+          <div class="field">
+            <label class="label">Credit Head</label>
+            <div class="select">
+              <select type="text" formControlName="source">
+                <option value="{{ data.id }}" *ngFor="let data of all_sources">{{ data.source_name }}</option>
+              </select>
+            </div>
+          </div>
+          <div class="field">
+            <label class="label">Description</label>
+            <textarea type="text" class="textarea" formControlName="description"></textarea>
+          </div>
+          <div class="field">
+            <label class="label">Amount</label>
+            <input type="number" class="input" formControlName="amount">
+          </div>
+          <div class="field">
+            <label class="label">Fund Added Date</label>
+            <input type="date" class="input" placeholder="Fund Added Date" formControlName="fund_added">
+          </div>
+          <div class="modal" [ngClass]="{'is-active': is_active}">
+            <div class="modal-background"></div>
+            <div class="modal-content">
+              <div class="segment">
+                <div class="field">
+                  <label class="label">Leave a message</label>
+                  <textarea class="textarea" placeholder="Your Message" formControlName="extra_description"></textarea>
+                </div>
+                <div class="button is-success mr-2" appShadow (click)="toggle_modal()">Cancel</div>
+                <div class="button is-danger" appShadow (click)="onDelete()" (click)="toggle_modal()">Confirm</div>
+              </div>
+            </div>
+          </div>
+          <div class="modal" [ngClass]="{'is-active': is_active_update}">
+            <div class="modal-background"></div>
+            <div class="modal-content">
+              <div class="segment">
+                <div class="field">
+                  <label class="label">Leave a message</label>
+                  <textarea class="textarea" placeholder="Your Message" formControlName="extra_description"></textarea>
+                </div>
+                <div class="button is-success mr-2" appShadow (click)="toggle_modal_update()">Cancel</div>
+                <button class="button is-info" appShadow type="submit" (click)="toggle_modal_update()">Done</button>
+              </div>
+            </div>
+          </div>
+        </form>
+        <button class="button is-info mb-3 mt-2" appShadow (click)="toggle_modal_update()">Update</button><hr>
+        <button class="button is-success" appShadow (click)="onReset()">Reset</button>
+        <button class="button is-danger" style="margin-left: 10px" (click)="toggle_modal()" appShadow>Archive</button>
+      </div>
+    </div>
+  </div>

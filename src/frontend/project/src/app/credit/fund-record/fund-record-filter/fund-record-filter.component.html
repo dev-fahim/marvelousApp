@@ -1,4 +1,5 @@
-<div class="ui violet segment">
+<!--
+  <div class="ui violet segment">
   <h3 class="header">Filter Credit Records</h3>
   <div class="ui divider"></div>
   <form class="ui fluid small form" [formGroup]="form" (ngSubmit)="onSubmit()" [ngClass]="{'loading': loading_on_filter}">
@@ -67,5 +68,88 @@
       </div>
     </div>
     <button class="ui blue labeled icon button tiny" type="submit"><i class="filter icon" [ngClass]="{'loading': loading_on_filter}"></i>Filter</button>
+  </form>
+</div>
+-->
+<div class="segment">
+  <form [formGroup]="form">
+    <label class="label" for="search">Credit Heads</label>
+    <div class="select">
+      <select formControlName="fund_source">
+        <option value="">Select A Credit Head</option>
+        <option value=" ">All</option>
+        <option value="{{ data }}" *ngFor="let data of all_credit_fund_sources">{{ data }}</option>
+      </select>
+    </div>
+    <div class="row">
+      <div class="col-4">
+        <div class="field">
+          <label class="label" for="search">Search</label>
+          <input class="input" type="text" formControlName="search">
+        </div>
+      </div>
+      <div class="col-4">
+        <div class="field">
+          <label class="label" for="max_amount">Added Date From</label>
+          <input class="input" type="date" formControlName="added_after">
+        </div>
+      </div>
+      <div class="col-4">
+        <div class="field">
+          <label class="label" for="max_amount">Added Date Upto</label>
+          <input class="input" type="date" formControlName="added_before">
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12 my-3">
+        <div class="button is-fullwidth is-link is-small" (click)="toggle_collapse()">More Filters</div>
+      </div>
+      <div class="col-12" *ngIf="collapse">
+        <div class="row">
+          <div class="col-4">
+            <div class="eight wide field">
+              <label class="label" for="max_amount">Added Date From</label>
+              <input class="input" type="date" formControlName="added_after">
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="field">
+              <label class="label" for="min_amount">Min Amount</label>
+              <input class="input" type="number" formControlName="min_amount">
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="field">
+              <label class="label" for="max_amount">Max Amount</label>
+              <input class="input" type="number" formControlName="max_amount">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-4">
+            <div class="field">
+              <label class="label" for="added">Added Date</label>
+              <input class="input" type="date" formControlName="added">
+            </div>
+          </div>
+          <div class="col-8">
+            <label class="label" for="ordering">Ordering</label>
+            <div class="select">
+              <select type="text" formControlName="ordering" class="ui dropdown" appDropdown>
+                <option value="">Ordering</option>
+                <option value="added">Added - Ascending</option>
+                <option value="-added">Added - Descending</option>
+                <option value="source__source_name">Source Name - Ascending</option>
+                <option value="-source__source_name">Source Name - Descending</option>
+                <option value="amount">Amount - Ascending</option>
+                <option value="-amount">Amount - Descending</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button (click)="onSubmit()" class="button is-small is-link mt-3">Filter</button>
   </form>
 </div>

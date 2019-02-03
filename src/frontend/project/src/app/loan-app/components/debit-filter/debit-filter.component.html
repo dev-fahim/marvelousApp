@@ -1,0 +1,112 @@
+<div class="segment">
+    <h3 class="subtitle">Filter form</h3>
+    <form (ngSubmit)="onSubmit()" [formGroup]="filter_form">
+      <div class="row">
+        <div class="col-3"><label class="label">Debit Head</label>
+          <div class="select">
+            <select formControlName="heading" class="ui dropdown" appDropdown>
+              <option value="">All</option>
+              <option value=" ">All</option>
+              <option value="{{ heading }}" *ngFor="let heading of all_headings">{{ heading }}</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-3"><label class="label">Authorized</label>
+          <div class="select">
+            <select formControlName="is_verified" class="ui dropdown" appDropdown>
+              <option value="">All</option>
+              <option value=" ">All</option>
+              <option value="true">Yes</option>
+              <option value="false">No</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-3">
+          <div class="field">
+            <label class="label">Expend Date From</label>
+            <input class="input" formControlName="expend_date_after" type="date">
+          </div>
+        </div>
+        <div class="col-3">
+          <div class="field">
+            <label class="label">Expend Date Upto</label>
+            <input class="input" formControlName="expend_date_before" type="date">
+          </div>
+        </div>
+      </div>
+      <div class="button is-fullwidth is-small is-info my-3" (click)="toggle_menu()">More Filters</div>
+      <div class="more" *ngIf="menu">
+        <div class="row">
+          <div class="col-3">
+            <div class="field">
+              <label class="label">Search</label>
+              <input class="input" formControlName="search" type="text">
+            </div>
+          </div>
+          <div class="col-3"><label class="label">Ordering</label>
+            <div class="select">
+              <select formControlName="ordering" class="ui dropdown">
+                <option value="">No ordering</option>
+                <option value=" ">No ordering</option>
+                <option value="added">Added - Ascending</option>
+                <option value="-added">Added - Descending</option>
+                <option value="expend_date">Expend time - Ascending</option>
+                <option value="-expend_date">Expend time - Descending</option>
+                <option value="amount">Amount - Ascending</option>
+                <option value="-amount">Amount - Descending</option>
+                <option value="expend_heading__heading_name">Heading name - Ascending</option>
+                <option value="-expend_heading__heading_name">Heading name - Descending</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-3">
+            <div class="field">
+              <label class="label">Specific Amount</label>
+              <input class="input" formControlName="amount" type="number">
+            </div>
+          </div>
+          <div class="col-3">
+            <div class="field">
+              <label class="label">Added date</label>
+              <input class="input" formControlName="added_date" type="date">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-3">
+            <div class="field">
+              <label class="label">Max amount</label>
+              <input class="input" formControlName="max_amount" type="number">
+            </div>
+          </div>
+          <div class="col-3">
+            <div class="field">
+              <label class="label">Min amount</label>
+              <input class="input" formControlName="min_amount" type="number">
+            </div>
+          </div>
+          <div class="col-3">
+            <div class="field">
+              <label class="label">Added Date From</label>
+              <input class="input" formControlName="added_after" type="date">
+            </div>
+          </div>
+          <div class="col-3">
+            <div class="field">
+              <label class="label">Added Date Upto</label>
+              <input class="input" formControlName="added_before" type="date">
+            </div>
+          </div>
+        </div>
+      </div>
+      <button class="button is-small is-info my-3" type="submit">Filter</button>
+    </form>
+    <div class="ui divider"></div>
+    <a class="button is-small is-link mr-2" (click)="genUrl()" [ngClass]="{'loading': loading}">Genarate
+      URL</a>
+    <a class="button is-small is-danger mr-2" *ngIf="has_url" #downloadPDFLink (click)="download(getPDFUrl(), 'pdf')">Get
+      PDF</a>
+    <a class="button is-small is-danger mr-2" *ngIf="has_url" #downloadCSVLink (click)="download(getMailCSV(), 'csv')">Get
+      CSV</a>
+    <a class="button is-small is-primary" (click)="onCheckOut()">Checkout Today</a>
+  </div>

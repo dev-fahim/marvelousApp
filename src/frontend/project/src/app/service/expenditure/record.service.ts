@@ -1,28 +1,13 @@
-import { ExpenditureRecordGETModel } from './../models';
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { LOCAL_REST_API_SERVER } from './../server.url';
 import { catchError } from 'rxjs/operators';
 import { Router } from '@angular/router';
-import { errorResponse } from 'src/app/common/error-response';
+import * as common from '../../common';
+import * as models from '../models';
+import { throwError } from 'rxjs';
 
-const EXPENDITURE_RECORD_REST_API_URL = LOCAL_REST_API_SERVER + 'expenditure/record/'
-export interface ExpenditureRecordModel {
-  expend_by: string;
-  description: string;
-  amount: number;
-  expend_date: string;
-  expend_heading: string;
-}
-
-export interface SpecificExpenditureRecordModel {
-  expend_by: string;
-  description: string;
-  amount: number;
-  expend_date: string;
-  expend_heading: string;
-  is_verified: boolean;
-}
+export const EXPENDITURE_RECORD_REST_API_URL = LOCAL_REST_API_SERVER + 'expenditure/record/'
 
 export interface ExpenditureRecordFilter {
   is_verified?: string;
@@ -47,7 +32,7 @@ export class RecordService {
   constructor(private _http: HttpClient, private _router: Router) { }
 
   get_all_expenditures(filters: ExpenditureRecordFilter) {
-    return this._http.get<ExpenditureRecordModel>(EXPENDITURE_RECORD_REST_API_URL + 'list/', {
+    return this._http.get<models.ExpenditureRecordGETModel[]>(EXPENDITURE_RECORD_REST_API_URL + 'list/', {
       params: {
         is_verified: filters.is_verified,
         amount: filters.amount,
@@ -63,34 +48,54 @@ export class RecordService {
         ordering: filters.ordering
       }
     }).pipe(
-      catchError(errorResponse)
+      catchError(
+        (error: HttpErrorResponse) => {
+          return throwError(common.get_http_response_error(error))
+        }
+      )
     )
   }
 
-  add_record(data: ExpenditureRecordModel) {
+  add_record(data: models.ExpenditureRecordPOSTModel) {
     return this._http.post(EXPENDITURE_RECORD_REST_API_URL + 'add/', JSON.stringify(data)).pipe(
-      catchError(errorResponse)
+      catchError(
+        (error: HttpErrorResponse) => {
+          return throwError(common.get_http_response_error(error))
+        }
+      )
     );
   }
 
   get_specific_record(uuid: string) {
-    return this._http.get<ExpenditureRecordGETModel>(EXPENDITURE_RECORD_REST_API_URL + 'view/' + uuid + '/').pipe(
-      catchError(errorResponse)
+    return this._http.get<models.ExpenditureRecordGETModel>(EXPENDITURE_RECORD_REST_API_URL + 'view/' + uuid + '/').pipe(
+      catchError(
+        (error: HttpErrorResponse) => {
+          return throwError(common.get_http_response_error(error))
+        }
+      )
       )
   }
 
-  update_record(data: SpecificExpenditureRecordModel, uuid: string) {
-    return this._http.put<SpecificExpenditureRecordModel>(
+  update_record(data: models.ExpenditureRecordPUTModel, uuid: string) {
+    return this._http.put<models.ExpenditureRecordPUTModel>(
       EXPENDITURE_RECORD_REST_API_URL + 'view-update-delete/' + uuid + '/', data
     ).pipe(
-      catchError(errorResponse)
+      catchError(
+        (error: HttpErrorResponse) => {
+          return throwError(common.get_http_response_error(error))
+        }
+      )
     );
   }
 
-  delete_record(uuid: string) {
-    return this._http.delete(EXPENDITURE_RECORD_REST_API_URL + 'view-update-delete/' + uuid + '/').pipe(
-      catchError(errorResponse)
-    );
+  delete_record(uuid: string, payloads: models.ExpenditureRecordPUTModel) {
+    return this._http.put<models.ExpenditureRecordPUTModel>(EXPENDITURE_RECORD_REST_API_URL + 'view-update-delete/' + uuid + '/', payloads).pipe(
+      catchError(
+        (error: HttpErrorResponse) => {
+          return throwError(common.get_http_response_error(error))
+        }
+      )
+    )
   }
 
   get_csv(filters: ExpenditureRecordFilter) {
@@ -110,7 +115,11 @@ export class RecordService {
         ordering: filters.ordering
       }
     }).pipe(
-      catchError(errorResponse)
+      catchError(
+        (error: HttpErrorResponse) => {
+          return throwError(common.get_http_response_error(error))
+        }
+      )
     )
   }
 }

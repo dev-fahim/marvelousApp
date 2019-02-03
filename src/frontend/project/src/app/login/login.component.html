@@ -1,28 +1,23 @@
-<div class="ui active dimmer">
-  <div class="content">
-    <div class="ui column stackable grid">
-      <div class="column">
-        <h3 class="ui inverted header">Signin here</h3>
-        <div class="ui segment" id="login">
-          <div class="ui error message" *ngIf="has_error">
-            <h3 class="header">Login Error</h3>
-            <p class="content">
-              {{ get_message() }}
-            </p>
+<div class="modal is-active">
+  <div class="modal-background"></div>
+  <div class="modal-content">
+    <div class="segment p-5">
+      <p class="has-text-danger is-size-4" *ngIf="has_error">Login error.</p>
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <div class="field">
+          <label class="label is-size-5">Username</label>
+          <div class="control">
+            <input class="input is-large" [ngClass]="{'is-danger': has_error}" type="text" placeholder="Username" formControlName="username">
           </div>
-          <form class="ui form" (ngSubmit)="onSubmit()" [formGroup]="form">
-            <div class="field">
-              <label>Username</label>
-              <input type="text" placeholder="Username" formControlName="username">
-            </div>
-            <div class="field">
-              <label>Password</label>
-              <input type="password" placeholder="Password" formControlName="password">
-            </div>
-            <button class="ui primary button fluid">Signin</button>
-          </form>
         </div>
-      </div>
+        <div class="field">
+          <label class="label is-size-5">Password</label>
+          <div class="control">
+            <input class="input is-large" [ngClass]="{'is-danger': has_error}" type="password" placeholder="Password" formControlName="password">
+          </div>
+        </div>
+        <button class="button is-link is-block is-large" type="submit">Signin</button>
+      </form>
     </div>
   </div>
 </div>

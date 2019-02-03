@@ -1,13 +1,8 @@
-import { ServerError } from 'src/app/common/serve-error';
-import { UnAuthorized } from 'src/app/common/unauthorized-error';
-import { NotFound } from 'src/app/common/not-found';
-import { Forbidden } from './../../../common/forbidden';
-import { BadInput } from 'src/app/common/bad-input';
 import { CreditFundRecordGETModel } from 'src/app/service/models';
 import { Component, OnInit } from '@angular/core';
 import { FundService, CreditFundRecordListFilter } from 'src/app/service/credit/fund.service';
-import { AppError } from 'src/app/common/app-error';
 import { Router, ActivatedRoute } from '@angular/router';
+import * as errors from '../../../common';
 
 @Component({
   selector: 'app-fund-record-list',
@@ -27,6 +22,7 @@ export class FundRecordListComponent implements OnInit {
   added_before = '';
   search = '';
   ordering = '';
+  show_modal = false;
 
   filter_array = [
     'added',
@@ -42,24 +38,8 @@ export class FundRecordListComponent implements OnInit {
 
   constructor(private _fundService: FundService, private _router: Router, private _acRoute: ActivatedRoute) { }
 
-  throw_error(error: AppError) {
-    if (error instanceof BadInput) {
-      return this.messages.splice(0, 0, { message: 'You have entered invalid data or fund is limited. All fields and required and must be valid.', type: 'error' });
-    }
-    if (error instanceof Forbidden) {
-      return this.messages.splice(0, 0, { message: 'You don\'t have permission for this action.', type: 'error' });
-    }
-    if (error instanceof NotFound) {
-      return this.messages.splice(0, 0, { message: '404 Not Found', type: 'error' });
-    }
-    if (error instanceof UnAuthorized) {
-      this._router.navigate(['/login'])
-      return this.messages.splice(0, 0, { message: 'You are not logged in.', type: 'error' });
-    }
-    if (error instanceof ServerError) {
-      return this.messages.splice(0, 0, { message: 'Internal Server Error.', type: 'error' });
-    }
-    return this.messages.splice(0, 0, { message: 'An unexpected error occured.', type: 'error' });
+  toggle_modal() {
+    return this.show_modal = !this.show_modal
   }
 
   ngOnInit(filters: CreditFundRecordListFilter = {
@@ -108,11 +88,16 @@ export class FundRecordListComponent implements OnInit {
       .subscribe(
         (next) => {
           this.loading = false;
-          this.all_credit_fund_records = next;
+          let data = [];
+          for (const record of next) {
+            if (record.is_refundable === false) {data.push(record)}
+          }
+          this.all_credit_fund_records = data;
         },
-        (error: AppError) => {
+        (error: errors.AppError) => {
           this.loading = false;
-          return this.throw_error(error);
+          const main_error = errors.throw_http_response_error(error);
+          return this.messages.push({message: main_error.detail, type: main_error.type})
         }
       )
   }

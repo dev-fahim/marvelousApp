@@ -1,4 +1,5 @@
-<div class="ui red segment">
+<!--
+  <div class="ui red segment">
   <h3>Add Debit Record</h3>
   <div class="ui divider"></div>
   <div class="ui icon message error" *ngIf="!fund_not_locked">
@@ -50,4 +51,54 @@
     </div>
     In the form all fields are must be filled and valid.
   </div>
+</div>
+-->
+
+<div>
+  <article class="message is-danger" *ngIf="!fund_not_locked">
+    <div class="message-header">
+      <p>Fund</p>
+    </div>
+    <div class="message-body">
+      Fund Locked
+    </div>
+  </article>
+  <article class="message" *ngFor="let message of messages" [ngClass]="{'is-danger': message.type === 'error', 'is-success': message.type === 'positive'}">
+    <div class="message-header">
+      <p>{{ message.type === 'error'? 'Error' : 'Success' }}</p>
+    </div>
+    <div class="message-body">
+      {{ message.message }}
+    </div>
+  </article>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <label class="label">Debit Head</label>
+    <div class="select" [ngClass]="{'is-danger': form.get('expend_heading').touched && !form.get('expend_heading').valid}">
+      <select formControlName="expend_heading">
+        <option value="">Select A Head</option>
+        <option value="{{ data.id }}" *ngFor="let data of all_headings">{{ data.heading_name }}</option>
+      </select>
+    </div>
+    <div class="field">
+      <label class="label">Expend by</label>
+      <input type="text" class="input" [ngClass]="{'is-danger': form.get('expend_by').touched && !form.get('expend_by').valid}"
+        formControlName="expend_by" placeholder="Expend by">
+    </div>
+    <div class="field">
+      <label class="label">Description</label>
+      <textarea class="textarea" [ngClass]="{'is-danger': form.get('description').touched && !form.get('description').valid}"
+        formControlName="description" placeholder="Description"></textarea>
+    </div>
+    <div class="field">
+      <label class="label">Amount</label>
+      <input class="input" [ngClass]="{'is-danger': form.get('amount').touched && !form.get('amount').valid}" type="number"
+        formControlName="amount" placeholder="Amount">
+    </div>
+    <div class="field">
+      <label class="label">Expend Date</label>
+      <input type="date" class="input" [ngClass]="{'is-danger': form.get('expend_date').touched && !form.get('expend_date').valid}"
+        formControlName="expend_date" placeholder="Expend Date">
+    </div>
+    <button class="button is-primary" type="submit" [ngClass]="{'loading': loading}">Add</button>
+  </form>
 </div>

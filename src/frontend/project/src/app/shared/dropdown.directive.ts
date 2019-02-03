@@ -1,15 +1,19 @@
-import {Directive, ElementRef, AfterViewInit} from "@angular/core";
+import { Directive, ElementRef, AfterViewInit, HostListener, Renderer2 } from "@angular/core";
 declare var jQuery: any;
 
 @Directive({
-  selector: '[appDropdown]'
+  selector: '[appShadow]'
 })
-export class DropdownDirective implements AfterViewInit {
+export class ShadowDirective {
 
-  constructor(private dropdown: ElementRef) {}
+  constructor(private elRef: ElementRef, private renderer: Renderer2) {}
 
-  ngAfterViewInit(): void {
-    jQuery(this.dropdown.nativeElement).dropdown();
+  @HostListener('mouseenter') mouseover(eventData: Event) {
+    this.renderer.addClass(this.elRef.nativeElement, 'shadow');
+  }
+
+  @HostListener('mouseleave') mousegoes(eventData: Event) {
+    this.renderer.removeClass(this.elRef.nativeElement, 'shadow');
   }
 
 }

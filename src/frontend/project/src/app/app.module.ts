@@ -1,8 +1,9 @@
-import { JwtInterceptor } from '@auth0/angular-jwt';
+import { BackAppService } from './service/back-app/back-app.service';
+import { ArchiveService } from './service/archive/archive.service';
 import { LoginComponent } from './login/login.component';
 import { NoAccessComponent } from './no-access/no-access.component';
 import { BrowserModule } from '@angular/platform-browser';
-import { LOCALE_ID, NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -25,6 +26,7 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from 'src/app/login/auth/httpInterceptor.service';
 import { NotificationMessageComponent } from './notification-message/notification-message.component';
 import { NotificationMessageService } from './notification-message.service';
+import { LoanService } from './service/loan/loan.service';
 
 @NgModule({
   declarations: [
@@ -34,7 +36,7 @@ import { NotificationMessageService } from './notification-message.service';
     SidebarComponent,
     ToolbarComponent,
     LoginComponent,
-    NotificationMessageComponent
+    NotificationMessageComponent,
   ],
   imports: [
     LoginModule,
@@ -52,6 +54,9 @@ import { NotificationMessageService } from './notification-message.service';
     HeadingService,
     RecordService,
     FundSettingsService,
+    LoanService,
+    ArchiveService,
+    BackAppService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,

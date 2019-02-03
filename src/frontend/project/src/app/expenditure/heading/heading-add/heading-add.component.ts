@@ -1,13 +1,9 @@
-import { ServerError } from 'src/app/common/serve-error';
-import { AppError } from './../../../common/app-error';
 import { Router } from '@angular/router';
-import { UnAuthorized } from './../../../common/unauthorized-error';
-import { Forbidden } from './../../../common/forbidden';
-import { BadInput } from './../../../common/bad-input';
 import { HeadingService } from './../../../service/expenditure/heading.service';
-import { ExpenditureHeadingGETModel } from './../../../service/models';
+import { ExpenditureHeadingGETModel, ExpenditureHeadingPOSTModel } from './../../../service/models';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import * as errors from '../../../common';
 
 @Component({
   selector: 'app-heading-add',
@@ -26,27 +22,11 @@ export class HeadingAddComponent implements OnInit {
       Validators.required,
       Validators.minLength(4),
       Validators.maxLength(30)
-    ])
+    ]),
+    extra_description: new FormControl("")
   });
 
   constructor(private _headingService: HeadingService, private _router: Router) { }
-
-  throw_error(error: AppError) {
-    if (error instanceof BadInput) {
-      return this.messages.splice(0, 0, { message: 'You have entered invalid data or fund is limited. All fields and required and must be valid.', type: 'error' });
-    }
-    if (error instanceof Forbidden) {
-      return this.messages.splice(0, 0, { message: 'You don\'t have permission for this action.', type: 'error' });
-    }
-    if (error instanceof UnAuthorized) {
-      this._router.navigate(['/login'])
-      return this.messages.splice(0, 0, { message: 'You are not logged in.', type: 'error' });
-    }
-    if (error instanceof ServerError) {
-      return this.messages.splice(0, 0, { message: 'Internal Server Error.', type: 'error' });
-    }
-    return this.messages.splice(0, 0, { message: 'An unexpected error occured.', type: 'error' });
-  }
 
   ngOnInit() {
   }
@@ -56,14 +36,16 @@ export class HeadingAddComponent implements OnInit {
       this.loading = true;
       this._headingService.add_heading(this.form.value)
         .subscribe(
-          (next: ExpenditureHeadingGETModel) => {
+          (next: ExpenditureHeadingPOSTModel) => {
             this.heading_data.emit(this.form.value);
             this.loading = false;
             this.form.reset;
             this.messages.splice(0, 0, { message: 'Debit Heading ADDED successfuly.', type: 'positive' });
           },
-          (error: AppError) => {
-            return this.throw_error(error);
+          (error: errors.AppError) => {
+            this.loading = false;
+            const main_error = errors.throw_http_response_error(error);
+            return this.messages.push({ message: main_error.detail, type: main_error.type })
           }
         )
     }

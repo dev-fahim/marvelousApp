@@ -1,0 +1,82 @@
+<div class="segment">
+    <article class="message is-danger" *ngIf="!fund_not_locked">
+      <div class="message-header">
+        <p>Fund</p>
+      </div>
+      <div class="message-body">
+        Fund Locked
+      </div>
+    </article>
+    <article class="message" *ngFor="let message of messages" [ngClass]="{'is-danger': message.type === 'error', 'is-success': message.type === 'positive'}">
+      <div class="message-header">
+        <p>{{ message.type === 'error'? 'Error' : 'Success' }}</p>
+      </div>
+      <div class="message-body">
+        {{ message.message }}
+      </div>
+    </article>
+    <h3 class="subtitle">Edit Debit Record</h3>
+    <form [formGroup]='form'>
+      <label class="label">Debit Head</label>
+      <div class="select">
+        <select formControlName="expend_heading" [ngClass]="{'is-danger': expend_heading.touched && expend_by.invalid}">
+          <option value="">{{ expenditure_data.expend_heading_name? '':expenditure_data.expend_heading_name }}</option>
+          <option value="{{ data.id }}" *ngFor="let data of all_headings">{{ data.heading }}</option>
+        </select>
+      </div>
+      <div class="field">
+        <label class="label">Expend by</label>
+        <input class="input"type="text" [ngClass]="{'is-danger': expend_by.touched && expend_by.invalid}" formControlName="expend_by" placeholder="Expend by">
+      </div>
+      <div class="field">
+        <label class="label">Description</label>
+        <textarea class="textarea" [ngClass]="{'is-danger': description.touched && expend_by.invalid}" formControlName="description" placeholder="Description"></textarea>
+      </div>
+      <div class="field">
+        <label class="label">Amount</label>
+        <input class="input"[ngClass]="{'is-danger': amount.touched && expend_by.invalid}" type="number" formControlName="amount" placeholder="Amount">
+      </div>
+      <label class="label">Authorized</label>
+      <div class="select">
+        <select formControlName="is_verified">
+          <option value="">{{ expenditure_data.is_verified? 'Yes' : 'No' }}</option>
+          <option value="true">Yes</option>
+          <option value="false">No</option>
+        </select>
+      </div>
+      <div class="field">
+        <label class="label">Expend Date. Previous value was {{ expenditure_data.expend_date | date }}</label>
+        <input class="input"type="date" [ngClass]="{'is-danger': expend_date.touched && expend_by.invalid}" formControlName="expend_date" placeholder="Expend Date & Time">
+      </div>
+      <div class="modal" [ngClass]="{'is-active': modal}">
+        <div class="modal-background"></div>
+        <div class="modal-content">
+          <div class="segment">
+            <div class="field">
+              <label class="label" class="label">Leave a message</label>
+              <textarea class="textarea"class="textarea" placeholder="Your Message" formControlName="extra_description"></textarea>
+            </div>
+            <div class="button is-success mr-2" appShadow (click)="toggle_modal()">Cancel</div>
+            <div class="button is-danger" appShadow (click)="onDelete()" (click)="toggle_modal()">Confirm</div>
+          </div>
+        </div>
+      </div>
+      <div class="modal" [ngClass]="{'is-active': modal_update}">
+        <div class="modal-background"></div>
+        <div class="modal-content">
+          <div class="segment">
+            <div class="field">
+              <label class="label" class="label">Leave a message</label>
+              <textarea class="textarea"class="textarea" placeholder="Your Message" formControlName="extra_description"></textarea>
+            </div>
+            <div class="button is-success mr-2" appShadow (click)="toggle_modal_update()">Cancel</div>
+            <div class="button is-info" appShadow (click)="onSubmit()" (click)="toggle_modal_update()">Done</div>
+          </div>
+        </div>
+      </div>
+    </form>
+    <button class="button is-link mr-2" [ngClass]="{'is-loading': loading}" (click)="toggle_modal_update()" appShadow>Upgrade</button>
+    <hr>
+    <button class="button is-warning mr-2" (click)="onReset()" appShadow>Reset</button>
+    <button class="button is-danger" [ngClass]="{'is-loading': loading_del}" (click)="toggle_modal()" appShadow>Archive</button>
+  </div>

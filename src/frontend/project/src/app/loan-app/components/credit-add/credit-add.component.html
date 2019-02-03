@@ -1,0 +1,43 @@
+<div>
+    <article class="message is-danger"  *ngIf="fund_is_locked">
+      <div class="message-header">
+        <p>Fund</p>
+      </div>
+      <div class="message-body">
+        Fund Locked
+      </div>
+    </article>
+    <article class="message" *ngFor="let message of messages" [ngClass]="{'is-danger': message.type === 'error', 'is-success': message.type === 'positive'}">
+      <div class="message-header">
+        <p>{{ message.type === 'error'? 'Error' : 'Success' }}</p>
+      </div>
+      <div class="message-body">
+        {{ message.message }}
+      </div>
+    </article>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="field">
+        <label class="label">Credit Head</label>
+        <div class="select">
+          <select type="text" formControlName="source">
+            <option value="{{ data.id }}" *ngFor="let data of all_sources">{{ data.source_name }}</option>
+          </select>
+        </div>
+      </div>
+      <div class="field">
+        <label class="label">Description</label>
+        <textarea type="text" class="textarea" formControlName="description"></textarea>
+      </div>
+      <div class="field">
+        <label class="label">Amount</label>
+        <input type="number" class="input" formControlName="amount">
+      </div>
+      <div class="field">
+        <label class="label">Fund Added Date</label>
+        <input type="date" class="input" placeholder="Fund Added Date" formControlName="fund_added">
+      </div>
+      <input type="submit" value="Add Credit" class="button is-primary" appShadow>
+    </form>
+  <hr>
+  <button class="button is-warning" (click)="onReset()">Reset</button>
+  </div>

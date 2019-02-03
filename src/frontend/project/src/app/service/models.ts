@@ -31,81 +31,71 @@ export interface RootObject {
     this_year_total_credit_fund_amount: number;
     this_year_total_unauthorized_expend_amount: number;
     this_month_total_credit_fund_amount: number;
-    this_year: Date;
+    this_year: string;
 }
 
-export interface ExpenditureHeadingGETModel {
-    id?: number;
-    url?: string;
-    heading_name: string;
-    description: string;
-    uuid?: string;
-    added?: string;
-    updated?: string;
-    is_deleted?: boolean;
-    extra_description?: string;
-}
-
-export interface ExpenditureRecordGETModel {
-    id?: number;
-    edit_url?: string;
-    details_url?: string;
-    expend_heading_name?: string;
-    added_by: string;
-    expend_by: string;
-    description: string;
-    amount: number;
-    is_verified: boolean;
-    expend_date: string;
-    uuid?: string;
-    added?: string;
-    updated?: string;
-    expend_heading: number;
-    is_deleted?: boolean;
-    extra_description?: string;
-}
-
-export interface CreditFundSourceGETModel {
-    id?: number;
+// Credit Fund Source Models
+export interface CreditFundSourceGETModel { // OK
+    id: number;
     source_name: string;
-    url?: string;
+    url: string;
     description: string;
-    added?: string;
-    updated?: string;
-    uuid?: string;
-    is_deleted?: boolean;
-    extra_description?: string;
+    added: string;
+    updated: string;
+    uuid: string;
+    is_deleted: boolean;
 }
 
-export interface CreditFundSourceFilterModel {
+export interface CreditFundSourcePOSTModel { // OK
+    source_name: string;
+    description: string;
+    is_deleted: boolean;
+    extra_description: string;
+}
+
+export interface CreditFundSourcePUTModel { // OK
+    source_name: string;
+    description: string;
+    is_deleted: boolean;
+    extra_description: string;
+}
+
+export interface CreditFundSourceFilterModel { // OK
     ordering?: string;
     search?: string;
 }
 
-export interface CreditFundAccordinSourceGETModel {
-    source_name: string;
-    url?: string;
-    description: string;
-    added?: string;
-    updated?: string;
-    uuid?: string;
-    is_deleted?: boolean;
-    extra_description?: string;
-    funds: CreditFundSourceGETModel[];
-}
-
-export interface CreditFundRecordGETModel {
+// Credit Fund Record Models
+export interface CreditFundRecordGETModel { // OK
     source: number;
-    source_name?: string;
-    url?: string;
+    source_name: string;
+    url: string;
     description: string;
-    added?: string;
-    updated?: string;
+    added: string;
+    updated: string;
     amount: number;
     fund_added: string;
-    uuid?: string;
-    is_deleted?: boolean;
-    extra_description?: string;
+    uuid: string;
+    is_deleted: boolean;
+    is_refundable: boolean;
+}
+
+export interface CreditFundRecordPOSTModel { // OK
+    source: number;
+    description: string;
+    amount: number;
+    fund_added: string;
+    is_deleted: boolean;
+    extra_description: string;
+}
+
+export interface CreditFundRecordPUTModel {
+    source: number;
+    description: string;
+    amount: number;
+    fund_added: string;
+    is_deleted: boolean;
+    extra_description: string;
 }
 
 export interface CompnayInfoGETModel {
@@ -174,4 +164,171 @@ export interface SubUserPOSTModel {
 export interface UserEditModel {
     username: string;
     email: string;
+}
+
+// Loan Credit Models
+export interface LoanCreditModel {
+    id: number;
+    base_user: number;
+    credit_fund: number;
+}
+
+export interface LoanCreditGETModel { // OK
+    source: number;
+    source_name: string;
+    url: string;
+    description: string;
+    added: string;
+    updated: string;
+    amount: number;
+    fund_added: string;
+    uuid: string;
+    is_deleted: boolean;
+    loan: LoanCreditModel;
+    is_refundable: boolean;
+}
+
+export interface LoanCreditPOSTModel { // OK
+    source: number;
+    description: string;
+    amount: number;
+    fund_added: string;
+    is_deleted: boolean;
+    extra_description: string;
+}
+
+export interface LoanCreditPUTModel { // OK
+    source: number;
+    description: string;
+    amount: number;
+    fund_added: string;
+    is_deleted: boolean;
+    extra_description: string;
+}
+
+// Expenditure Heading Models
+export interface ExpenditureHeadingGETModel { // OK
+    id: number;
+    url: string;
+    heading_name: string;
+    description: string;
+    uuid: string;
+    added: string;
+    updated: string;
+    is_deleted: boolean;
+}
+
+export interface ExpenditureHeadingPOSTModel { // OK
+    extra_description: string;
+    heading_name: string;
+    description: string;
+    is_deleted: boolean;
+}
+
+export interface ExpenditureHeadingPUTModel { // OK
+    extra_description: string;
+    heading_name: string;
+    description: string;
+    is_deleted: boolean;
+}
+
+// Expendoture Record Models
+export interface ExpenditureRecordGETModel { // OK
+    id: number;
+    edit_url: string;
+    details_url: string;
+    expend_heading_name: string;
+    added_by: string;
+    expend_by: string;
+    description: string;
+    amount: number;
+    is_verified: boolean;
+    expend_date: string;
+    uuid: string;
+    added: string;
+    updated: string;
+    is_deleted: boolean;
+    is_for_refund: boolean;
+    expend_heading: number;
+}
+
+export interface ExpenditureRecordPOSTModel { // OK
+    extra_description: string;
+    expend_by: string;
+    description: string;
+    amount: number;
+    expend_date: string;
+    is_deleted: boolean;
+    expend_heading: number;
+}
+
+export interface ExpenditureRecordPUTModel { // OK
+    extra_description: string;
+    expend_by: string;
+    description: string;
+    amount: number;
+    is_verified: boolean;
+    expend_date: string;
+    is_deleted: boolean;
+    expend_heading: number;
+}
+
+// Loan Expenditure Models
+export interface LoanExpendModel { // OK
+    id: number;
+    base_user: number;
+    expenditure_record_model: number;
+}
+
+export interface LoanExpendGETModel { // OK
+    id: number;
+    expend_heading_name: string;
+    added_by: string;
+    loan: LoanExpendModel;
+    url: string;
+    expend_by: string;
+    description: string;
+    amount: number;
+    is_verified: boolean;
+    expend_date: string;
+    uuid: string;
+    added: string;
+    updated: string;
+    is_deleted: boolean;
+    is_for_refund: boolean;
+    expend_heading: number;
+}
+
+export interface LoanExpendPOSTModel { // OK
+    extra_description: string;
+    expend_by: string;
+    description: string;
+    amount: number;
+    is_verified: boolean;
+    expend_date: string;
+    is_deleted: boolean;
+    expend_heading: number;
+}
+
+export interface LoanExpendPUTModel { // OK
+    extra_description: string;
+    expend_by: string;
+    description: string;
+    amount: number;
+    expend_date: string;
+    is_deleted: boolean;
+    expend_heading: number;
+}
+
+// Ajaira Models
+export interface CreditFundAccordinSourceGETModel { // OK
+    source_name: string;
+    url: string;
+    description: string;
+    added: string;
+    updated: string;
+    uuid: string;
+    is_deleted: boolean;
+    extra_description: string;
+    funds: CreditFundRecordGETModel[];
 }

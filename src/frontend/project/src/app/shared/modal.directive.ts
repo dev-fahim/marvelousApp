@@ -1,22 +1,15 @@
-import { ElementRef, Directive, AfterViewInit, Input } from '@angular/core';
+import { ElementRef, Directive, AfterViewInit, Input, HostListener, Renderer2 } from '@angular/core';
 declare var jQuery: any;
 
 @Directive({
   selector: '[appModal]'
 })
-export class ModalDirective implements AfterViewInit {
-  @Input() element: string;
-  @Input() button_k: string;
+export class ModalDirective{
 
-  constructor(private model: ElementRef) { }
+  constructor(private elRef: ElementRef, private renderer: Renderer2) { }
 
-  ngAfterViewInit(): void {
-    jQuery(this.element)
-    .modal({
-      inverted: false
-    })
-    .modal('setting', 'transition', 'scale')
-    .modal('attach events', this.button_k, 'show');
+  @HostListener('click') click(eventData: Event) {
+    this.renderer.addClass('#modal-text', 'is-active')
   }
 
 }

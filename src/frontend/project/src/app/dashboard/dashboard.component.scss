@@ -1,0 +1,9 @@
+.card:hover {
+    content: "";
+    position: relative;
+    top: 10px;
+}
+
+.card:focus {
+    outline: 0 !important;
+}

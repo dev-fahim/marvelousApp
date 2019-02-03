@@ -1,15 +1,11 @@
-import { BehaviorSubject } from 'rxjs';
-import { NotFound } from './../../../common/not-found';
-import { AppError } from '../../../common/app-error';
-import { FormControl, Validators, FormGroup } from '@angular/forms';
-import { Component, OnInit, Input } from '@angular/core';
-import { HeadingService } from '../../../service/expenditure/heading.service';
 import { Router } from '@angular/router';
-import { BadInput } from '../../../common/bad-input';
-import { Forbidden } from '../../../common/forbidden';
-import { UnAuthorized } from '../../../common/unauthorized-error';
+import { ExpenditureHeadingPUTModel } from './../../../service/models';
+import { BehaviorSubject } from 'rxjs';
+import { FormControl, Validators, FormGroup } from '@angular/forms';
+import { Component, Input } from '@angular/core';
+import { HeadingService } from '../../../service/expenditure/heading.service';
 import { ExpenditureHeadingGETModel } from '../../../service/models';
-import { ServerError } from 'src/app/common/serve-error';
+import * as errors from '../../../common';
 
 @Component({
   selector: 'app-heading-edit',
@@ -20,9 +16,18 @@ export class HeadingEditComponent {
   loading = false;
   loading_del = false;
   private _data = new BehaviorSubject<ExpenditureHeadingGETModel>({
+    id: 0,
     heading_name: '',
-    description: ''
+    description: '',
+    updated: '',
+    uuid: '',
+    url: '',
+    added: '',
+    is_deleted: false
   });
+
+  modal_update = false;
+  modal = false;
 
   @Input()
   set heading(value: ExpenditureHeadingGETModel) {
@@ -41,29 +46,19 @@ export class HeadingEditComponent {
       Validators.required,
       Validators.minLength(4),
       Validators.maxLength(30)
-    ])
+    ]),
+    extra_description: new FormControl(""),
+    is_deleted: new FormControl(false),
   });
 
   constructor(private _headingService: HeadingService, private _router: Router) { }
 
-  throw_error(error: AppError) {
-    if (error instanceof BadInput) {
-      return this.messages.splice(0, 0, { message: 'Invalid UUID or fund is limited.', type: 'error' });
-    }
-    if (error instanceof Forbidden) {
-      return this.messages.splice(0, 0, { message: 'You don\'t have permission for this action.', type: 'error' });
-    }
-    if (error instanceof NotFound) {
-      return this.messages.splice(0, 0, { message: '404 Not Found', type: 'error' });
-    }
-    if (error instanceof UnAuthorized) {
-      this._router.navigate(['/login'])
-      return this.messages.splice(0, 0, { message: 'You are not logged in.', type: 'error' });
-    }
-    if (error instanceof ServerError) {
-      return this.messages.splice(0, 0, { message: 'You have record which belongs to this heading name or Internal server error.', type: 'error' });
-    }
-    return this.messages.splice(0, 0, { message: 'An unexpected error ocurred.', type: 'error' });
+  toggle_modal_update() {
+    return this.modal_update = !this.modal_update
+  }
+
+  toggle_modal() {
+    return this.modal = !this.modal
   }
 
   ngOnInit() {
@@ -71,7 +66,9 @@ export class HeadingEditComponent {
       x => {
         this.uuid = this.heading.uuid;
         this.form.setValue({
-          heading_name: this.heading.heading_name
+          heading_name: this.heading.heading_name,
+          extra_description: "",
+          is_deleted: false
         })
       }
     );
@@ -82,14 +79,15 @@ export class HeadingEditComponent {
       this.loading = true;
       this._headingService.update_heading(this.form.value, this.uuid)
         .subscribe(
-          (next: ExpenditureHeadingGETModel) => {
+          (next: ExpenditureHeadingPUTModel) => {
             this.loading = false;
             console.log('Updated')
             this.messages.splice(0, 0, { message: 'Debit Heading UPDATED successfuly.', type: 'positive' });
           },
-          (error: AppError) => {
+          (error: errors.AppError) => {
             this.loading = false;
-            return this.throw_error(error);
+            let main_error = errors.throw_http_response_error(error);
+            return this.messages.push({message: main_error.detail, type: main_error.type});
           }
         )
     }
@@ -98,15 +96,17 @@ export class HeadingEditComponent {
   onDelete() {
     if (this.form.valid) {
       this.loading_del = true;
-      this._headingService.delete_heading(this.uuid)
-        .subscribe((next: ExpenditureHeadingGETModel) => {
+      this.form.get('is_deleted').setValue(true);
+      this._headingService.delete_heading(this.form.value, this.uuid)
+        .subscribe((next: ExpenditureHeadingPUTModel) => {
           this.loading_del = false;
           this.messages.splice(0, 0, { message: 'Debit Heading DELETED successfuly.', type: 'positive' });
         },
-          (error: AppError) => {
-            this.loading_del = false;
-            return this.throw_error(error);
-          }
+        (error: errors.AppError) => {
+          this.loading_del = false;
+          let main_error = errors.throw_http_response_error(error);
+          return this.messages.push({message: main_error.detail, type: main_error.type});
+        }
         )
     }
   }

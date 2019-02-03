@@ -1,16 +1,10 @@
-import { Observable } from 'rxjs';
-import { ServerError } from 'src/app/common/serve-error';
-import { UnAuthorized } from 'src/app/common/unauthorized-error';
-import { NotFound } from 'src/app/common/not-found';
-import { Forbidden } from './../../../common/forbidden';
-import { BadInput } from './../../../common/bad-input';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FundService } from 'src/app/service/credit/fund.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { CreditFundRecordGETModel, CreditFundSourceGETModel } from './../../../service/models';
+import { CreditFundRecordGETModel, CreditFundSourceGETModel, CreditFundRecordPUTModel } from './../../../service/models';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { AppError } from 'src/app/common/app-error';
 import { SourceService } from 'src/app/service/credit/source.service';
+import * as errors from '../../../common';
 
 @Component({
   selector: 'app-fund-record-edit',
@@ -23,6 +17,8 @@ export class FundRecordEditComponent implements OnInit, OnDestroy {
   fund_is_locked = false;
   record_data: CreditFundRecordGETModel;
   extra_description: string = '';
+  is_active = false;
+  is_active_update = false;
 
   uuid: string;
   messages: { message: string, type: string }[] = [];
@@ -42,12 +38,12 @@ export class FundRecordEditComponent implements OnInit, OnDestroy {
       Validators.required
     ]),
     extra_description: new FormControl(this.extra_description, [
-      
+      Validators.required
     ]),
     is_deleted: new FormControl(false)
   });
 
-  all_sources: CreditFundSourceGETModel[] = [{ source_name: '', description: '', extra_description: '' }];
+  all_sources: CreditFundSourceGETModel[] = [];
 
   constructor(
     private _fundService: FundService,
@@ -57,24 +53,12 @@ export class FundRecordEditComponent implements OnInit, OnDestroy {
   ) {
   }
 
-  throw_error(error: AppError) {
-    if (error instanceof BadInput) {
-      return this.messages.splice(0, 0, { message: 'You have entered invalid data or fund is limited. All fields and required and must be valid.', type: 'error' });
-    }
-    if (error instanceof Forbidden) {
-      return this.messages.splice(0, 0, { message: 'You don\'t have permission for this action.', type: 'error' });
-    }
-    if (error instanceof NotFound) {
-      return this.messages.splice(0, 0, { message: '404 Not Found', type: 'error' });
-    }
-    if (error instanceof UnAuthorized) {
-      this._router.navigate(['/login'])
-      return this.messages.splice(0, 0, { message: 'You are not logged in.', type: 'error' });
-    }
-    if (error instanceof ServerError) {
-      return this.messages.splice(0, 0, { message: 'Internal Server Error.', type: 'error' });
-    }
-    return this.messages.splice(0, 0, { message: 'An unexpected error occured.', type: 'error' });
+  toggle_modal() {
+    this.is_active = !this.is_active;
+  }
+
+  toggle_modal_update() {
+    this.is_active_update = !this.is_active_update
   }
 
   ngOnInit() {
@@ -83,9 +67,10 @@ export class FundRecordEditComponent implements OnInit, OnDestroy {
         (next) => {
           this.all_sources = next;
         },
-        (error: AppError) => {
+        (error: errors.AppError) => {
           this.loading = false;
-          this.throw_error(error);
+          const main_error = errors.throw_http_response_error(error);
+          return this.messages.push({message: main_error.detail, type: main_error.type})
         }
       )
     this._acRoute.paramMap.subscribe(
@@ -93,9 +78,10 @@ export class FundRecordEditComponent implements OnInit, OnDestroy {
         this.uuid = paramMap.get('uuid')
       }
       ,
-      (error: AppError) => {
+      (error: errors.AppError) => {
         this.loading = false;
-        return this.throw_error(error);
+        const main_error = errors.throw_http_response_error(error);
+        return this.messages.push({message: main_error.detail, type: main_error.type})
       })
     this._fundService.get_specific_fund_record(this.uuid).subscribe(
       (next: CreditFundRecordGETModel) => {
@@ -114,6 +100,10 @@ export class FundRecordEditComponent implements OnInit, OnDestroy {
       .subscribe(
         (next) => {
           this.fund_is_locked = !next
+        },(error: errors.AppError) => {
+          this.loading = false;
+          const main_error = errors.throw_http_response_error(error);
+          return this.messages.push({message: main_error.detail, type: main_error.type})
         }
       )
   }
@@ -124,33 +114,33 @@ export class FundRecordEditComponent implements OnInit, OnDestroy {
       this.loading = true;
       this._fundService.update_funds(this.form.value, this.uuid)
         .subscribe(
-          (next: CreditFundRecordGETModel) => {
+          (next: CreditFundRecordPUTModel) => {
             this.loading = false;
             this.messages.splice(0, 0, { message: 'Credit fund record has been UPDATED successfuly.', type: 'positive' });
           },
-          (error: AppError) => {
+          (error: errors.AppError) => {
             this.loading = false;
-            return this.throw_error(error);
+            const main_error = errors.throw_http_response_error(error);
+            return this.messages.push({message: main_error.detail, type: main_error.type})
           }
         )
     }
   }
 
   onDelete() {
-    console.log(this.form.value)
     if (this.form.valid) {
       this.loading_del = true;
       this.form.get('is_deleted').setValue(true);
       this._fundService.update_funds(this.form.value, this.uuid)
-        .subscribe((next: CreditFundRecordGETModel) => {
+        .subscribe((next: CreditFundRecordPUTModel) => {
           this.loading_del = false;
-          this.messages.splice(0, 0, { message: 'Credit fund record has been DELETED successfuly.', type: 'positive' });
           this._router.navigate(['/main-app/credit/fund/record/list-add'])
         },
-          (error: AppError) => {
-            this.loading_del = false;
-            return this.throw_error(error);
-          }
+        (error: errors.AppError) => {
+          this.loading = false;
+          const main_error = errors.throw_http_response_error(error);
+          return this.messages.push({message: main_error.detail, type: main_error.type})
+        }
         )
     }
   }

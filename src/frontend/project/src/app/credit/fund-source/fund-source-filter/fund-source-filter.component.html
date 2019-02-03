@@ -1,3 +1,4 @@
+<!--
 <div class="ui segment teal">
   <h3 class="header">Search Credit Heads</h3>
   <div class="ui divider"></div>
@@ -19,7 +20,30 @@
         <option value="-amount">Amount - Descending</option>
       </select>
     </div>
-    <button class="ui icon labeled blue tiny button" 
-    [ngClass]="{'loading': loading_on_filter}"><i class="filter icon"></i>Filter</button>
+    <button class="ui icon labeled blue tiny button" [ngClass]="{'loading': loading_on_filter}"><i class="filter icon"></i>Filter</button>
+  </form>
+</div>-->
+<div class="segment">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="field" [ngClass]="{'is-danger': form.get('search').invalid && form.get('search').touched}">
+      <label class="label" for="search">Search</label>
+      <input class="input" type="text" formControlName="search">
+    </div>
+    <div class="field" [ngClass]="{'error': form.get('ordering').invalid && form.get('ordering').touched}">
+      <label class="label" for="ordering">Ordering</label>
+      <div class="select">
+        <select formControlName="ordering">
+          <option value="">All</option>
+          <option value="added">Added - Ascending</option>Name
+          <option value="-added">Added - Descending</option>
+          <option value="source_name">Source Name - Ascending</option>
+          <option value="-source_name">Source Name - Descending</option>
+          <option value="amount">Amount - Ascending</option>
+          <option value="-amount">Amount - Descending</option>
+        </select>
+      </div>
+    </div>
+    <hr>
+    <button class="button is-link" [ngClass]="{'is-loading': loading_on_filter}" type="submit" appShadow>Filter</button>
   </form>
 </div>

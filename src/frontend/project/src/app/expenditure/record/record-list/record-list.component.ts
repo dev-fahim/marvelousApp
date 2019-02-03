@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { RecordService } from '../../../service/expenditure/record.service';
 import { ActivatedRoute } from '@angular/router';
+import * as errors from '../../../common';
 
 @Component({
   selector: 'app-record-list',
@@ -23,6 +24,8 @@ export class RecordListComponent implements OnInit, OnDestroy {
   heading = ''
   search = ''
   ordering = ''
+  messages: { message: string, type: string }[] = [];
+  show_modal = false;
 
   filter_array = [
     'is_verified',
@@ -40,6 +43,10 @@ export class RecordListComponent implements OnInit, OnDestroy {
   ]
 
   constructor(public recordService: RecordService, private _actRoute: ActivatedRoute) { }
+
+  toggle_modal() {
+    return this.show_modal = !this.show_modal;
+  }
 
   ngOnInit() {
     this._actRoute.queryParamMap.subscribe(
@@ -70,10 +77,18 @@ export class RecordListComponent implements OnInit, OnDestroy {
       .subscribe(
         (result: any) => {
           this.loading = false;
-          return this.all_expenditures = result;
+          const data = [];
+          for (let expend of result) {
+            if (expend.is_deleted === false && expend.is_for_refund === false) {
+              data.push(expend);
+            }
+          }
+          return this.all_expenditures = data;
         },
-        (errors) => {
-          return console.log(errors);
+        (error: errors.AppError) => {
+          this.loading = false;
+          const main_error = errors.throw_http_response_error(error);
+          return this.messages.push({message: main_error.detail, type: main_error.type})
         }
       )
   }
@@ -95,12 +110,20 @@ export class RecordListComponent implements OnInit, OnDestroy {
   onFilter(filtered_data = {}) {
     this.recordService.get_all_expenditures(filtered_data)
       .subscribe(
-        (result: any) => {
+        (result) => {
           this.loading = false;
-          return this.all_expenditures = result;
+          const data = [];
+          for (let expend of result) {
+            if (expend.is_deleted === false && expend.is_for_refund === false) {
+              data.push(expend);
+            }
+          }
+          return this.all_expenditures = data;
         },
-        (errors) => {
-          return console.log(errors);
+        (error: errors.AppError) => {
+          this.loading = false;
+          const main_error = errors.throw_http_response_error(error);
+          return this.messages.push({message: main_error.detail, type: main_error.type})
         }
       )
   }

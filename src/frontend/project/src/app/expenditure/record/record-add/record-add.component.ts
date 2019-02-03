@@ -3,13 +3,8 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { HeadingService } from './../../../service/expenditure/heading.service';
 import { RecordService } from 'src/app/service/expenditure/record.service';
 import { FundService } from 'src/app/service/credit/fund.service';
-import { BadInput } from 'src/app/common/bad-input';
-import { UnAuthorized } from 'src/app/common/unauthorized-error';
-import { Router } from '@angular/router';
-import { AppError } from 'src/app/common/app-error';
-import { Forbidden } from 'src/app/common/forbidden';
-import { ServerError } from 'src/app/common/serve-error';
 import { ExpenditureHeadingGETModel } from 'src/app/service/models';
+import * as errors from '../../../common';
 
 @Component({
   selector: 'app-record-add',
@@ -33,7 +28,8 @@ export class RecordAddComponent implements OnInit {
     ]),
     expend_heading: new FormControl('', [
       Validators.required
-    ])
+    ]),
+    extra_description: new FormControl("")
   })
   all_headings: ExpenditureHeadingGETModel[];
   fund_status = false;;
@@ -43,8 +39,7 @@ export class RecordAddComponent implements OnInit {
   constructor(
     public headingService: HeadingService,
     public recordService: RecordService,
-    public fundService: FundService,
-    private _router: Router
+    public fundService: FundService
   ) { }
 
   ngOnInit() {
@@ -52,12 +47,22 @@ export class RecordAddComponent implements OnInit {
       .subscribe(
         (result) => {
           return this.all_headings = result;
+        },
+        (error: errors.AppError) => {
+          this.loading = false;
+          const main_error = errors.throw_http_response_error(error);
+          return this.messages.push({message: main_error.detail, type: main_error.type})
         }
       )
     this.fundService.get_fund_status()
       .subscribe(
         (result) => {
           return this.fund_status = result;
+        },
+        (error: errors.AppError) => {
+          this.loading = false;
+          const main_error = errors.throw_http_response_error(error);
+          return this.messages.push({message: main_error.detail, type: main_error.type})
         }
       )
   }
@@ -88,21 +93,10 @@ export class RecordAddComponent implements OnInit {
           this.loading = false;
           this.messages.splice(0, 0, { message: 'Expenditure record ADDED successfuly.', type: 'positive' });
         },
-        (error: AppError) => {
+        (error: errors.AppError) => {
           this.loading = false;
-          if (error instanceof BadInput) {
-            this.messages.splice(0, 0, { message: 'You have entered invalid data or fund is limited. All fields and required and must be valid.', type: 'error' });
-          }
-          if (error instanceof Forbidden) {
-            this.messages.splice(0, 0, { message: 'You don\'t have permission for this action.', type: 'error' });
-          }
-          if (error instanceof UnAuthorized) {
-            this._router.navigate(['/login'])
-            this.messages.splice(0, 0, { message: 'You are not logged in.', type: 'error' });
-          }
-          if (error instanceof ServerError) {
-            this.messages.splice(0, 0, { message: 'Internal Server Error.', type: 'error' });
-          }
+          const main_error = errors.throw_http_response_error(error);
+          return this.messages.push({message: main_error.detail, type: main_error.type})
         }
       )
   }

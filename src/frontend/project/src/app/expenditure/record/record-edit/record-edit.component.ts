@@ -1,16 +1,11 @@
 import { ExpenditureRecordGETModel } from './../../../service/models';
-import { ServerError } from 'src/app/common/serve-error';
-import { UnAuthorized } from './../../../common/unauthorized-error';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { RecordService, SpecificExpenditureRecordModel } from '../../../service/expenditure/record.service';
+import { RecordService } from '../../../service/expenditure/record.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { FundService } from '../../../service/credit/fund.service';
 import { HeadingService } from '../../../service/expenditure/heading.service';
-import { AppError } from 'src/app/common/app-error';
-import { BadInput } from 'src/app/common/bad-input';
-import { Forbidden } from 'src/app/common/forbidden';
-import { NotFound } from 'src/app/common/not-found';
+import * as errors from '../../../common';
 
 @Component({
   selector: 'app-record-edit',
@@ -18,7 +13,24 @@ import { NotFound } from 'src/app/common/not-found';
   styleUrls: ['./record-edit.component.scss']
 })
 export class RecordEditComponent implements OnInit {
-  expenditure_data: ExpenditureRecordGETModel;
+  expenditure_data: ExpenditureRecordGETModel = {
+    id: 0,
+    edit_url: '',
+    details_url: '',
+    expend_heading_name: '',
+    added_by: '',
+    expend_by: '',
+    description: '',
+    amount: 0,
+    is_verified: false,
+    expend_date: '',
+    uuid: '',
+    added: '',
+    updated: '',
+    is_deleted: false,
+    is_for_refund: false,
+    expend_heading: 0
+  };
 
   FUND_LOCKED = false;
   uuid = '';
@@ -41,13 +53,19 @@ export class RecordEditComponent implements OnInit {
     ]),
     is_verified: new FormControl('', [
       Validators.required
-    ])
+    ]),
+    extra_description: new FormControl("", [
+      Validators.required
+    ]),
+    is_deleted: new FormControl(false)
   })
 
   all_headings = [];
   messages: { message: string, type: string }[] = [];
   loading_del = false;
   loading = false;
+  modal = false;
+  modal_update = false;
 
   constructor(
     private _acRoute: ActivatedRoute,
@@ -57,24 +75,12 @@ export class RecordEditComponent implements OnInit {
     private _router: Router
   ) { }
 
-  throw_error(error: AppError) {
-    if (error instanceof BadInput) {
-      return this.messages.splice(0, 0, { message: 'Invalid UUID or fund is limited.', type: 'error' });
-    }
-    if (error instanceof Forbidden) {
-      return this.messages.splice(0, 0, { message: 'You don\'t have permission for this action.', type: 'error' });
-    }
-    if (error instanceof NotFound) {
-      return this.messages.splice(0, 0, { message: '404 Not Found', type: 'error' });
-    }
-    if (error instanceof UnAuthorized) {
-      this._router.navigate(['/login'])
-      return this.messages.splice(0, 0, { message: 'You are not logged in.', type: 'error' });
-    }
-    if (error instanceof ServerError) {
-      return this.messages.splice(0, 0, { message: 'Internal Server Error.', type: 'error' });
-    }
-    return this.messages.splice(0, 0, { message: 'An unexpected error ocurred.', type: 'error' });
+  toggle_modal_update() {
+    return this.modal_update = !this.modal_update
+  }
+
+  toggle_modal() {
+    return this.modal = !this.modal
   }
 
   ngOnInit() {
@@ -95,12 +101,15 @@ export class RecordEditComponent implements OnInit {
             amount: this.expenditure_data.amount,
             expend_date: this.expenditure_data.expend_date,
             expend_heading: this.expenditure_data.expend_heading,
-            is_verified: this.expenditure_data.is_verified
+            is_verified: this.expenditure_data.is_verified,
+            extra_description: "",
+            is_deleted: false
           })
         },
-        (error: AppError) => {
+        (error: errors.AppError) => {
           this.loading = false;
-          return this.throw_error(error)
+          const main_error = errors.throw_http_response_error(error);
+          return this.messages.push({message: main_error.detail, type: main_error.type})
         }
       );
     this.fundService.get_fund_status()
@@ -108,6 +117,11 @@ export class RecordEditComponent implements OnInit {
         (result) => {
           this.loading = false;
           return this.FUND_LOCKED = !result
+        },
+        (error: errors.AppError) => {
+          this.loading = false;
+          const main_error = errors.throw_http_response_error(error);
+          return this.messages.push({message: main_error.detail, type: main_error.type})
         }
       )
     this.headingService.get_all_headings()
@@ -117,6 +131,11 @@ export class RecordEditComponent implements OnInit {
           for (let heading of result) {
             this.all_headings.push({ heading: heading.heading_name, id: heading.id })
           }
+        },
+        (error: errors.AppError) => {
+          this.loading = false;
+          const main_error = errors.throw_http_response_error(error);
+          return this.messages.push({message: main_error.detail, type: main_error.type})
         }
       )
   }
@@ -142,31 +161,34 @@ export class RecordEditComponent implements OnInit {
 
   onSubmit() {
     this.loading = true;
-    console.log(this.form.value)
     return this.recordService.update_record(this.form.value, this.uuid)
       .subscribe(
         (result) => {
           this.loading = false;
           this.messages.splice(0, 0, { message: 'Expenditure record has been UPDATED successfuly.', type: 'positive' });
         },
-        (error: AppError) => {
+        (error: errors.AppError) => {
           this.loading = false;
-          return this.throw_error(error);
+          const main_error = errors.throw_http_response_error(error);
+          return this.messages.push({message: main_error.detail, type: main_error.type})
         }
       )
   }
 
   onDelete() {
     this.loading_del = true;
-    this.recordService.delete_record(this.uuid)
+    this.form.get('is_deleted').setValue(true);
+    this.recordService.delete_record(this.uuid, this.form.value)
       .subscribe(
         (result) => {
           this.loading_del = false;
           this.messages.splice(0, 0, { message: 'Expenditure record has been DELETED successfuly.', type: 'positive' });
+          this._router.navigate(['/main-app/expenditure/record'])
         },
-        (error: AppError) => {
-          this.loading_del = false;
-          return this.throw_error(error);
+        (error: errors.AppError) => {
+          this.loading = false;
+          const main_error = errors.throw_http_response_error(error);
+          return this.messages.push({message: main_error.detail, type: main_error.type})
         }
       )
   }

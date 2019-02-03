@@ -1,4 +1,5 @@
-<div class="ui pink segment">
+<!--
+  <div class="ui pink segment">
   <div class="ui icon message {{ message.type }}" *ngFor="let message of messages">
     <i class="x icon" *ngIf="message.type === 'error'"></i>
     <i class="check icon" *ngIf="message.type === 'positive'"></i>
@@ -16,4 +17,28 @@
       Head</button>
     <button class="ui yellow labeled icon button tiny" (click)="onReset()"><i class="redo icon"></i>Reset</button>
   </form>
+</div>
+-->
+
+
+<div class="segment">
+  <article class="message" *ngFor="let message of messages" [ngClass]="{'is-danger': message.type === 'error', 'is-success': message.type === 'positive'}">
+    <div class="message-header">
+      <p>{{ message.type === 'error'? 'Error' : 'Success' }}</p>
+    </div>
+    <div class="message-body">
+      {{ message.message }}
+    </div>
+  </article>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="field">
+      <label for="" class="label">Debit
+        Head Name</label>
+      <input type="text" class="input" [ngClass]="{'is-danger': form.get('heading_name').invalid && form.get('heading_name').touched}"
+        formControlName="heading_name">
+    </div>
+    <button class="button is-info" type="submit" [ngClass]="{'is-loading': loading}" appShadow>Add Heading</button>
+  </form>
+  <hr>
+  <button class="button is-warning" (click)="onReset()" appShadow>Reset</button>
 </div>

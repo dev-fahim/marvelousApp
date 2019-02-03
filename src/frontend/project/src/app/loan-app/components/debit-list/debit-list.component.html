@@ -1,0 +1,137 @@
+<!--
+  <div class="ui clearing segment">
+  <h3 class="header">Debit Records</h3>
+</div>
+<div class="ui grid">
+  <div class="four wide column">
+    <app-record-add (expenditure_added)="onAddExpenditure($event)"></app-record-add>
+  </div>
+  <div class="twelve wide column">
+    <div class="ui segment" *ngIf="is_loading()">
+      <div class="ui placeholder">
+        <div class="paragraph">
+          <div class="line"></div>
+          <div class="line"></div>
+          <div class="line"></div>
+          <div class="line"></div>
+          <div class="line"></div>
+        </div>
+        <div class="paragraph">
+          <div class="line"></div>
+          <div class="line"></div>
+          <div class="line"></div>
+        </div>
+      </div>
+    </div>
+    <app-record-filter (filter_data)="onFilter($event)"></app-record-filter>
+    <div class="myTable">
+      <table class="ui placeholder violet celled compact table selectable fluid" *ngIf="!is_loading()">
+        <thead>
+          <tr>
+            <th>
+              <h3>All Debit Records</h3>
+            </th>
+            <th colspan="2">
+              <h3>Total authorized amoount: {{ get_sum_amount().amount | currency:' ':'symbol':'1.0-0' }} Taka</h3>
+            </th>
+            <th colspan="3">
+              <h3>Total unauthorized amoount: {{ get_sum_amount().un_amount | currency:' ':'symbol':'1.0-0' }} Taka</h3>
+            </th>
+            <th>
+              <button class="ui blue icon mini button" (click)="onReload()"><i class="redo icon"></i></button>
+            </th>
+          </tr>
+          <tr>
+            <th>Debit Head</th>
+            <th>Description</th>
+            <th>Expended by</th>
+            <th>Added by</th>
+            <th>Amount in Tk</th>
+            <th>Expended at</th>
+            <th>Record added at</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of all_expenditures" [ngClass]="{'error': !data.is_verified}">
+            <td class="selectable"><a class="header" [routerLink]="[ '/main-app/expenditure/record/edit', data.uuid ]">{{
+                data.expend_heading_name |
+                titlecase }}</a></td>
+            <td>{{ data.description | uppercase }}</td>
+            <td><i *ngIf="!data.is_verified" class="attention icon"></i>{{ data.expend_by | titlecase }}</td>
+            <td>{{ data.added_by | titlecase }}</td>
+            <td>{{ data.amount | currency:' ':'symbol':'1.0-0' }}</td>
+            <td>{{ data.expend_date | date:'fullDate' }}</td>
+            <td>{{ data.added | date:'fullDate' }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="ui bottom attached error message" *ngIf="get_expend_length() == 0">
+      <b>No records to show.</b>
+    </div>
+  </div>
+</div>
+-->
+
+<div class="container-fluid">
+    <button class="button is-success is-small mb-2" (click)="toggle_modal()" id="add-button">Add Debit</button>
+    <div class="modal" [ngClass]="{'is-active': show_modal}">
+      <div class="modal-background has-background white"></div>
+      <div class="modal-card">
+        <header class="modal-card-head">
+          <p class="modal-card-title">Add More Debits</p>
+          <button (click)="toggle_modal()" class="delete" aria-label="close"></button>
+        </header>
+        <section class="modal-card-body">
+          <app-debit-add (expenditure_added)="onAddExpenditure($event)"></app-debit-add>
+        </section>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <app-debit-filter (filter_data)="onFilter($event)"></app-debit-filter>
+      </div>
+      <div class="col-12 mt-4">
+        <table class="table is-bordered is-striped is-fullwidth">
+          <thead class="has-background-light" appShadow>
+            <tr>
+              <th>
+                <h3>All Debit Records</h3>
+              </th>
+              <th colspan="2">
+                <h3>Total authorized amoount: {{ get_sum_amount().amount | currency:' ':'symbol':'1.0-0' }} Taka</h3>
+              </th>
+              <th colspan="3">
+                <h3>Total unauthorized amoount: {{ get_sum_amount().un_amount | currency:' ':'symbol':'1.0-0' }} Taka</h3>
+              </th>
+              <th>
+                <button class="button is-small is-warning" (click)="onReload()">Reload</button>
+              </th>
+            </tr>
+            <tr>
+              <th>Debit Head</th>
+              <th>Description</th>
+              <th>Expended by</th>
+              <th>Added by</th>
+              <th>Amount in Tk</th>
+              <th>Expended at</th>
+              <th>Record added at</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let data of all_expenditures" [ngClass]="{'error': !data.is_verified}" appShadow>
+              <td class="selectable"><a class="header" [routerLink]="[ '/main-app/loan-app/debit/edit', data.uuid ]">{{
+                  data.expend_heading_name |
+                  titlecase }}</a></td>
+              <td>{{ data.description | uppercase }}</td>
+              <td><i *ngIf="!data.is_verified" class="attention icon"></i>{{ data.expend_by | titlecase }}</td>
+              <td>{{ data.added_by | titlecase }}</td>
+              <td>{{ data.amount | currency:' ':'symbol':'1.0-0' }}</td>
+              <td>{{ data.expend_date | date:'fullDate' }}</td>
+              <td>{{ data.added | date:'fullDate' }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>

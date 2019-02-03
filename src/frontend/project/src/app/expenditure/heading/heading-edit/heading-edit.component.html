@@ -1,20 +1,47 @@
-<div class="ui segment violet">
-  <div class="ui icon message {{ message.type }}" *ngFor="let message of messages">
-    <i class="x icon" *ngIf="message.type === 'error'"></i>
-    <i class="check icon" *ngIf="message.type === 'positive'"></i>
-    <div class="content">
-      <b>{{ message.message }}</b>
-    </div>
+<div class="segment">
+    <article class="message is-danger" *ngFor="let message of messages" [ngClass]="{'is-danger': message.type === 'error', 'is-success': message.type === 'positive'}">
+      <div class="message-header">
+        <p>{{ message.type === 'error'? 'Error' : 'Success' }}</p>
+      </div>
+      <div class="message-body">
+        {{ message.message }}
+      </div>
+    </article>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="field">
+        <label for="" class="label" [ngClass]="{'is-danger': form.get('heading_name').invalid && form.get('heading_name').touched}">Debit
+          Head Name</label>
+        <input type="text" class="input" formControlName="heading_name">
+      </div>
+      <div class="modal" [ngClass]="{'is-active': modal}">
+        <div class="modal-background"></div>
+        <div class="modal-content">
+          <div class="segment">
+            <div class="field">
+              <label class="label">Leave a message</label>
+              <textarea class="textarea" placeholder="Your Message" formControlName="extra_description"></textarea>
+            </div>
+            <div class="button is-success mr-2" appShadow (click)="toggle_modal()">Cancel</div>
+            <div class="button is-danger" appShadow (click)="onDelete()" (click)="toggle_modal()">Confirm</div>
+          </div>
+        </div>
+      </div>
+      <div class="modal" [ngClass]="{'is-active': modal_update}">
+        <div class="modal-background"></div>
+        <div class="modal-content">
+          <div class="segment">
+            <div class="field">
+              <label class="label">Leave a message</label>
+              <textarea class="textarea" placeholder="Your Message" formControlName="extra_description"></textarea>
+            </div>
+            <div class="button is-success mr-2" appShadow (click)="toggle_modal_update()">Cancel</div>
+            <div class="button is-info" appShadow (click)="onSubmit()" (click)="toggle_modal_update()">Done</div>
+          </div>
+        </div>
+      </div>
+    </form>
+    <button class="button is-link mr-2" [ngClass]="{'is-loading': loading}" (click)="toggle_modal_update()" appShadow>Upgrade</button>
+    <hr>
+    <button class="button is-danger mr-2" [ngClass]="{'is-loading': loading_del}" (click)="toggle_modal()" appShadow>Archive</button>
+    <button class="button is-warning" (click)="onReset()" appShadow>Reset</button>
   </div>
-  <form class="ui fluid tiny form" [formGroup]="form" (ngSubmit)="onSubmit()"
-  [ngClass]="{'loading': loading || loading_del}">
-    <div class="field" [ngClass]="{'disabled': form.get('heading_name').invalid}">
-      <label>Debit Head Name</label>
-      <input type="text" formControlName="heading_name">
-    </div>
-    <button class="ui blue labeled icon button tiny" type="submit" [ngClass]="{'loading': loading}"><i class="angle double up icon"></i>Upgrade</button>
-  </form>
-  <div class="ui divider"></div>
-  <button class="ui yellow labeled icon button tiny" (click)="onReset()"><i class="redo icon"></i>Reset</button>
-  <button class="ui red labeled icon button tiny" [ngClass]="{'loading': loading_del}" (click)="onDelete()"><i class="eraser icon"></i>Delete</button>
-</div>

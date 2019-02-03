@@ -1,0 +1,106 @@
+<!--
+  <div class="ui container segment">
+  <h3 class="header">Credit Records</h3>
+</div>
+<div class="ui container stackable two columns grid">
+  <div class="ui six wide column">
+    <app-fund-record-add (record_data)="onAddData($event)"></app-fund-record-add>
+  </div>
+  <div class="ui ten wide column">
+    <div class="row">
+      <app-fund-record-filter (filtered_fund_data)="onFilterData($event)" [loading_on_filter]="loading"></app-fund-record-filter>
+    </div>
+    <div class="ui divider"></div>
+    <div class="row">
+      <table class="ui selectable blue fluid celled table">
+        <thead>
+          <tr>
+            <th colspan="2">
+              <h3>Credit Records</h3>
+            </th>
+            <th colspan="2">
+              <h3>Total amount: {{ get_sum_amount().amount | currency:' ':'symbol':'1.0-0' }} Taka</h3>
+            </th>
+            <th>
+              <button class="ui blue icon mini button" (click)="onReload()" [ngClass]="{'loading': loading}"><i class="redo icon"></i></button>
+            </th>
+          </tr>
+          <tr>
+            <th>Credit Head Name</th>
+            <th>Description</th>
+            <th>Amount in Taka</th>
+            <th>Fund Added</th>
+            <th>Record Added</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of all_credit_fund_records">
+            <td class="selectable"><a [routerLink]="[ '/main-app/credit/fund/record/edit', data.uuid ]">{{
+                data.source_name | titlecase }}</a></td>
+            <td>{{ data.description }}</td>
+            <td>{{ data.amount | currency:' ':'symbol':'1.0-0' }}</td>
+            <td>{{ data.added | date }}</td>
+            <td>{{ data.fund_added | date }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+-->
+
+
+<div class="container-fluid">
+    <button class="button is-success is-small mb-2" (click)="toggle_modal()" id="add-button">Add Credit</button>
+    <div class="row">
+      <div class="modal" [ngClass]="{'is-active': show_modal}">
+        <div class="modal-background has-background white"></div>
+        <div class="modal-card">
+          <header class="modal-card-head">
+            <p class="modal-card-title">Add More Credit</p>
+            <button (click)="toggle_modal()" class="delete" aria-label="close"></button>
+          </header>
+          <section class="modal-card-body">
+            <app-credit-add (record_data)="onAddData($event)"></app-credit-add>
+          </section>
+        </div>
+      </div>
+      <div class="col-12">
+        <app-credit-filter (filtered_fund_data)="onFilterData($event)" [loading_on_filter]="loading"></app-credit-filter>
+      </div>
+      <div class="col-12 mt-4">
+        <table class="table is-bordered is-striped is-fullwidth">
+          <thead class="has-background-light" appShadow>
+            <tr>
+              <th colspan="2">
+                <h3>Credit Records</h3>
+              </th>
+              <th colspan="2">
+                <h3>Total amount: {{ get_sum_amount().amount | currency:' ':'symbol':'1.0-0' }} Taka</h3>
+              </th>
+              <th>
+                <button class="button is-basic is-small is-warning" (click)="onReload()" [ngClass]="{'loading': loading}">Reload</button>
+              </th>
+            </tr>
+            <tr>
+              <th>Credit Head Name</th>
+              <th>Description</th>
+              <th>Amount in Taka</th>
+              <th>Fund Added</th>
+              <th>Record Added</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr appShadow *ngFor="let data of all_credit_fund_records">
+              <td><a [routerLink]="[ '/main-app/loan-app/credit/edit', data.uuid ]">{{
+                  data.source_name | titlecase }}</a></td>
+              <td>{{ data.description }}</td>
+              <td>{{ data.amount | currency:' ':'symbol':'1.0-0' }}</td>
+              <td>{{ data.fund_added | date }}</td>
+              <td>{{ data.added | date }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>

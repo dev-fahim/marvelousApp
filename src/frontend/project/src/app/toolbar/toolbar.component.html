@@ -1,30 +1,35 @@
-<div class="ui top fixed inverted mini borderless menu">
-  <div class="ui container">
-    <div class="header item">BayRAM</div>
-    <a class="item" data-inverted="" data-tooltip="Dashboard" data-position="bottom left"
-    [routerLink]="[ '/main-app/dashboard' ]" routerLinkActive="active">
-      <i class="dashboard icon"></i>
-      Dashboard
-    </a>
-    <a class="item" data-inverted="" data-tooltip="Fund Settings" data-position="bottom left"
-    [routerLink]="[ '/main-app/fund-settings' ]" routerLinkActive="active">
-      Fund Settings
-    </a>
-    <a class="item" data-inverted="" data-tooltip="Manage sub users" data-position="bottom left">
-      <i class="address book outline icon"></i>
-    </a>
-    <div class="right menu">
-      <a class="item" data-position="bottom left">{{ user | titlecase }}</a>
-      <a [routerLink]="[ '/main-app/profile' ]" class="item" data-inverted="" data-tooltip="Your profile" data-position="bottom left">
-        <i class="user icon"></i>
-      </a>
-      <a [routerLink]="[ '/main-app/profile/edit' ]" class="item" data-inverted="" data-tooltip="Your profile settings" data-position="bottom left">
-        <i class="settings icon"></i>
-      </a>
-      <a class="item" data-inverted="" data-tooltip="Sign out now" data-position="bottom left"
-      (click)="onLogout()">
-        <i class="logout icon"></i>
+<nav class="navbar navbar is-fixed-top is-link">
+  <div class="container">
+    <div class="navbar-brand">
+
+      <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
       </a>
     </div>
+
+    <div class="navbar-menu">
+      <div class="navbar-start">
+        <a class="navbar-item" [routerLink]="[ '/main-app/dashboard' ]" routerLinkActive="is-active">
+          Dashboard
+        </a>
+
+        <a class="navbar-item" [routerLink]="[ '/main-app/fund-settings' ]" routerLinkActive="is-active">
+          Fund Settings
+        </a>
+      </div>
+
+      <div class="navbar-end">
+        <div class="navbar-item">
+          <div class="buttons">
+            <a class="button is-light">{{ user | titlecase }}</a>
+            <a class="button is-primary" (click)="onLogout()">
+              Sign out
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-</div>
+</nav>

@@ -39,7 +39,7 @@ export class FundSettingsComponent implements OnInit {
     "this_year_total_credit_fund_amount": 0,
     "this_year_total_unauthorized_expend_amount": 0,
     "this_month_total_credit_fund_amount": 0,
-    "this_year": new Date()
+    "this_year": ""
 }
 
   constructor(private _auth: AuthService) { }

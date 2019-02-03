@@ -1,4 +1,5 @@
-<div class="ui clearing segment">
+<!--
+  <div class="ui clearing segment">
   <h3 class="header">Credit Heads</h3>
 </div>
 <div class="ui two column stackable grid">
@@ -32,15 +33,15 @@
         <app-fund-source-filter></app-fund-source-filter>
       </div>
       <div class="sixteen wide column">
-        <table class="ui selectable celled red table">
-          <thead>
+        <table class="table is-bordered is-hoverable is-fullwidth">
+          <thead class="has-background-light">
             <tr>
               <th colspan="2">
                 <h3>Credit Heads</h3>
               </th>
               <th>
-                <button class="ui right floated icon blue button mini" (click)="onReload()"
-                [ngClass]="{'loading': loading}"><i class="redo icon"></i></button>
+                <button class="button is-warning is-small" (click)="onReload()"
+                [ngClass]="{'is-loading': loading}">Reload</button>
               </th>
             </tr>
             <tr>
@@ -72,6 +73,51 @@
         </div>
       </div>
     </div>
-    <app-fund-source-edit [source]="credit_fund_source_data"></app-fund-source-edit>
+    
+  </div>
+</div>
+
+-->
+
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-3">
+      <h5 class="subtitle is-4">Add more</h5>
+      <app-fund-source-add (record_data)="onAddData($event)"></app-fund-source-add>
+    </div>
+    <div class="col-6">
+      <h5 class="subtitle is-4">Filter records</h5>
+      <app-fund-source-filter (filtered_fund_data)="onFilterData($event)" [loading_on_filter]="loading"></app-fund-source-filter>
+      <hr>
+      <table class="table is-bordered is-hoverable is-fullwidth">
+        <thead class="has-background-light" appShadow>
+          <tr>
+            <th colspan="2">
+              <h3>Credit Heads</h3>
+            </th>
+            <th>
+              <button class="button is-warning is-small" (click)="onReload()" [ngClass]="{'is-loading': loading}" appShadow>Reload</button>
+            </th>
+          </tr>
+          <tr>
+            <th>Credit Head Name</th>
+            <th>Added</th>
+            <th>Last Updated</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of all_credit_fund_sources" appShadow>
+            <td class="selectable" (click)="set_source_data(data)"><a>{{ data.source_name }}</a></td>
+            <td>{{ data.added | date }}</td>
+            <td>{{ data.updated | date }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="col-3">
+      <h5 class="subtitle is-4">Edit here</h5>
+      <app-fund-source-edit [source]="credit_fund_source_data"></app-fund-source-edit>
+    </div>
   </div>
 </div>

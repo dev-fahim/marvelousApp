@@ -1,0 +1,22 @@
+
+$menu-item-hover-background-color: #50bbff;
+$menu-item-radius: 5px;
+$menu-list-border-left: 3px solid #ffff;
+
+
+@import'~bulma/bulma';
+
+.login-form {
+    min-height: 20%;
+}
+
+#login {
+    width: 300px;
+}
+
+.segment {
+    background-color: white;
+    border-radius: 2px;
+    border: 1px solid hsl(0, 0%, 86%);
+    padding: 12px;
+}
