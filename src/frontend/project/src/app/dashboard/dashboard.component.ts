@@ -1,5 +1,5 @@
 import { AuthService } from './../login/auth/auth.service';
-import { RootObject } from './../service/models';
+import { RootObject, CreditFundSourceGETModel, ExpenditureHeadingGETModel } from './../service/models';
 import { Component } from '@angular/core';
 import { SourceService } from '../service/credit/source.service';
 import { HeadingService } from '../service/expenditure/heading.service';
@@ -15,8 +15,8 @@ import * as errors from '../common';
 export class DashboardComponent {
   title = 'project';
   fund_status = true;
-  all_sources: any;
-  all_headings: any;
+  all_sources: CreditFundSourceGETModel[];
+  all_headings: ExpenditureHeadingGETModel[];
   todays_all_expenditures: any[] = [];
   myDate: any;
   loading = true;
@@ -85,7 +85,11 @@ export class DashboardComponent {
       .subscribe(
         (result) => {
           this.loading = false;
-          return this.all_sources = result;
+          let data = [];
+          for (const source of result) {
+            if (source.is_deleted === false) {data.push(source)}
+          }
+          return this.all_sources = data;
         },
         (error: errors.AppError) => {
           this.loading = false;
@@ -97,7 +101,11 @@ export class DashboardComponent {
       .subscribe(
         (result) => {
           this.loading = false;
-          return this.all_headings = result;
+          let data = [];
+          for (const heading of result) {
+            if (heading.is_deleted === false) {data.push(heading)}
+          }
+          return this.all_headings = data;
         },
         (error: errors.AppError) => {
           this.loading = false;

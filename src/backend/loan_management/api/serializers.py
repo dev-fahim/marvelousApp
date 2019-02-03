@@ -215,20 +215,25 @@ class ExpenditureForLoanSerializer(expend_serializers.ExpenditureRecordModelSafe
                                                                                      is_for_refund=True,
                                                                                      is_deleted=False)
         credit_fund_obj = self.base_user_model().credit_funds.filter(is_deleted=False)
+        only_refundable_credit = self.base_user_model().credit_funds.filter(is_deleted=False, is_refundable=True)
 
         all_credit_fund_amounts = [obj.amount for obj in credit_fund_obj]
+        all_credit_fund_amounts_ref = [obj.amount for obj in only_refundable_credit]
         all_record_amounts_ref = [obj.amount for obj in expend_obj_ref]
         all_record_amounts_non_ref = [obj.amount for obj in expend_obj_non_ref]
 
+        all_credit_fund_amounts_ref_amount = utils.sum_int_of_array(all_credit_fund_amounts_ref)
         total_pre_credit_fund_amount = utils.sum_int_of_array(all_credit_fund_amounts)
         total_pre_record_amount_non_ref = utils.sum_int_of_array(all_record_amounts_non_ref)
         total_pre_record_amount_ref = utils.sum_int_of_array(all_record_amounts_ref)
+
+        final_ref_expand = total_pre_record_amount_ref + new_value
 
         final_non_ref_expend = total_pre_record_amount_non_ref + new_value
 
         real_asset = total_pre_credit_fund_amount - total_pre_record_amount_ref
 
-        if real_asset >= final_non_ref_expend:
+        if real_asset >= final_non_ref_expend and all_credit_fund_amounts_ref_amount >= final_ref_expand:
             obj = expend_models.ExpenditureRecordModel.objects.create(
                 added_by=self.logged_in_user(),
                 base_user=self.base_user_model(),

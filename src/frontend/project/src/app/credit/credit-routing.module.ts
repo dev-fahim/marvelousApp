@@ -9,17 +9,22 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 const routes: Routes = [
-  { path: '', component: CreditComponent },
-  { path: 'fund', children: [
-    { path: 'record', component: FundRecordComponent, children: [
-      { path: 'list-add', component: FundRecordListComponent },
-      { path: 'edit/:uuid', component: FundRecordEditComponent }
-    ] },
-    { path: 'source', component: FundSourceComponent, children: [
-      { path: 'list-add', component: FundSourceListComponent },
-      { path: 'edit', component: FundSourceEditComponent }
-    ] }
-  ] }
+  {
+    path: 'fund', component: CreditComponent, children: [
+      {
+        path: 'record', children: [
+          { path: 'list-add', component: FundRecordListComponent },
+          { path: 'edit/:uuid', component: FundRecordEditComponent }
+        ]
+      },
+      {
+        path: 'source', children: [
+          { path: 'list-add', component: FundSourceListComponent }
+        ]
+      }
+    ]
+  },
+
 ];
 
 @NgModule({

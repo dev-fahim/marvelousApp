@@ -190,7 +190,7 @@ export class DebitEditComponent implements OnInit {
         (result) => {
           this.loading_del = false;
           this.messages.splice(0, 0, { message: 'Expenditure record has been DELETED successfuly.', type: 'positive' });
-          this._router.navigate(['/main-app/expenditure/record'])
+          this._router.navigate(['/main-app/loan-app/debit/list-add'])
         },
         (error: errors.AppError) => {
           this.loading = false;

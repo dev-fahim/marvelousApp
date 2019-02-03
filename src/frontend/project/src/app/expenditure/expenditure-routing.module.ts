@@ -7,15 +7,23 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 const routes: Routes = [
-  { path: '', component: ExpenditureComponent },
-  { path: 'heading', children: [
-    { path: '', component: HeadingListComponent },
-    { path: 'edit/:uuid', component: HeadingEditComponent }
-  ] },
-  { path: 'record', children: [
-    { path: '', component: RecordListComponent },
-    { path: 'edit/:uuid', component: RecordEditComponent }
-  ] }
+  {
+    path: '', component: ExpenditureComponent, children: [
+      {
+        path: 'heading', children: [
+          { path: '', component: HeadingListComponent },
+          { path: 'edit/:uuid', component: HeadingEditComponent }
+        ]
+      },
+      {
+        path: 'record', children: [
+          { path: '', component: RecordListComponent },
+          { path: 'edit/:uuid', component: RecordEditComponent }
+        ]
+      }
+    ]
+  },
+
 ];
 
 @NgModule({
