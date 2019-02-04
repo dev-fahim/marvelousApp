@@ -69,7 +69,6 @@ export class FundSourceEditComponent implements OnInit {
   ngOnInit() {
     this._data.subscribe(
       x => {
-        console.log(this.uuid)
         this.uuid = this.source.uuid;
         this.form.setValue({
           source_name: this.source.source_name,
@@ -88,7 +87,6 @@ export class FundSourceEditComponent implements OnInit {
         .subscribe(
           (next: CreditFundSourcePUTModel) => {
             this.loading = false;
-            console.log('Updated')
             return this.messages.splice(0, 0, { message: 'Credit Fund Source has been UPDATED successfuly.', type: 'positive' });
           },
           (error: errors.AppError) => {
@@ -107,7 +105,6 @@ export class FundSourceEditComponent implements OnInit {
       this._sourceService.delete_source(this.form.value, this.uuid)
         .subscribe((next: CreditFundSourcePUTModel) => {
           this.loading_del = false;
-          console.log(this.form.value)
           this.messages.splice(0, 0, { message: 'Credit Fund Source has been DELETED successfuly.', type: 'positive' });
         },
           (error: errors.AppError) => {

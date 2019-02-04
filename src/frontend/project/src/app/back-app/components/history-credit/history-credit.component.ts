@@ -29,7 +29,7 @@ export class HistoryCreditComponent implements OnInit {
           this.refundable = true;
           let data = [];
           for (const funds of response) {
-            if (funds.is_refundable === true) { data.push(funds) }
+            if (funds.is_refundable === true && funds.is_deleted === false) { data.push(funds) }
           }
           return this.all_funds = data;
         }
@@ -43,7 +43,7 @@ export class HistoryCreditComponent implements OnInit {
           this.refundable = false;
           let data = [];
           for (const funds of response) {
-            if (funds.is_refundable === false) { data.push(funds) }
+            if (funds.is_refundable === false && funds.is_deleted === false) { data.push(funds) }
           }
           return this.all_funds = data;
         }

@@ -1,37 +1,21 @@
-<div class="safe" *ngIf="api_services.is_base_user === true">
+<div *ngIf="api_services.is_base_user === true">
   <app-fund-login-again (all_okay)="onAllOkay($event)" *ngIf="!is_all_okay"></app-fund-login-again>
-  <div class="ui container" *ngIf="is_all_okay">
-    <div class="ui segment">
-      <div class="ui {{ status? 'green' : 'red' }} card">
-        <div class="content">
-          <div class="center aligned header">Fund Status</div>
-          <div class="ui divider"></div>
-          <i class="{{ status? 'unlock green' : 'lock red' }} right floated icon"></i>
-          <div class="meta">
-            <span class="category">Under authority.</span>
-          </div>
-          <div class="description">
-            <div class="ui statistic tiny">
-              <div class="label">Fund is {{ status? 'unlocked' : 'locked' }}.</div>
-            </div>
-            <p *ngIf="api_services.is_base_user">Click the button to {{ status? 'lock' : 'unlock' }} it.</p>
-            <p></p>
-          </div>
-          <div class="ui divider"></div>
-          <div class="extra content">
-            <div class="ui two buttons">
-              <button *ngIf="api_services.is_base_user" class="ui basic {{ status? 'red' : 'green' }} button mini"
-                (click)="toggle_fund()">{{
-                status? 'Lock it' : 'Unlock it' }}</button>
-            </div>
-          </div>
-        </div>
-      </div>
+
+  <article class="message {{ status? 'is-success' : 'is-danger' }}" *ngIf="is_all_okay">
+    <div class="message-header">
+      <p>Fund Status (Under authority)</p>
     </div>
-  </div>
+    <div class="message-body">
+      <h1 class="subtitle">Fund is {{ status? 'unlocked' : 'locked' }}.</h1>
+      <p *ngIf="api_services.is_base_user">Click the button to {{ status? 'lock' : 'unlock' }} it.</p>
+      <button *ngIf="api_services.is_base_user" class="{{ status? 'is-danger' : 'is-success' }} button" (click)="toggle_fund()">{{
+        status? 'Lock it' : 'Unlock it' }}</button>
+    </div>
+  </article>
 </div>
-<div class="wrong" *ngIf="!api_services.is_base_user">
-  <div class="message is-warning">
+
+<article class="message is-danger" *ngIf="!api_services.is_base_user">
+  <div class="message-body">
     You are not an Authorizer.
   </div>
-</div>
+</article>

@@ -109,7 +109,6 @@ export class FundRecordEditComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    console.log(this.form.value)
     if (this.form.valid) {
       this.loading = true;
       this._fundService.update_funds(this.form.value, this.uuid)

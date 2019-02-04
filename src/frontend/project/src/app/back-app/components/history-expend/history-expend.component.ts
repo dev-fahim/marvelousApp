@@ -40,13 +40,12 @@ export class HistoryExpendComponent implements OnInit {
           this.refundable = true;
           let data = [];
           for (const expend of response) {
-            if (expend.is_for_refund === true) { data.push(expend) }
+            if (expend.is_for_refund === true && expend.is_deleted === false) { data.push(expend) }
           }
           return this.all_expends = data;
         },
         (error: errors.AppError) => {
           const main_error = errors.throw_http_response_error(error);
-          console.log(main_error.detail)
         }
       )
   }
@@ -58,13 +57,12 @@ export class HistoryExpendComponent implements OnInit {
           this.refundable = false;
           let data = [];
           for (const expend of response) {
-            if (expend.is_for_refund === false) { data.push(expend) }
+            if (expend.is_for_refund === false && expend.is_deleted === false) { data.push(expend) }
           }
           return this.all_expends = data;
         },
         (error: errors.AppError) => {
           const main_error = errors.throw_http_response_error(error);
-          console.log(main_error.detail)
         }
       )
   }

@@ -81,7 +81,6 @@ export class HeadingEditComponent {
         .subscribe(
           (next: ExpenditureHeadingPUTModel) => {
             this.loading = false;
-            console.log('Updated')
             this.messages.splice(0, 0, { message: 'Debit Heading UPDATED successfuly.', type: 'positive' });
           },
           (error: errors.AppError) => {

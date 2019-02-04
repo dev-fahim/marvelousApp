@@ -111,7 +111,6 @@ export class CreditEditComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    console.log(this.form.value)
     if (this.form.valid) {
       this.loading = true;
       this._loanService.update_funds(this.form.value, this.uuid)
@@ -136,7 +135,7 @@ export class CreditEditComponent implements OnInit, OnDestroy {
       this._loanService.update_funds(this.form.value, this.uuid)
         .subscribe((next: CreditFundRecordPUTModel) => {
           this.loading_del = false;
-          this._router.navigate(['/main-app/credit/fund/record/list-add'])
+          this._router.navigate(['/main-app/loan-app/debit/list-add'])
         },
         (error: errors.AppError) => {
           this.loading = false;

@@ -46,7 +46,6 @@ export class DebitArchiveComponent implements OnInit {
         },
         (error: errors.AppError) => {
           const main_error = errors.throw_http_response_error(error);
-          console.log(main_error.detail)
         }
       )
   }
@@ -64,7 +63,6 @@ export class DebitArchiveComponent implements OnInit {
       },
       (error: errors.AppError) => {
         const main_error = errors.throw_http_response_error(error);
-        console.log(main_error.detail)
       }
     )
   }

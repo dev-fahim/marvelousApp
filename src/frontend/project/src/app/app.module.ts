@@ -28,6 +28,7 @@ import { NotificationMessageComponent } from './notification-message/notificatio
 import { NotificationMessageService } from './notification-message.service';
 import { LoanService } from './service/loan/loan.service';
 
+
 @NgModule({
   declarations: [
     AppComponent,

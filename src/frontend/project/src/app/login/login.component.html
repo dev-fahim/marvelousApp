@@ -1,7 +1,7 @@
 <div class="modal is-active">
   <div class="modal-background"></div>
   <div class="modal-content animated" [ngClass]="{'shake': has_error}">
-    <div class="segment p-5 animated bounceInDown">
+    <div class="segment p-5 animated zoomInDown">
       <p class="has-text-danger is-size-4" *ngIf="has_error_text">Login error.</p>
       <form [formGroup]="form" (ngSubmit)="onSubmit()">
         <div class="field">
