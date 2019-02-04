@@ -85,6 +85,7 @@ export class RecordFilterComponent implements OnInit {
     this.has_url = true;
     this.pdf_url = 'expenditure/records-report-pdf/' + url;
     this.csv_url = 'expenditure/records-mail-csv/' + url;
+    console.log(this.pdf_url);
     return true;
   }
 
@@ -100,7 +101,7 @@ export class RecordFilterComponent implements OnInit {
   public onCheckOut() {
     this._fileDownloadService.downloadResource(this.cho_url).subscribe(
       (blob) => {
-        importedSaveAs(blob, 'this.pdf');
+        importedSaveAs(blob, 'checkoutReportOnDebit.csv');
       }
     )
   }
@@ -108,7 +109,7 @@ export class RecordFilterComponent implements OnInit {
   public download(url: string, type: string) {
   this._fileDownloadService.downloadResource(url).subscribe(
     (blob) => {
-      importedSaveAs(blob, 'this.' + type);
+      importedSaveAs(blob, 'reportOnDebit.' + type);
     }
   )
 }

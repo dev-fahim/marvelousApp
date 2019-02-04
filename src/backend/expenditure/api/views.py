@@ -93,6 +93,19 @@ class ExpenditureRecordCreateAPIView(generics.CreateAPIView):
         permissions.BaseUserOrSubUser,
         permissions.SubUserCanAdd
     ]
+    filter_backends = (filters.SearchFilter, DjangoFilterBackend, filters.OrderingFilter)
+    filterset_class = ExpenditureRecordFilter
+    search_fields = (
+        'expend_heading__heading_name',
+        'description',
+        'uuid',
+        'added',
+        'updated',
+        'expend_by',
+        'expend_date'
+    )
+    ordering_fields = ('added', 'expend_date', 'amount', 'expend_heading__heading_name')
+    ordering = ('-id',)
 
     def get_queryset(self):
         queryset = None
@@ -211,7 +224,7 @@ class ExpenditureCheckoutToday(ExpenditureRecordCreateAPIView):
     headings = ['Head', 'Added by', 'Expended by', 'Amount (in Taka)', 'Expend time', 'Record added']
     attributes = ['expend_heading', 'added_by', 'expend_by', 'amount', 'expend_date', 'added']
     mimetype = 'text/csv'
-    from_email = os.environ.get('EMAIL')
+    from_email = os.environ['EMAIL']
 
     def get(self, request, *args, **kwargs):
         items = self.filter_queryset(queryset=self.get_queryset().filter(added__date=today))
@@ -233,6 +246,7 @@ class ExpenditureCheckoutToday(ExpenditureRecordCreateAPIView):
         content = response.getvalue()
         utils.django_send_email_with_attachments(subject, body, self.from_email, to, file_name, content, self.mimetype)
         # Generate PDF
+        '''
         company = CompanyInfoModel.objects.get(base_user=base_user)
         row_values = [[obj.__getattribute__(name) for name in self.attributes] for obj in items]
         amounts = [obj.amount for obj in items]
@@ -247,7 +261,8 @@ class ExpenditureCheckoutToday(ExpenditureRecordCreateAPIView):
             'page_unique_id': uuid.uuid4()
         }
         pdf = utils.django_render_to_pdf('expenditure_pdf_template.html', context)
-        return pdf
+        '''
+        return response
 
     def post(self, request, *args, **kwargs):
         return Response(data={'detail': 'Not allowed'}, status=status.HTTP_405_METHOD_NOT_ALLOWED, exception=True)

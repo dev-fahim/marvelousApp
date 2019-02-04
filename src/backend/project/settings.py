@@ -149,9 +149,9 @@ CORS_ALLOW_CREDENTIALS = False
 
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
-EMAIL_HOST = os.environ.get('HOST')
-EMAIL_HOST_USER = os.environ.get('EMAIL')
-EMAIL_HOST_PASSWORD = os.environ.get('PASS')
+EMAIL_HOST = os.environ['HOST']
+EMAIL_HOST_USER = os.environ['EMAIL']
+EMAIL_HOST_PASSWORD = os.environ['PASS']
 
 ASGI_APPLICATION = 'project.routing.application'
 
