@@ -16,6 +16,7 @@ export class LoginComponent implements OnInit {
 
   message: string = 'Login Error';
   has_error = false;
+  has_error_text = false;
 
   form = new FormGroup({
     username: new FormControl('', [
@@ -46,7 +47,11 @@ export class LoginComponent implements OnInit {
             this._router.navigate(['/main-app/dashboard']);
           },
           (error: AppError) => {
+            this.has_error_text = true;
             this.has_error = true;
+            setTimeout(() => {
+              this.has_error = false;
+            }, 1000);
             return common.throw_http_response_error(error)
           }
         )

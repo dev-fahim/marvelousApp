@@ -2,13 +2,26 @@ from expenditure.api.serializers import ExpenditureRecordHistoryModelSerializer
 from credit.api.serializers import CreditFundHistoryModelSerializer
 from base_user.models import BaseUserModel
 from sub_user.models import SubUserModel
-from rest_framework import generics
+from rest_framework import generics, filters
 from project import permissions
 
 
 class ExpenditureRecordArchiveAPIView(generics.ListAPIView):
     serializer_class = ExpenditureRecordHistoryModelSerializer
     permission_classes = [permissions.BaseUserOrSubUser, permissions.SubUserCanList]
+    filter_backends = (filters.OrderingFilter, filters.SearchFilter)
+    search_fields = (
+        'action_by__username',
+        'description',
+        'old_uuid',
+        'related_records__expend_heading__heading_name',
+        'old_description',
+        'new_description',
+        'old_amount',
+        'new_amount'
+    )
+    ordering_fields = ()
+    ordering = ('-id',)
 
     def request_data(self):
         return self.request
@@ -32,6 +45,19 @@ class ExpenditureRecordArchiveAPIView(generics.ListAPIView):
 class CreditFundArchiveAPIView(generics.ListAPIView):
     serializer_class = CreditFundHistoryModelSerializer
     permission_classes = [permissions.BaseUserOrSubUser, permissions.SubUserCanList]
+    filter_backends = (filters.OrderingFilter, filters.SearchFilter)
+    search_fields = (
+        'action_by__username',
+        'description',
+        'old_uuid',
+        'credit_fund__source__source_name',
+        'old_description',
+        'new_description',
+        'old_amount',
+        'new_amount'
+    )
+    ordering_fields = ()
+    ordering = ('-id',)
 
     def request_data(self):
         return self.request

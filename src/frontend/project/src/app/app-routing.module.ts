@@ -21,6 +21,8 @@ const routes: Routes = [
     { path: 'profile', loadChildren: './profile/profile.module#ProfileModule' },
     { path: 'fund-settings', loadChildren: './fund-settings/fund-settings.module#FundSettingsModule' },
     { path: 'loan-app', loadChildren: './loan-app/loan-app.module#LoanAppModule' },
+    { path: 'archive-app', loadChildren: './archive-app/archive-app.module#ArchiveAppModule' },
+    { path: 'back-app', loadChildren: './back-app/back-app.module#BackAppModule' },
   ], canActivateChild: [AuthChildGuardService], component: HomeComponent },
   { path: 'no-access', component: NoAccessComponent, canActivate: [AuthGuardService] },
   { path: 'login', component: LoginComponent, canActivate: [LoginRouteGaurdService] },

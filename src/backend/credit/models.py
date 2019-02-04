@@ -104,7 +104,19 @@ class CreditFundHistoryModel(models.Model):
     old_uuid = models.UUIDField(unique=False)
 
     def __str__(self):
-        return self.old_source.source_name
+        return self.action_by.username
+
+    def get_credit_fund(self):
+        return self.credit_fund.__str__()
+
+    def get_old_source(self):
+        return self.old_source.__str__()
+
+    def get_new_source(self):
+        return self.new_source.__str__()
+
+    def get_is_refundable(self):
+        return self.credit_fund.is_refundable
 
 
 

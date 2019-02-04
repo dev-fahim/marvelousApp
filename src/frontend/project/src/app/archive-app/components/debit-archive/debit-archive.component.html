@@ -1,24 +1,27 @@
 <div class="container-fluid">
   <div class="segment">
-    <h1 class="title">Credit Activites</h1>
+    <h1 class="title">Debit Archives</h1>
   </div>
   <button class="mr-3 is-link button my-5" (click)="get_refundable()">Refunbable</button>
   <button class="mr-3 is-link button my-5" (click)="get_non_refundable()">Non Refunbable</button>
-  <h1 *ngIf="all_funds.length != 0" class="subtitle">{{ refundable? 'Refundable Records': 'Non Refundable Records' }}</h1>
+  <h1 *ngIf="all_expends.length != 0" class="subtitle">{{ refundable? 'Refundable Records': 'Non Refundable Records' }}</h1>
   <input type="text" class="input" placeholder="Search here.." [(ngModel)]="search">
   <button class="is-small basic button my-2" *ngIf="refundable" (click)="get_refundable()">Search</button>
   <button class="is-small basic button my-2" *ngIf="!refundable" (click)="get_non_refundable()">Search</button>
-  <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth" *ngIf="all_funds.length != 0">
+  
+  <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth" *ngIf="all_expends.length != 0">
     <thead class="has-background-light">
       <th *ngFor="let column of table_columns">{{ column | titlecase }}</th>
     </thead>
     <tbody>
-      <tr *ngFor="let data of all_funds">
+      <tr *ngFor="let data of all_expends">
         <td>{{ data.action_by | titlecase }}</td>
         <td>{{ data.added | date:'fullDate' }}</td>
-        <td>{{ data.old_fund_added | date:'fullDate' }}</td>
-        <td>{{ data.old_source }}</td>
-        <td>{{ data.new_source }}</td>
+        <td>{{ data.old_expend_date | date:'fullDate' }}</td>
+        <td>{{ data.related_records }}</td>
+        <td>{{ data.new_expend_heading }}</td>
+        <td>{{ data.old_description }}</td>
+        <td>{{ data.new_description }}</td>
         <td>{{ data.old_amount }}</td>
         <td>{{ data.new_amount }}</td>
         <td>{{ data.description }}</td>

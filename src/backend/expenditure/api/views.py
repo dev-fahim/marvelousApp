@@ -68,6 +68,19 @@ class ExpenditureHeadingHistory(generics.ListAPIView):
 class ExpenditureRecordHistory(generics.ListAPIView):
     serializer_class = ExpenditureRecordHistoryModelSerializer
     permission_classes = [permissions.OnlyBaseUser, ]
+    filter_backends = (filters.OrderingFilter, filters.SearchFilter)
+    search_fields = (
+        'action_by__username',
+        'description',
+        'old_uuid',
+        'related_records__expend_heading__heading_name',
+        'old_description',
+        'new_description',
+        'old_amount',
+        'new_amount'
+    )
+    ordering_fields = ()
+    ordering = ('-id',)
 
     def get_queryset(self):
         return self.request.user.base_user.all_expenditure_records_history.all()

@@ -1,13 +1,13 @@
 <div class="modal is-active">
   <div class="modal-background"></div>
-  <div class="modal-content">
-    <div class="segment p-5">
-      <p class="has-text-danger is-size-4" *ngIf="has_error">Login error.</p>
+  <div class="modal-content animated" [ngClass]="{'shake': has_error}">
+    <div class="segment p-5 animated bounceInDown">
+      <p class="has-text-danger is-size-4" *ngIf="has_error_text">Login error.</p>
       <form [formGroup]="form" (ngSubmit)="onSubmit()">
         <div class="field">
           <label class="label is-size-5">Username</label>
           <div class="control">
-            <input class="input is-large" [ngClass]="{'is-danger': has_error}" type="text" placeholder="Username" formControlName="username">
+            <input class="input is-large" [ngClass]="{'is-danger': has_error_text}" type="text" placeholder="Username" formControlName="username">
           </div>
         </div>
         <div class="field">

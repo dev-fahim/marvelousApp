@@ -25,7 +25,6 @@ class FundIsNotLocked(BasePermission):
         return False
 
 
-
 class OnlyBaseUser(BasePermission):
 
     def has_permission(self, request, view):

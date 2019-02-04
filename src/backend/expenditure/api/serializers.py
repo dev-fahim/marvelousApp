@@ -356,6 +356,11 @@ class ExpenditureHeadingsHistoryModelSerializer(serializers.ModelSerializer):
 
 
 class ExpenditureRecordHistoryModelSerializer(serializers.ModelSerializer):
+    action_by = serializers.SerializerMethodField()
+    related_records = serializers.SerializerMethodField()
+    old_expend_heading = serializers.SerializerMethodField()
+    new_expend_heading = serializers.SerializerMethodField()
+    is_for_refund = serializers.SerializerMethodField()
 
     class Meta:
         model = ExpenditureRecordHistoryModel
@@ -366,3 +371,23 @@ class ExpenditureRecordHistoryModelSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         raise serializers.ValidationError("Cannot be updated by human.")
+
+    @staticmethod
+    def get_action_by(obj):
+        return obj.__str__()
+
+    @staticmethod
+    def get_related_records(obj):
+        return obj.get_related_records()
+
+    @staticmethod
+    def get_old_expend_heading(obj):
+        return obj.get_old_expend_heading()
+
+    @staticmethod
+    def get_new_expend_heading(obj):
+        return obj.get_new_expend_heading()
+
+    @staticmethod
+    def get_is_for_refund(obj):
+        return obj.get_is_for_refund()

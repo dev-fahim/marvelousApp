@@ -171,3 +171,4 @@ dmypy.json
 .idea/workspace.xml
 *.py___jb_old___
 .idea/workspace.xml
+*.ppk

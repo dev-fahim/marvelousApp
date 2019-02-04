@@ -1,3 +1,4 @@
+import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -9,6 +10,7 @@ import { HistoryExpendComponent } from './components/history-expend/history-expe
   declarations: [HistoryCreditComponent, HistoryExpendComponent],
   imports: [
     CommonModule,
+    FormsModule,
     BackAppRoutingModule
   ]
 })

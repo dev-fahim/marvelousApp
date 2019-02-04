@@ -49,6 +49,7 @@ xhtml2pdf = "*"
 django-extensions = "*"
 django-rest-multiple-models = "*"
 psycopg2 = "*"
+cryptography = "*"
 
 [requires]
 python_version = "3.7"

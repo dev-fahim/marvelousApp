@@ -16,8 +16,8 @@ export class BackAppService {
 
   constructor(private _http: HttpClient) { }
 
-  get_all_funds_history() {
-    return this._http.get<models.CreditFundRecordGETModel[]>(CREDIT_HISTORY_API_URL).pipe(
+  get_all_funds_history(search: string = "") {
+    return this._http.get<models.CreditHistoryModel[]>(CREDIT_HISTORY_API_URL + '?search=' + search).pipe(
       catchError(
         (error: HttpErrorResponse) => {
           return throwError(common.get_http_response_error(error))
@@ -26,8 +26,8 @@ export class BackAppService {
     )
   }
 
-  get_all_expenditures_history() {
-    return this._http.get<models.ExpenditureRecordGETModel[]>(EXPENDITURE_RECORD_HISTORY_API_URL).pipe(
+  get_all_expenditures_history(search: string = "") {
+    return this._http.get<models.ExpenditureHistoryModel[]>(EXPENDITURE_RECORD_HISTORY_API_URL + '?search=' + search).pipe(
       catchError(
         (error: HttpErrorResponse) => {
           return throwError(common.get_http_response_error(error))

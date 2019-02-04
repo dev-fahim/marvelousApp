@@ -159,6 +159,19 @@ class CreditFundSettingsEditView(generics.RetrieveUpdateAPIView):
 class CreditFundHistory(generics.ListAPIView):
     serializer_class = serializers.CreditFundHistoryModelSerializer
     permission_classes = [permissions.OnlyBaseUser, ]
+    filter_backends = (filters.OrderingFilter, filters.SearchFilter)
+    search_fields = (
+        'action_by__username',
+        'description',
+        'old_uuid',
+        'credit_fund__source__source_name',
+        'old_description',
+        'new_description',
+        'old_amount',
+        'new_amount'
+    )
+    ordering_fields = ()
+    ordering = ('-id',)
 
     def get_queryset(self):
         return self.request.user.base_user.all_credit_fund_histories.all()

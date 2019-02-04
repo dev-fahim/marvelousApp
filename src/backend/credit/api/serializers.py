@@ -348,6 +348,12 @@ class CreditFundSettingsModelSerializer(serializers.ModelSerializer):
 
 class CreditFundHistoryModelSerializer(serializers.ModelSerializer):
 
+    action_by = serializers.SerializerMethodField()
+    credit_fund = serializers.SerializerMethodField()
+    old_source = serializers.SerializerMethodField()
+    new_source = serializers.SerializerMethodField()
+    is_refundable = serializers.SerializerMethodField()
+
     class Meta:
         model = CreditFundHistoryModel
         fields = '__all__'
@@ -357,6 +363,26 @@ class CreditFundHistoryModelSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         return serializers.ValidationError("Cannot be created by human!")
+
+    @staticmethod
+    def get_action_by(obj):
+        return obj.__str__()
+
+    @staticmethod
+    def get_credit_fund(obj):
+        return obj.get_credit_fund()
+
+    @staticmethod
+    def get_old_source(obj):
+        return obj.get_old_source()
+
+    @staticmethod
+    def get_new_source(obj):
+        return obj.get_new_source()
+
+    @staticmethod
+    def get_is_refundable(obj):
+        return obj.get_is_refundable()
 
 
 class CreditFundSourceHistoryModelSerializer(serializers.ModelSerializer):

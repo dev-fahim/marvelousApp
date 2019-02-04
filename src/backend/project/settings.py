@@ -138,6 +138,7 @@ STATIC_URL = '/static/'
 """
 ALL EXTRA KAHINI
 """
+
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = False
 # EMAIL_BACKEND = 'sendgrid_backend.SendgridBackend'

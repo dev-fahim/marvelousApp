@@ -320,6 +320,58 @@ export interface LoanExpendPUTModel { // OK
     expend_heading: number;
 }
 
+// Archive Models
+
+export interface CreditHistoryModel {
+    id: number;
+    action_by: string;
+    credit_fund: string;
+    old_source: string;
+    new_source: string;
+    is_refundable: boolean;
+    is_deleted: boolean;
+    is_updated: boolean;
+    is_restored: boolean;
+    old_description: string;
+    new_description: string;
+    old_fund_added: string;
+    new_fund_added: string;
+    old_amount: number;
+    new_amount: number;
+    added: Date;
+    updated: Date;
+    description: string;
+    old_uuid: string;
+    base_user: number;
+}
+
+export interface ExpenditureHistoryModel {
+    id: number;
+    action_by: string;
+    related_records: string;
+    old_expend_heading: string;
+    new_expend_heading: string;
+    is_for_refund: boolean;
+    old_expend_by: string;
+    new_expend_by: string;
+    old_description: string;
+    new_description: string;
+    old_amount: number;
+    new_amount: number;
+    old_is_verified: boolean;
+    new_is_verified: boolean;
+    old_expend_date: string;
+    new_expend_date: string;
+    old_uuid: string;
+    is_updated: boolean;
+    is_deleted: boolean;
+    is_restored: boolean;
+    added: Date;
+    updated: Date;
+    description: string;
+    base_user: number;
+}
+
 // Ajaira Models
 export interface CreditFundAccordinSourceGETModel { // OK
     source_name: string;

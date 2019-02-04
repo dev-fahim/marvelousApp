@@ -116,3 +116,15 @@ class ExpenditureRecordHistoryModel(models.Model):
 
     def __str__(self):
         return self.action_by.username
+
+    def get_related_records(self):
+        return self.related_records.expend_heading.heading_name
+
+    def get_old_expend_heading(self):
+        return self.old_expend_heading.heading_name
+
+    def get_new_expend_heading(self):
+        return self.new_expend_heading.heading_name
+
+    def get_is_for_refund(self):
+        return self.related_records.is_for_refund

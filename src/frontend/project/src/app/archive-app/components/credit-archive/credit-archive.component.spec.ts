@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ArchiveListComponent } from './archive-list.component';
+import { CreditArchiveComponent } from './credit-archive.component';
 
-describe('ArchiveListComponent', () => {
-  let component: ArchiveListComponent;
-  let fixture: ComponentFixture<ArchiveListComponent>;
+describe('CreditArchiveComponent', () => {
+  let component: CreditArchiveComponent;
+  let fixture: ComponentFixture<CreditArchiveComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ArchiveListComponent ]
+      declarations: [ CreditArchiveComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ArchiveListComponent);
+    fixture = TestBed.createComponent(CreditArchiveComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
