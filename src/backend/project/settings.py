@@ -26,13 +26,12 @@ SECRET_KEY = os.environ['SECRET_KEY']
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.1.239', 'localhost', '103.110.217.173']
+ALLOWED_HOSTS = ['192.168.1.239', '103.110.217.173']
 
 
 # Application definition
 
-INSTALLED_APPS = [    
-    'channels',
+INSTALLED_APPS = [ 
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -139,7 +138,7 @@ STATIC_URL = '/static/'
 ALL EXTRA KAHINI
 """
 
-CORS_ORIGIN_ALLOW_ALL = True
+
 CORS_ALLOW_CREDENTIALS = False
 # EMAIL_BACKEND = 'sendgrid_backend.SendgridBackend'
 # SENDGRID_API_KEY = os.environ.get(
@@ -153,7 +152,6 @@ EMAIL_HOST = os.environ['HOST']
 EMAIL_HOST_USER = os.environ['EMAIL']
 EMAIL_HOST_PASSWORD = os.environ['PASS']
 
-ASGI_APPLICATION = 'project.routing.application'
 
 # REST FRAMEWORK KAHINI
 INSTALLED_APPS += [

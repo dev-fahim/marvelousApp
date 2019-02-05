@@ -17,6 +17,7 @@ from django.contrib import admin
 from django.urls import path, re_path, include
 from rest_framework_jwt.views import verify_jwt_token, refresh_jwt_token
 from user.api.views import EditUserInfo
+from django.views.generic import TemplateView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -24,6 +25,7 @@ urlpatterns = [
 
 # ALL APS RELATED URLs
 urlpatterns += [
+    path('', TemplateView.as_view(template_name="index.html")),
     path('api/', include([
         path('base-user/', include('base_user.api.urls', namespace='base_user')),
         path('sub-user/', include('sub_user.api.urls', namespace='sub_user')),
